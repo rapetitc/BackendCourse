@@ -1,5 +1,5 @@
 class Usuario {
-  constructor(nombre, apellido, libros = [], mascotas = []) {
+  constructor(nombre = "", apellido = "", libros = [], mascotas = []) {
     this.nombre = nombre
     this.apellido = apellido
     this.libros = libros
@@ -18,15 +18,11 @@ class Usuario {
     this.libros.push({ nombre, autor })
   }
   getBookNames() {
-    let nombresDeLibros = []
-    if (this.libros.length > 0) {
-      this.libros.forEach(libro => {
-        nombresDeLibros.push(libro.nombre)
-      });
-    }
-    return nombresDeLibros
+    return this.libros.map(libro => libro.nombre)
   }
 }
+
+// ↓↓↓↓↓ TEST THE CODE ↓↓↓↓↓
 
 // Creating new Users
 const usuarios = [

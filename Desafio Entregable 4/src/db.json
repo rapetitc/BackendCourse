@@ -1,0 +1,32 @@
+{
+  "nextId": 4,
+  "data": [
+    {
+      "id": 1,
+      "title": "Samsung Galaxy S23 Ultra",
+      "description": "Telefono Inteligente de gama alta",
+      "price": 1150,
+      "thumbnail": ["https://imageurl.com/"],
+      "code": "smq1t89upogm",
+      "stock": 50
+    },
+    {
+      "id": 2,
+      "title": "Samsung Galaxy A70",
+      "description": "Telefono Inteligente de gama media",
+      "price": 600,
+      "thumbnail": ["https://imageurl.com/"],
+      "code": "1aw1q68fqwr9",
+      "stock": 45
+    },
+    {
+      "id": 3,
+      "title": "iPhone 14 Pro Max",
+      "description": "Telefono Inteligente de gama alta",
+      "price": 1100,
+      "thumbnail": ["https://imageurl.com/"],
+      "code": "q5er8hy9il7r",
+      "stock": 30
+    }
+  ]
+}

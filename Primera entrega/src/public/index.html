@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Primera Entrega</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <h1 class="w-full my-2 text-4xl text-center">Primera Entrega</h1>
+    <p class="w-full text-center">Este pequeña guia solo facilita la revision</p>
+    <br />
+    <hr />
+    <br />
+    <h2 class="ms-5 text-2xl">* API para Products:</h2>
+    <br />
+    <div class="p-1 text-lg"><span class="p-1 text-green-700 font-bold bg-gray-300">[GET]</span><span class="p-1 text-yellow-700 hover:underline bg-gray-300">/api/products</span> - Obtener todos los productos.</div>
+    <div class="p-1 text-lg"><span class="p-1 text-green-700 font-bold bg-gray-300">[GET]</span><span class="p-1 text-yellow-700 hover:underline bg-gray-300">/api/products/:pid</span> - Obtener producto segun su ID.</div>
+    <div class="p-1 text-lg"><span class="p-1 text-yellow-700 font-bold bg-gray-300">[POST]</span><span class="p-1 text-yellow-700 hover:underline bg-gray-300">/api/products</span> - Insertar nueva producto. Templates:</div>
+    <div class="flex">
+<textarea class=" w-full h-64 my-2 mx-5 p-2 outline-none border-2 resize-none" readonly>
+{
+  "title": "Galaxy A71",
+  "description": "Telefono Inteligente de gama media",
+  "code": "w84rq97ad49q",
+  "price": 600,
+  "status": true,
+  "stock": 500,
+  "category": "Telefonos",
+  "thumbnails": ["https://www.imgurl.com/SGA71"]
+}</textarea
+><textarea class="w-full h-64 my-2 mx-5 p-2 outline-none border-2 resize-none" readonly>
+{
+  "title": "iPhone 14 Pro Max",
+  "description": "Telefono Inteligente de gama alta",
+  "code": "oi9y5gnn2478",
+  "price": 1100,
+  "status": true,
+  "stock": 300,
+  "category": "Telefonos",
+  "thumbnails": ["https://www.imgurl.com/AiP14PM"]
+}</textarea
+    >
+    </div>
+    <div class="p-1 text-lg"><span class="p-1 text-orange-700 font-bold bg-gray-300">[PUT]</span><span class="p-1 text-yellow-700 hover:underline bg-gray-300">/api/products/:pid</span> - Actualizar un producto existente.</div>
+    <div class="p-1 text-lg"><span class="p-1 text-red-700 font-bold bg-gray-300">[DELETE]</span><span class="p-1 text-yellow-700 hover:underline bg-gray-300">/api/products/:pid</span> - Eliminar un producto existente.</div>
+    <br />
+    <hr />
+    <br />
+    <h2 class="ms-5 text-2xl">* API para Carts:</h2>
+    <br />
+    <div class="p-1 text-lg"><span class="p-1 text-yellow-700 font-bold bg-gray-300">[POST]</span><span class="p-1 text-yellow-700 hover:underline bg-gray-300">/api/carts</span> - Insertar nuevo carrito de compra.</div>
+    <div class="p-1 text-lg"><span class="p-1 text-green-700 font-bold bg-gray-300">[GET]</span><span class="p-1 text-yellow-700 hover:underline bg-gray-300">/api/carts/:cid</span> - Obtener carrito de compra segun su ID.</div>
+    <div class="p-1 text-lg"><span class="p-1 text-orange-700 font-bold bg-gray-300">[PUT]</span><span class="p-1 text-yellow-700 hover:underline bg-gray-300">/api/carts/:cid/product/:pid</span> - Actualizar carrito de compra con nueva producto/item.</div>
+    <div class="p-1 text-lg"><span class="p-1 text-red-700 font-bold bg-gray-300">[DELETE]</span><span class="p-1 text-yellow-700 hover:underline bg-gray-300">/api/carts/:cid/product/:pid </span> - Eliminar un producto almacenado dentro de un carrito de compra.</div>
+  </body>
+</html>

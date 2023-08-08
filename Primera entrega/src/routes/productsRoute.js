@@ -7,7 +7,7 @@ const prodRoutes = Router()
 prodRoutes.get("/", async (req, res) => {
   const { limit } = req.query
   try {
-    const products = await ProdMng.getProducts()
+    let products = await ProdMng.getProducts()
     if (limit) products = products.slice(0, parseInt(limit))
     res.status(200).send(products)
   } catch (error) {

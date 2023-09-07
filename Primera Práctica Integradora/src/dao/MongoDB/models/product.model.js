@@ -26,7 +26,7 @@ const productSchema = new Schema({
   },
   status: {
     type: Boolean,
-    default: true
+    require: true
   },
   stock: {
     type: Number,
@@ -46,6 +46,6 @@ const productSchema = new Schema({
   timestamps: true
 });
 
-const productModel = model("product", productSchema)
+const productModel = model("products", productSchema)
 
 export default productModel

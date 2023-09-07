@@ -1,53 +1,60 @@
-import ProductManager from "../dao/MongoDB/managers/product.manager.js"
+import { ProductManager } from "../dao/dao.js"
+import EvalProdInfo from "../utils/evalEntry.js"
 
-const productManager = new ProductManager
+const prodMng = ProductManager()
+const evalProdInfo = new EvalProdInfo
 
 class ProductController {
   addProduct = async (req, res) => {
     const { title, description, code, price, status, stock, category, thumbnails } = req.body
-    const productInfo = { title, description, code, price, status, stock, category, thumbnails } //TODO Validar formato entrante
     try {
-      await productManager.addProduct(productInfo)
+      const productInfo = evalProdInfo.newEntry({ title, description, code, price, status, stock, category, thumbnails })
+      await prodMng.addProduct(productInfo)
       res.status(201).send("Producto agregado satisfactoriamente!")
-    } catch (error) {
-      res.status(400).send("Error al intentar agregar un producto!")
+    } catch (error) { //TODO Personalizar errores
+      console.log(error);
+      res.status(400).send("Error al intentar agregar producto!")
     }
   }
   getProducts = async (req, res) => {
-    const { query } = req //TODO
-    console.log(query);
+    const { title, code, price, stock, category } = req.query //TODO realizar consulta basado en la query
     try {
-      const products = await productManager.getProducts(query)
+      const products = await prodMng.getProducts()
       res.status(200).send(products)
     } catch (error) {
+      console.log(error);
       res.status(400).send("Error al intentar obtener todos los productos!")
     }
   }
   getProduct = async (req, res) => {
     const { pid } = req.params
     try {
-      const product = await productManager.getProduct(pid)
+      const product = await prodMng.getProduct(pid)
       res.status(200).send(product)
     } catch (error) {
+      console.log(error);
       res.status(400).send("Error al intentar obtener el producto!")
     }
   }
   updateProduct = async (req, res) => {
     const { pid } = req.params
-    const { newProdInfo } = req.body //TODO Validar formato entrante
+    const { title, description, code, price, status, stock, category, thumbnails } = req.body
     try {
-      productManager.updateProduct(pid, newProdInfo)
+      const productInfo = evalProdInfo.updateEntry({ title, description, code, price, status, stock, category, thumbnails })
+      await prodMng.updateProduct(pid, productInfo)
       res.status(200).send("Producto actualizado satisfactoriamente!")
     } catch (error) {
+      console.log(error);
       res.status(400).send("Error al intentar actualizar el producto!")
     }
   }
   removeProduct = async (req, res) => {
     const { pid } = req.params
     try {
-      productManager.removeProduct(pid)
+      await prodMng.removeProduct(pid)
       res.status(200).send("Producto removido satisfactoriamente!")
     } catch (error) {
+      console.log(error);
       res.status(400).send("Error al intentar remover el producto!")
     }
   }

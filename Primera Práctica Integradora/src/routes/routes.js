@@ -4,7 +4,7 @@ import cartRoutes from "./cart.router.js";
 
 const routes = Router()
 
-routes.use("/products", productRoutes)
-routes.use("/carts", cartRoutes)
+routes.use("/api/products", productRoutes)
+routes.use("/api/carts", cartRoutes)
 
 export default routes

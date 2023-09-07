@@ -4,9 +4,9 @@ import CartController from "../controllers/cart.controller.js";
 const cartRoutes = Router()
 const cartController = new CartController
 
-cartRoutes.post("/", cartController.createCart)
-cartRoutes.get("/:id", cartController.getCartByID)
-cartRoutes.put("/", cartController.updateCart)
-cartRoutes.delete("/:id", cartController.removeCart)
+cartRoutes.post("/", cartController.addCart)
+cartRoutes.get("/:cid", cartController.getCart)
+cartRoutes.put("/:cid/product/:pid", cartController.updateCart)
+cartRoutes.delete("/:cid", cartController.removeCart)
 
 export default cartRoutes

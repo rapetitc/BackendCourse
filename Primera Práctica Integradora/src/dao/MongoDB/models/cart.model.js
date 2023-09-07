@@ -1,8 +1,18 @@
-import { Schema, model } from "mongoose"
+import mongoose, { Schema, model } from "mongoose"
 
 const cartSchema = new Schema({
   storage: {
-    type: [String] //TODO Cambiar para agregar el ID del producto
+    type: [
+      {
+        pid: {
+          type: Schema.Types.ObjectId,
+          ref: "products"
+        },
+        quantity: {
+          type: Number
+        }
+      }
+    ]
   }
 }, {
   timestamps: true

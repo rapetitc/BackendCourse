@@ -2,7 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import { engine } from 'express-handlebars';
 import routes from "./routes/routes.js"
-import { MONGODB_USER, MONGODB_PASSWORD } from "./config.js";
+import { MONGODB_USER, MONGODB_PASSWORD } from "./utils/var.js";
 
 const PORT = 8080
 const app = express()
@@ -16,10 +16,10 @@ app.use(express.urlencoded({ extended: true }))
 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
-app.set('views', './views');
+app.set('views', './src/views');
 
-// app.use("/", express.static("./public"))
-app.use("/api/", routes)
+app.use("/", express.static("./public"))
+app.use("/", routes)
 
 app.listen(PORT, () => {
   console.log(`Server working on port ${PORT}`);

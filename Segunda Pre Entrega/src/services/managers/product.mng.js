@@ -4,8 +4,14 @@ class ProductManager {
   addProduct = async (productInfo) => {
     await productModel.create(productInfo)
   }
-  getProducts = async (query = {}) => {
-    return await productModel.find(query)
+  getProducts = async (limit = 100, page = 1, sort = 'desc', query = {}) => {
+    let result = await productModel.paginate(query, { page, limit, lean: true });
+
+    result.prevLink = result.hasPrevPage ? `http://localhost:8080/products?page=${result.prevPage}` : '';
+    result.nextLink = result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage}` : '';
+    result.isValid = !(page <= 0 || page > result.totalPages)
+
+    return result
   }
   getProduct = async (pid) => {
     return await productModel.findById(pid)

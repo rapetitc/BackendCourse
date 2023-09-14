@@ -1,4 +1,4 @@
-import { ProductManager } from "../dao/dao.js"
+import ProductManager from "../services/managers/product.mng.js"
 import EvalProdInfo from "../utils/evalEntry.js"
 
 const prodMng = ProductManager()
@@ -17,9 +17,9 @@ class ProductController {
     }
   }
   getProducts = async (req, res) => {
-    const { title, code, price, stock, category } = req.query //TODO realizar consulta basado en la query
+    const { limit, page, sort, query } = req.query
     try {
-      const products = await prodMng.getProducts()
+      const products = await prodMng.getProducts(limit, page, sort, query)
       res.status(200).send(products)
     } catch (error) {
       console.log(error);

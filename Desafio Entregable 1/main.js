@@ -23,15 +23,12 @@ class Usuario {
 }
 
 // ↓↓↓↓↓ TEST THE CODE ↓↓↓↓↓
-
-// Creating new Users
 const usuarios = [
   new Usuario("Matias", "Fernandez"),
   new Usuario("Armando", "Casas"),
   new Usuario("Torino", "Ruiz")
 ]
 
-// Setting some books/pets
 usuarios[0].addMascota("Gato")
 usuarios[0].addMascota("Serpiente")
 
@@ -41,7 +38,6 @@ usuarios[2].addMascota("Perro")
 usuarios[2].addBook("Lluvia", "Los Adolescentes")
 usuarios[2].addBook("Classy 101", "Feid")
 
-// Printing results
 usuarios.forEach((usuario) => {
   //Personalized Scripting
   let mascotas = "no tengo mascotas"
@@ -49,6 +45,5 @@ usuarios.forEach((usuario) => {
   let libros = "no leo libros"
   if (usuario.getBookNames().length > 0) libros = `${usuario.getBookNames().length > 1 ? `mis libros favoritos son ${usuario.getBookNames().map((name) => ` ${name}`)}` : `mi libro favorito es ${usuario.getBookNames()[0]}`}`
 
-  //Full print
   console.log(`Hola mi nombre completo es ${usuario.getFullName()}, ${mascotas} y ${libros}`)
 })

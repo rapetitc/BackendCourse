@@ -14,7 +14,7 @@ export const ProductManager = () => {
   if (selectedDB == "FSDB") return new ProdFSDBMng
 }
 export const CartManager = () => {
-  if (selectedDB == 'MGDB') return new CartMGDBMng
+  if (selectedDB == "MGDB") return new CartMGDBMng
   if (selectedDB == 'FSDB') return new CartFSDBMng
 }
 export const ChatManager = () => {

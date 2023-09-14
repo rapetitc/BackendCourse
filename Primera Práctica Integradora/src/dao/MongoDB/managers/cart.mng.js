@@ -17,7 +17,6 @@ class CartManager {
 
     if (await productModel.exists({ _id: pid }) == null) throw "Product not found!"
     const prod = cart.storage.find((prod) => prod.pid == pid)
-    console.log(quantity);
     if (prod) {
       if (quantity > 0) prod.quantity = quantity
       else cart.storage = cart.storage.filter((prod) => prod.pid != pid)

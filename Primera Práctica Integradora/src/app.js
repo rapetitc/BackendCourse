@@ -1,8 +1,10 @@
 import express from "express"
 import mongoose from "mongoose"
+import { Server } from "socket.io"
 import { engine } from 'express-handlebars';
 import routes from "./routes/routes.js"
 import { MONGODB_USER, MONGODB_PASSWORD } from "./utils/var.js";
+import useSocket from "./socket/socket.js";
 
 const PORT = 8080
 const app = express()
@@ -18,9 +20,14 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './src/views');
 
-app.use("/", express.static("./public"))
+app.use("/", express.static("./src/public"))
 app.use("/", routes)
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server working on port ${PORT}`);
 })
+
+const io = new Server(server)
+io.on("connection", (socket) => {
+  useSocket(socket)
+});

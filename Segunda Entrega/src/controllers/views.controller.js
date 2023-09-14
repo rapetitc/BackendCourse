@@ -1,7 +1,12 @@
 class ViewsController {
   index = async (req, res) => {
-    res.render("index",{
-      title: "Studends"
+    res.render("index", {
+      title: "Bienvenidos"
+    })
+  }
+  products = async (req, res) => {
+    res.render("products", {
+      title: "Products"
     })
   }
   notFound = async (req, res) => {

@@ -1,7 +1,7 @@
 import ProductManager from "../services/managers/product.mng.js"
 import EvalProdInfo from "../utils/evalEntry.js"
 
-const prodMng = ProductManager()
+const prodMng = new ProductManager()
 const evalProdInfo = new EvalProdInfo
 
 class ProductController {

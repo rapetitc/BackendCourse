@@ -1,6 +1,6 @@
-import { CartManager } from "../dao/dao.js"
+import  CartManager  from "../services/managers/cart.mng.js"
 
-const cartMng = CartManager()
+const cartMng = new CartManager()
 
 class CartController {
   addCart = async (req, res) => {

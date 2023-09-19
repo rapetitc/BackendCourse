@@ -11,21 +11,31 @@ class CartManager {
   getCart = async (cid) => {
     return await cartModel.findById(cid).populate('storage')
   }
-  updateCart = async (cid, pid, quantity) => {
+  addItemToCart = async (cid, pid) => {
     if (await cartModel.exists({ _id: cid }) == null) throw "Cart not found!"
     const cart = await cartModel.findById(cid)
 
     if (await productModel.exists({ _id: pid }) == null) throw "Product not found!"
     const prod = cart.storage.find((prod) => prod.pid == pid)
+
     if (prod) {
-      if (quantity > 0) prod.quantity = quantity
-      else cart.storage = cart.storage.filter((prod) => prod.pid != pid)
+      prod.quantity += 1
     } else {
       cart.storage.push({
         pid: pid,
-        quantity: quantity
+        quantity: 1
       })
     }
+    cart.save()
+  }
+  removeItemFromCart = async (cid, pid) => {
+    if (await cartModel.exists({ _id: cid }) == null) throw "Cart not found!"
+    const cart = await cartModel.findById(cid)
+
+    if (await productModel.exists({ _id: pid }) == null) throw "Product not found!"
+    const prod = cart.storage.find((prod) => prod.pid == pid)
+
+    cart.storage = cart.storage.filter((prod) => prod.pid != pid)
     cart.save()
   }
   removeCart = async (cid) => {

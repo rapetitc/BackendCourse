@@ -1,7 +1,7 @@
-import ProductManager from "../services/managers/product.mng.js"
+import { ProductManager } from "../dao/dao.js"
 import EvalProdInfo from "../utils/evalEntry.js"
 
-const prodMng = new ProductManager()
+const prodMng = ProductManager()
 const evalProdInfo = new EvalProdInfo
 
 class ProductController {
@@ -11,19 +11,30 @@ class ProductController {
       const productInfo = evalProdInfo.newEntry({ title, description, code, price, status, stock, category, thumbnails })
       await prodMng.addProduct(productInfo)
       res.status(201).send("Producto agregado satisfactoriamente!")
-    } catch (error) { //TODO Personalizar errores
-      console.log(error);
+    } catch (error) {
+      // console.log(error);
       res.status(400).send("Error al intentar agregar producto!")
     }
   }
   getProducts = async (req, res) => {
     const { limit, page, sort, query } = req.query
     try {
-      const products = await prodMng.getProducts(limit, page, sort, query)
-      res.status(200).send(products)
+      const { docs, totalPages, prevPage, nextPage, hasPrevPage, hasNextPage } = await prodMng.getProducts(limit, page, sort, query ? JSON.parse(query) : {})
+      res.status(200).send({
+        status: "success",
+        payload: docs,
+        page: page ? parseInt(page) : 1,
+        totalPages,
+        prevPage,
+        nextPage,
+        hasPrevPage,
+        hasNextPage,
+        prevLink: hasPrevPage ? `/api/products?page=${prevPage}${sort ? `&sort=${encodeURI(sort)}` : ""}${query ? `&query=${encodeURI(query)}` : ""}` : null,
+        nextLink: hasNextPage ? `/api/products?page=${nextPage}${sort ? `&sort=${encodeURI(sort)}` : ""}${query ? `&query=${encodeURI(query)}` : ""}` : null,
+      })
     } catch (error) {
       console.log(error);
-      res.status(400).send("Error al intentar obtener todos los productos!")
+      res.status(400).send("Error al intentar obtener los productos!")
     }
   }
   getProduct = async (req, res) => {
@@ -32,7 +43,7 @@ class ProductController {
       const product = await prodMng.getProduct(pid)
       res.status(200).send(product)
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       res.status(400).send("Error al intentar obtener el producto!")
     }
   }
@@ -44,7 +55,7 @@ class ProductController {
       await prodMng.updateProduct(pid, productInfo)
       res.status(200).send("Producto actualizado satisfactoriamente!")
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       res.status(400).send("Error al intentar actualizar el producto!")
     }
   }
@@ -54,7 +65,7 @@ class ProductController {
       await prodMng.removeProduct(pid)
       res.status(200).send("Producto removido satisfactoriamente!")
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       res.status(400).send("Error al intentar remover el producto!")
     }
   }

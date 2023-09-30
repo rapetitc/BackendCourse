@@ -20,6 +20,10 @@ const cartSchema = new Schema({
   timestamps: true
 });
 
+// cartSchema.pre('find', function () {
+//   this.populate('storage')
+// });
+
 const cartModel = model("carts", cartSchema)
 
 export default cartModel

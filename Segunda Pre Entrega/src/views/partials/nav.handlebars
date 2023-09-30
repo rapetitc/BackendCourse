@@ -1,0 +1,9 @@
+<nav class="flex justify-center w-max h-min mx-2 p-2 bg-gray-300 rounded">
+  <a href="/" class="mx-2">Inicio</a>
+  <a href="/products" class="mx-2">Productos</a>
+  <a href="*" class="mx-2" id="LinkToCart">Carrito de compras</a>
+</nav>
+<script>
+  const $LinkToCart = document.getElementById('LinkToCart')
+  $LinkToCart.href = `/carts/${cid}`
+</script>

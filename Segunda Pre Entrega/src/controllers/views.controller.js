@@ -1,3 +1,7 @@
+import { CartManager } from "../dao/dao.js"
+
+const cartMng = CartManager()
+
 class ViewsController {
   index = async (req, res) => {
     res.render("index", {
@@ -6,11 +10,18 @@ class ViewsController {
   }
   products = async (req, res) => {
     res.render("products", {
-      title: "Products"
+      title: "Productos"
+    })
+  }
+  carts = async (req, res) => {
+    res.render("carts", {
+      title: "Carrito de compras",
     })
   }
   notFound = async (req, res) => {
-    res.render("notFound")
+    res.render("notFound", {
+      title: "¡Pagina no encontrada!"
+    })
   }
 }
 

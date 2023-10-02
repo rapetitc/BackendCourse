@@ -1,0 +1,41 @@
+<div class="flex justify-between items-center w-full" id="header">
+  {{> logo}}
+  <div class="p-1">
+    {{> searchbar}}
+    {{> nav}}
+  </div>
+  
+</div>
+<script>
+  const $header = document.getElementById('header')
+  if(user.email) $header.innerHTML += `
+  <div class="flex mx-2">
+    <p class="px-2 py-2">¡Bienvenido <a href="/profile" class="hover:underline">${user.first_name} ${user.last_name}</a>!</p>
+    <button class="px-2 py-2 border-2 rounded-sm" id="closeSessionButton">Cerrar Sesion</button>
+  </div>
+  `
+  else $header.innerHTML += `
+  <div class="mx-2">
+    <a href="/login" class="px-2 py-2 border-2 rounded-sm">Iniciar Sesion</a>
+    <a href="/signup" class="px-2 py-2 hover:underline">Registrarse</a>
+  </div>
+  `
+  const $closeSessionButton = document.getElementById('closeSessionButton')
+  $closeSessionButton.addEventListener('click', async (e)=>{
+    e.preventDefault()
+
+    const res = await fetch('/api/sessions/logout')
+    if (res.status == 200) {
+      localStorage.removeItem('user')
+      Swal.fire({
+        icon: 'success',
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false
+      })
+      setTimeout(() => {
+        window.location.href = '/login'
+      }, 2000)
+    } 
+  })
+</script>

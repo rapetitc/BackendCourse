@@ -2,7 +2,7 @@
 
 **_Curso de Programacion Backend - [CODERHOUSE](https://www.coderhouse.com/)_**
 
-## Segunda Entrega del Proyecto Final
+## Desafio Entregable 7 - Segunda Entrega del Proyecto Final
 
 Para la revision de este desafio debes ejecutar:
 

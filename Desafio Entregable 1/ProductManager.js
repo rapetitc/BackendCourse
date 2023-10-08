@@ -1,5 +1,3 @@
-// Desafio Entregable 2 - Clases ECMAScript y ECMAScript avanzado
-
 class ProductManager {
   constructor() {
     this.id = 0

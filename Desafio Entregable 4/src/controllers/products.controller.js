@@ -18,6 +18,7 @@ class ProdsCtrl {
     try {
       await PMng.addProduct({ title, description, code, price, status: true, stock, category, thumbnails })
       res.status(201).send("Producto agregado exitosamente!")
+      await ProdsCtrlWS.GetProds()
     } catch (error) {
       res.status(400).send(`Error al intentar agregar producto!. ${error}`)
     }
@@ -33,6 +34,7 @@ class ProdsCtrl {
   }
 }
 
+
 export const ProdsCtrlWS = {
   socket: undefined,
   init: (socket) => {
@@ -42,12 +44,10 @@ export const ProdsCtrlWS = {
     const products = await PMng.getProducts()
     ProdsCtrlWS.socket.emit("Server:UpdatedProdList", products)
   },
-  DeleteProd: async(pid) => {
+  DeleteProd: async (pid) => {
     await PMng.deleteProduct(pid)
     ProdsCtrlWS.GetProds()
-  },
-  // AddProd: async (data) => {
-  //   console.log("Agregando Producto", data);
-  // }
+  }
 }
+
 export default ProdsCtrl

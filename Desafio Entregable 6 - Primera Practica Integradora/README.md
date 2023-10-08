@@ -2,7 +2,7 @@
 
 **_Curso de Programacion Backend - [CODERHOUSE](https://www.coderhouse.com/)_**
 
-## Primera Practica Integradora
+## Desafio Entregable 6 - Primera Practica Integradora
 
 Para la revision de este desafio debes ejecutar:
 

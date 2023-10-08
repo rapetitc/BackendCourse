@@ -1,0 +1,23 @@
+<div class="flex flex-wrap">
+  {{> regProd}}
+  <div class="w-6/12">
+    <h1 class="m-1 p-1 text-2xl border-b-2">Lista de productos</h1>
+    <div>
+      {{#each products}}
+        <div class="flex h-36 m-2 bg-gray-300">
+          <div class="flex items-center w-[200px] m-1">
+            {{#each this.thumbnails}}
+              <img src="/imgs/{{this}}" alt="{{this}}" class="w-full w-max h-full h-max" />
+            {{/each}}
+          </div>
+          <div class="w-full m-1">
+            <p class="text-lg">{{this.title}}</p>
+            <p>{{this.description}}</p>
+            <p>Precio: ${{this.price}}</p>
+            <p>Disponibilidad: {{this.stock}} unidades</p>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</div>

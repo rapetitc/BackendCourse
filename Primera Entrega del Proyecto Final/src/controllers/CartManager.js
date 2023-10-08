@@ -1,7 +1,6 @@
 import fs from "fs"
 const fsp = fs.promises
 import ProductManager from "./ProductManager.js";
-import { isNumberObject } from "util/types";
 
 const ProdMng = new ProductManager("./src/db/products.json")
 

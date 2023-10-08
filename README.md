@@ -1,16 +1,11 @@
 # BackendCourse
 
-Este proyecto corresponde a los desafios puesto por, y entregados a la cursada de **_Programacion Backend [CODERHOUSE](https://www.coderhouse.com/)_**
+**_Curso de Programacion Backend - [CODERHOUSE](https://www.coderhouse.com/)_**
 
-Para la revision de cada desafio ejecutas:
+Este repositorio corresponde a las entregas de los desafios puesto por la cursada de Programacion Backend de CODERHOUSE
 
-```
-cd ".\Desafio Entregable <<Number / Desafio>>"
-```
-
-y actualiza el numero del entregable a la que quieras acceder, luego incias cada desafio ejecutando:
+Para la revision de cada desafio debes ejecutar:
 
 ```
-npm start
+cd "./Desafio Entregable <<Nombre del Desafio>>"
 ```
-para empezar las pruebas

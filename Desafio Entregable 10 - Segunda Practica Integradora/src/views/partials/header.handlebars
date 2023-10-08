@@ -1,0 +1,21 @@
+<div class="flex justify-between items-center w-full" id="header">
+  {{> logo}}
+  <div class="p-1">
+    {{> searchbar}}
+    {{> nav}}
+  </div>
+  {{#if user }}
+    <div class="mx-2">
+      {{#with user}}
+        ¡Bienvenido
+        <a href="/profile" class="px-2 py-2 hover:underline">{{first_name}}</a>!
+      {{/with}}
+      <a href="/api/sessions/logout" class="px-2 py-2 border-2 rounded-sm">Cerrar Sesion</a>
+    </div>
+  {{else}}
+    <div class="mx-2">
+      <a href="/login" class="px-2 py-2 border-2 rounded-sm">Iniciar Sesion</a>
+      <a href="/signup" class="px-2 py-2 hover:underline">Registrarse</a>
+    </div>
+  {{/if}}
+</div>

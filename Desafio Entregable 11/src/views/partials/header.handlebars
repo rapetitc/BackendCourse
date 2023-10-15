@@ -1,0 +1,57 @@
+<div class="flex justify-between items-center w-full h-[80px] bg-yellow-200" id="header">
+  {{> logo}}
+  <div class="p-1">
+    {{> searchbar}}
+    {{> nav}}
+  </div>
+    <div class="flex items-center mx-3">
+    {{#if user }}
+        {{#with user}}
+          ¡Bienvenido
+          <a href="/profile" class="px-2 py-2 hover:underline">{{first_name}}</a>!
+        {{/with}}
+        <button class="px-2 py-2 border-2 rounded-sm" id="$Logout">Cerrar Sesion</button>
+    {{else}}
+        <a href="/login" class="px-2 py-2 bg-white border-2 rounded-sm">Iniciar Sesion</a>
+        <a href="/signup" class="px-2 py-2 hover:underline">Registrarse</a>
+    {{/if}}
+    {{>shoppingb}}
+    </div>
+</div>
+<script>
+  const $Logout = document.getElementById("$Logout")
+  $Logout.addEventListener('click', async (e) => {
+    e.preventDefault()
+    
+  const res = await fetch('/api/sessions/logout', {
+    method: "POST",
+  })
+console.log(await res.text())
+    if (res.status == 200) {
+    Swal.fire({
+      title: 'Sesion cerrada satisfactoriamente!',
+      icon: 'success',
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false
+    })
+    setTimeout(() => {
+      window.location.href = '/'
+    }, 2000)
+  } else {
+    let msg = ''
+    if (data.cause) {
+      for (const i of rej.cause) {
+        const key = Object.keys(i)[0]
+        msg += `${key}: ${i[key]} \n `
+      }
+    }
+    Swal.fire({
+      title: 'Error al intentar cerrar sesion',
+      text: msg ? msg : '',
+      icon: 'warning',
+      showConfirmButton: true
+    })
+  }
+  })
+</script>

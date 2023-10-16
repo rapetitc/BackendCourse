@@ -11,6 +11,10 @@ export default class ViewsRouter extends RouterBase {
 
     this.get('/login', ["PUBLIC"], viewsCtrlr.login);
 
-    this.get('/profile', ["USER", "ADMIN"], viewsCtrlr.profile);
+    this.get('/profile', ["USER"], viewsCtrlr.profile); //AUTHENTICATED (USER, ADMIN)
+
+    this.get('/sell', ["USER"], viewsCtrlr.sell); //AUTHENTICATED (USER, ADMIN)
+
+    this.get('*', ["*"], viewsCtrlr.notfound);
   }
 }

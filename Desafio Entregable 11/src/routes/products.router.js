@@ -5,14 +5,14 @@ const productsCtrlr = new ProductsCtrlr
 
 export default class ProductsRouter extends RouterBase {
   init() {
-    this.post('/', ["USER"], productsCtrlr.createProduct);
+    this.post('/', ["USER"], productsCtrlr.createProduct); //AUTHENTICATED (USER, ADMIN)
 
-    this.get('/', ["PUBLIC"], productsCtrlr.getProducts);
+    this.get('/', ["*"], productsCtrlr.getProducts); // ALL
 
-    this.get('/:pid([\\w]{24,24})', ["PUBLIC"], productsCtrlr.getProduct);
-   
-    this.put('/:pid([\\w]{24,24})', ["OWNER", "ADMIN"], productsCtrlr.getProduct);
-    
-    this.delete('/:pid([\\w]{24,24})', ["OWNER", "ADMIN"], productsCtrlr.removeProduct);
+    this.get('/:pid([\\w]{24,24})', ["PUBLIC"], productsCtrlr.getProduct); // PUBLIC
+
+    this.put('/:pid([\\w]{24,24})', ["OWNER", "ADMIN"], productsCtrlr.getProduct); //AUTHENTICATED (OWNER, ADMIN)
+
+    this.delete('/:pid([\\w]{24,24})', ["OWNER", "ADMIN"], productsCtrlr.removeProduct); //AUTHENTICATED (OWNER, ADMIN)
   }
 }

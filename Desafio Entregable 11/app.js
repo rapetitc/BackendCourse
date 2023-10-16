@@ -26,7 +26,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 100000
+    maxAge: 60 * 60 * 1000
   },
   store: MongoStore.create({
     mongoUrl: MONGODB_URL
@@ -38,6 +38,9 @@ usePassport()
 app.use(passport.initialize())
 app.use(passport.session('session'))
 
+// app.get('/api/products', (req,res)=>{
+//   res.send("aqui")
+// })
 app.use('/', router)
 
 app.listen(PORT, () => {

@@ -1,6 +1,8 @@
+import ProductsMng from "../services/products.mng.js"
 import UsersMng from "../services/users.mng.js"
 
 const usersMng = new UsersMng
+const productsMng = new ProductsMng
 
 const userSchema = {
   first_name: value => {
@@ -43,21 +45,58 @@ export const evalUserInfo = async (userInfo) => {
 
 
 const productSchema = {
-  title: value => typeof value == "string" && value.length > 5 ? value : null,
-  description: value => typeof value == "string" && value.length > 5 ? value : null,
-  code: value => typeof value == "string" && value.length == 12 ? value : null,
-  price: value => typeof value == "number" && value.length > 0 ? value : null,
-  status: value => typeof value == 'boolean' ? value : null,
-  stock: value => typeof value == "number" && value.length > 0 ? value : null,
-  category: value => typeof value == "string" && value.length > 0 ? value : null,
-  thumbnails: value => Array.isArray(value) && value.length < 5 ? value : null
+  title: async value => {
+    if (typeof value !== 'string') return 'Invalid Data Type'
+    if (value.length < 5) return 'Lower Than 4 Characters'
+    return true
+  },
+  description: async value => {
+    if (typeof value !== 'string') return 'Invalid Data Type'
+    if (value.length < 10) return 'Lower Than 10 Characters'
+    return true
+  },
+  code: async value => {
+    if (typeof value !== 'string') return 'Invalid Data Type'
+    if (value.length < 8) return 'Lower Than 8 Characters'
+    if (await productsMng.exists({ code: value })) return 'Already Exists'
+    return true
+  },
+  price: async value => {
+    if (typeof value !== "number") return 'Invalid Data Type'
+    if (value.length > 0) return 'Should be 0 or higher'
+    return true
+  },
+  status: async value => {
+    if (typeof value !== "boolean") return 'Invalid Data Type'
+    return true
+  },
+  stock: async value => {
+    if (typeof value !== "number") return 'Invalid Data Type'
+    if (value.length > 0) return 'Should be 0 or higher'
+    return true
+  },
+  category: async value => {
+    if (typeof value !== "string") return 'Invalid Data Type'
+    if (value.length < 1) return 'Should be 0 or higher'
+    return true
+  },
+  thumbnails: async value => {
+    if (!Array.isArray(value)) return 'Invalid Data Type'
+    if (value.length < 1) return 'Should be have 1 or more'
+    return true
+  },
+  // publisher: async value => {
+  //   if (typeof value !== "string") return 'Invalid Data Type'
+  //   if (value.length  == 24) return 'Should be have 24 or more'
+  //   return true
+  // }
 }
-export const evalProdInfo = (prodInfo) => {
+export const evalProdInfo = async (prodInfo) => {
   const reasons = []
   for (const key in prodInfo) {
-    const evauluation = productSchema[key](prodInfo[key])
-    if (evauluation !== true) reasons.push(JSON.parse(`{${key} : ${evauluation}}`))
+    const evauluation = await productSchema[key](prodInfo[key])
+    if (evauluation !== true) reasons.push(JSON.parse(`{"${key}" : "${evauluation}"}`))
   }
-  if (reasons.length > 0) throw new Error('User Info Format Is Invalid.', { cause: reasons })
+  if (reasons.length > 0) throw new Error('Product Info Format Is Invalid.', { cause: reasons })
   return prodInfo
 }

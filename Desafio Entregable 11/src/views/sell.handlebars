@@ -1,0 +1,24 @@
+{{> header}}
+
+<div class="flex flex-wrap w-11/12 p-5 mx-auto bg-gray-100/50">
+  <div class="w-full px-4 py-2 bg-white">
+    <h3 class="ms-2 py-3 text-4xl">Vende, tu nuevo o tu usado . . .</h3>
+    <p class="ms-60 py-3 text-2xl">. . . eCommerce te lo hace posible</p>
+  </div>
+  <div class="w-full px-4 py-2 bg-white">
+    <form class="w-8/12 py-20 mx-auto" id="SellForm">
+      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Entrante" type="file" name="thumbnails" id="thumbnails" accept=".jpg,.png" multiple>
+      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Titulo" type="text" name="title" id="title">
+      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Description" type="text" name="description" id="description">
+      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Codigo" type="text" name="code" id="code">
+      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Precio" type="number" name="price" id="price">
+      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Disponibilidad" type="number" name="stock" id="stock">
+      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Categoria" type="text" name="category" id="category">
+      <button class="w-full h-10 my-2 px-3 py-1 border rounded bg-yellow-200/70" type="submit">Publicar</button>
+    </form>
+  </div>
+</div>
+
+<script src="/public/js/sell.js"></script>
+
+{{> footer}}

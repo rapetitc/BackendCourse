@@ -8,7 +8,7 @@ export default class ProductsMng {
     return await this.model.exists(filter) ? true : false
   }
   createProduct = async (productInfo) => {
-    const { _id } = this.model.create(productInfo)
+    const { _id } = await this.model.create(productInfo)
     return _id
   }
   getProducts = async (limit = 10, page = 1, sort = {}, query = {}) => {

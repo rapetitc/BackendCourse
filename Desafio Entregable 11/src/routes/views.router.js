@@ -15,6 +15,8 @@ export default class ViewsRouter extends RouterBase {
 
     this.get('/sell', ["USER"], viewsCtrlr.sell); //AUTHENTICATED (USER, ADMIN)
 
+    this.get('/products/:pid', ["*"], viewsCtrlr.product);
+
     this.get('*', ["*"], viewsCtrlr.notfound);
   }
 }

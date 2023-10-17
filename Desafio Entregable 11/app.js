@@ -6,13 +6,13 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
 import { PORT, MONGODB_URL, SESSION_SECRET_KEY } from './src/config/env.js'
-import router from './src/routes/router.js';
 import usePassport from './src/config/passport.js';
+import router from './src/routes/router.js';
 
 const app = express()
 
 mongoose.connect(MONGODB_URL).then(() => {
-  console.log(`DB\t[OK]`);
+  console.log(`DATABASE \t [WORKING]`);
 })
 
 app.engine('handlebars', engine());
@@ -38,11 +38,8 @@ usePassport()
 app.use(passport.initialize())
 app.use(passport.session('session'))
 
-// app.get('/api/products', (req,res)=>{
-//   res.send("aqui")
-// })
 app.use('/', router)
 
 app.listen(PORT, () => {
-  console.log(`SERVER\t[OK]`);
+  console.log(`HTTP SERVER \t [WORKING]`);
 })

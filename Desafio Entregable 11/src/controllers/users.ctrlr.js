@@ -12,11 +12,9 @@ export default class UsersCtrlr {
     } catch (error) {
       console.log(error);
       const reasons = [...error.cause]
-      if (error = "Invalid Format") {
-        return res.sendBadRequest({
-          causes: reasons
-        })
-      }
+      if (error = "Invalid Format") return res.sendBadRequest({
+        causes: reasons
+      })
       res.sendServerError()
     }
   }

@@ -1,0 +1,17 @@
+{{> header}}
+
+<div class="flex w-11/12 mx-auto p-2 bg-gray-200">
+  {{#with product}}
+    <div class="w-[350px] h-[350px] mx-20 bg-red-100">
+      <img class="max-w-full max-h-full" src="#" alt="#">
+    </div>
+    <div class="w-80 my-1 p-3 bg-green-100 rounded">
+      <p class="text-[13px] text-gray-400">Disponibilidad de {{stock}} unidades</p>
+      <h3 class="text-xl">{{title}}</h3>
+      <p class=" my-1 ">{{description}}</p>
+      <p class=" my-1 text-2xl">${{price}}</p>
+    </div>
+  {{/with}}
+</div>
+
+{{> footer}}

@@ -9,7 +9,7 @@ export default class ProductsRouter extends RouterBase {
 
     this.get('/', ["*"], productsCtrlr.getProducts); // ALL
 
-    this.get('/:pid([\\w]{24,24})', ["PUBLIC"], productsCtrlr.getProduct); // PUBLIC
+    this.get('/:pid([\\w]{24,24})', ["*"], productsCtrlr.getProduct); // PUBLIC
 
     this.put('/:pid([\\w]{24,24})', ["OWNER", "ADMIN"], productsCtrlr.getProduct); //AUTHENTICATED (OWNER, ADMIN)
 

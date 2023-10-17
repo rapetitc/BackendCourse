@@ -1,38 +1,34 @@
-let products = []
+// letF products = []
 
-const addItem = async (pid, quantity) => {
-  const URL = `http://localhost:8080/api/carts/${cid}/products/${pid}`
-  const res = await fetch(URL, {
-    method: 'PUT',
-    body: JSON.stringify({ quantity: quantity + 1 }),
-    headers: {
-      "Content-Type": "application/json",
-    }
-  })
-  cstorage = await getCart()
-  console.log("inside", cstorage);
-  $ProdListC()
-}
-const removeItem = async (pid, quantity) => {
-  const URL = `http://localhost:8080/api/carts/${cid}/products/${pid}`
-  const res = await fetch(URL, {
-    method: 'PUT',
-    body: JSON.stringify({ quantity: quantity - 1 }),
-    headers: {
-      "Content-Type": "application/json",
-    }
-  })
-  cstorage = await getCart()
-  console.log("inside", cstorage);
-  $ProdListC()
-}
+// const addItem = async (pid, quantity) => {
+//   const URL = `http://localhost:8080/api/carts/${cid}/products/${pid}`
+//   const res = await fetch(URL, {
+//     method: 'PUT',
+//     body: JSON.stringify({ quantity: quantity + 1 }),
+//     headers: {
+//       "Content-Type": "application/json",
+//     }
+//   })
+//   cstorage = await getCart()
+//   $ProdListC()
+// }
+// const removeItem = async (pid, quantity) => {
+//   const URL = `http://localhost:8080/api/carts/${cid}/products/${pid}`
+//   const res = await fetch(URL, {
+//     method: 'PUT',
+//     body: JSON.stringify({ quantity: quantity - 1 }),
+//     headers: {
+//       "Content-Type": "application/json",
+//     }
+//   })
+//   cstorage = await getCart()
+//   $ProdListC()
+// }
 
 const $ProdListC = (products) => {
-  // console.log("here");
   const $prodList = document.getElementById('prodList')
   if (products.length > 0) {
     let doc = ''
-    // console.log(cstorage);
     products.forEach(({ _id, title, description, price, thumbnails }) => {
       // const isInCart = cstorage.find((item) => item.pid._id == _id)
       // const quantity = isInCart ? isInCart.quantity : 0

@@ -19,7 +19,6 @@ export default class ProductsCtrlr {
   }
   getProducts = async (req, res) => {
     const { limit, page, sort, query } = req.query
-    console.log("getProducts");
     try {
       const { docs, totalPages, prevPage, nextPage, hasPrevPage, hasNextPage } = await productsMng.getProducts(limit, page, sort, query ? JSON.parse(query) : {})
       res.sendSuccess({
@@ -38,7 +37,6 @@ export default class ProductsCtrlr {
     }
   }
   getProduct = async (req, res) => {
-    console.log("getProduct");
     const { pid } = req.params
     try {
       res.sendSuccess({

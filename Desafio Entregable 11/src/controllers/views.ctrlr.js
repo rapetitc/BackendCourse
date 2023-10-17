@@ -1,3 +1,4 @@
+import ProductsModel from "../services/models/products.model.js"
 import UsersMng from "../services/users.mng.js"
 // import { evalUserInfo } from "../utils/inputs.eval.js"
 
@@ -32,6 +33,16 @@ export default class ViewsCtrlr {
     res.render('sell', {
       title: "Vender",
       user: req.user ? { first_name } : false
+    })
+  }
+  product = async (req, res) => {
+    const { pid } = req.params
+    const { title, description, price, stock, category, thumbnails } = await ProductsModel.findById(pid)
+    const { first_name } = req.user ?? false
+    res.render('product', {
+      title, //TODO Cambiar titulo
+      user: req.user ? { first_name } : false,
+      product: { title, description, price, stock, category, thumbnails }
     })
   }
   notfound = async (req, res) => {

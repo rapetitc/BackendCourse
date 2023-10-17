@@ -5,12 +5,12 @@ const cartsCtrlr = new CartsCtrlr
 
 export default class CartsRouter extends RouterBase {
   init() {
-    this.post('/', ["PUBLIC"], cartsCtrlr.createCart);
+    this.post('/', ["USER", "ADMIN"], cartsCtrlr.createCart);
 
-    this.get('/:cid([\\w]{24,24})', ["PUBLIC"], cartsCtrlr.getCart);
+    this.get('/:cid([\\w]{24,24})', ["USER", "ADMIN"], cartsCtrlr.getCart);
 
-    this.put('/:cid([\\w]{24,24})/products/:pid([\\w]{24,24})', ["OWNER", "ADMIN"], cartsCtrlr.updateCart);
+    // this.put('/:cid([\\w]{24,24})/products/:pid([\\w]{24,24})', ["USER", "ADMIN"], cartsCtrlr.updateCart);
 
-    this.delete('/:cid([\\w]{24,24})', ["OWNER", "ADMIN"], cartsCtrlr.deleteCart);
+    this.delete('/:cid([\\w]{24,24})', ["USER", "ADMIN"], cartsCtrlr.deleteCart);
   }
 }

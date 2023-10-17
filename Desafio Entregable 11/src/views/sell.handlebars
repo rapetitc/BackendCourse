@@ -1,21 +1,44 @@
 {{> header}}
 
-<div class="flex flex-wrap w-11/12 p-5 mx-auto bg-gray-100/50">
-  <div class="w-full px-4 py-2 bg-white">
-    <h3 class="ms-2 py-3 text-4xl">Vende, tu nuevo o tu usado . . .</h3>
-    <p class="ms-60 py-3 text-2xl">. . . eCommerce te lo hace posible</p>
+
+<div class="flex flex-wrap w-11/12 p-5 mx-auto bg-white">
+  <div class="w-full h-40 mb-3 p-3 bg-gray-200 rounded-lg">
+    <div class="flex items-end">
+      <div class="h-32 w-32 mx-3 rounded-full border bg-gray-300 overflow-hidden">
+        <img src="https://previews.123rf.com/images/yupiramos/yupiramos1709/yupiramos170930757/87002882-ilustraci%C3%B3n-de-vector-de-dibujos-animados-de-persona-de-personaje-joven-de-hombre-de-retrato.jpg" alt="#">
+      </div>
+      {{#with user}}
+        <h3 class="ms-4 mb-5 text-4xl">{{ first_name }} {{last_name}}</h3>
+      {{/with}}
+    </div>
   </div>
-  <div class="w-full px-4 py-2 bg-white">
-    <form class="w-8/12 py-20 mx-auto" id="SellForm">
-      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Entrante" type="file" name="thumbnails" id="thumbnails" accept=".jpg,.png" multiple>
-      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Titulo" type="text" name="title" id="title">
-      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Description" type="text" name="description" id="description">
-      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Codigo" type="text" name="code" id="code">
-      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Precio" type="number" name="price" id="price">
-      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Disponibilidad" type="number" name="stock" id="stock">
-      <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Categoria" type="text" name="category" id="category">
-      <button class="w-full h-10 my-2 px-3 py-1 border rounded bg-yellow-200/70" type="submit">Publicar</button>
-    </form>
+  <div class="flex flex-wrap w-4/12 h-max p-1 bg-gray-200 rounded-lg">
+    <a href="/profile" class="w-full mx-1 my-2 ps-4 py-2 rounded-lg bg-yellow-200">Inicio</a>
+    <a href="/profile" class="w-full mx-1 my-2 ps-4 py-2 rounded-lg bg-yellow-200">Mis Compras</a>
+    <a href="/sell" class="w-full mx-1 my-2 ps-4 py-2 rounded-lg bg-yellow-200">Publicar Producto</a>
+    <a href="/profile" class="w-full mx-1 my-2 ps-4 py-2 rounded-lg bg-yellow-200">Mis Ventas</a>
+    <a href="/profile" class="w-full mx-1 my-2 ps-4 py-2 rounded-lg bg-yellow-200">Configuraciones</a>
+  </div>
+  <div class="flex flex-wrap w-8/12 p-2">
+    <div class="w-full px-4 py-2 bg-white">
+      <h3 class="ms-6 py-2 text-2xl">Vende, tu nuevo o tu usado . . .</h3>
+      <p class="ms-36 py-2 text-xl">. . . eCommerce te lo hace posible</p>
+    </div>
+    <div class="w-full px-4 py-2 bg-white">
+      <form class="w-11/12 mx-auto" id="SellForm">
+        <label for="thumbnails">
+          <p class="w-full h-10 mx-auto my-2 px-3 py-1 border rounded bg-yellow-200/70 cursor-pointer" type="button">Agregar Imagenes</p>
+        </label>
+        <input class="hidden" type="file" name="thumbnails" id="thumbnails" accept=accept=".png, .jpg" multiple>
+        <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Titulo" type="text" name="title" id="title">
+        <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Description" type="text" name="description" id="description">
+        <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Codigo" type="text" name="code" id="code">
+        <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Precio" type="number" name="price" id="price">
+        <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Disponibilidad" type="number" name="stock" id="stock">
+        <input class="w-full h-10 my-2 px-3 py-1 border rounded" placeholder="Categoria" type="text" name="category" id="category">
+        <button class="w-full h-10 my-2 px-3 py-1 border rounded bg-yellow-200/70" type="submit">Publicar</button>
+      </form>
+    </div>
   </div>
 </div>
 

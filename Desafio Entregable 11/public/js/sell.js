@@ -1,22 +1,9 @@
 const $SellForm = document.getElementById('SellForm')
 $SellForm.addEventListener('submit', async (e) => {
   e.preventDefault()
-  const { title, description, code, price, stock, category } = e.target
-  let formData = {
-    title: title.value,
-    description: description.value,
-    code: code.value,
-    price: parseInt(price.value),
-    stock: parseInt(stock.value),
-    category: category.value
-  }
-
   const res = await fetch('/api/products', {
     method: "POST",
-    body: JSON.stringify(formData),
-    headers: {
-      "Content-Type": "application/json"
-    }
+    body: new FormData(e.target)
   })
   const data = await res.json()
   if (res.status == 201) {
@@ -33,7 +20,7 @@ $SellForm.addEventListener('submit', async (e) => {
   } else {
     let msg = ''
     if (data.cause) {
-      for (const i of rej.cause) {
+      for (const i of data.cause) {
         const key = Object.keys(i)[0]
         msg += `${key}: ${i[key]} \n `
       }

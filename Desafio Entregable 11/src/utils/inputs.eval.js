@@ -57,7 +57,7 @@ const productSchema = {
   },
   code: async value => {
     if (typeof value !== 'string') return 'Invalid Data Type'
-    if (value.length < 8) return 'Lower Than 8 Characters'
+    if (value.length !== 12) return 'Different Than 12 Characters'
     if (await productsMng.exists({ code: value })) return 'Already Exists'
     return true
   },

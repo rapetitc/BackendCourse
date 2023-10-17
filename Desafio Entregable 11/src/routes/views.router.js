@@ -17,6 +17,8 @@ export default class ViewsRouter extends RouterBase {
 
     this.get('/products/:pid', ["*"], viewsCtrlr.product);
 
+    this.get('/cart', ["*"], viewsCtrlr.cart);
+
     this.get('*', ["*"], viewsCtrlr.notfound);
   }
 }

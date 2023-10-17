@@ -5,9 +5,10 @@ const productsMng = new ProductsMng
 
 export default class ProductsCtrlr {
   createProduct = async (req, res) => {
-    const { title, description, code, price, status, stock, category, thumbnails } = req.body
+    const { title, description, code, price, stock, category } = req.body
+    const thumbnails = req.files.map(file => `/public/my-uploads/${file.filename}`)
     try {
-      const productInfo = await evalProdInfo({ title, description, code, price, stock, category, thumbnails: [''] })
+      const productInfo = await evalProdInfo({ title, description, code, price: parseInt(price), stock: parseInt(stock), category, thumbnails })
       const id = await productsMng.createProduct({ ...productInfo, publisher: req.user._id })
       res.sendCreated({
         payload: id

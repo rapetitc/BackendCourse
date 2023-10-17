@@ -1,11 +1,23 @@
+import multer from "multer"
+
 import RouterBase from "./router.base.js";
 import ProductsCtrlr from "../controllers/products.ctrlr.js";
 
 const productsCtrlr = new ProductsCtrlr
-
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/my-uploads')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, file.fieldname + '-' + uniqueSuffix + `${file.mimetype == "image/png" ? '.png' : ".jpg"}`)
+    }
+  })
+})
 export default class ProductsRouter extends RouterBase {
   init() {
-    this.post('/', ["USER"], productsCtrlr.createProduct); //AUTHENTICATED (USER, ADMIN)
+    this.post('/', ["USER"], upload.array('thumbnails', 10), productsCtrlr.createProduct); //AUTHENTICATED (USER, ADMIN)
 
     this.get('/', ["*"], productsCtrlr.getProducts); // ALL
 

@@ -40,9 +40,16 @@ export default class ViewsCtrlr {
     const { title, description, price, stock, category, thumbnails } = await ProductsModel.findById(pid)
     const { first_name } = req.user ?? false
     res.render('product', {
-      title, //TODO Cambiar titulo
+      title,
       user: req.user ? { first_name } : false,
       product: { title, description, price, stock, category, thumbnails }
+    })
+  }
+  cart = async (req, res) => {
+    const { first_name } = req.user ?? false
+    res.render('cart', {
+      title: "Carrito de compras",
+      user: req.user ? { first_name } : false,
     })
   }
   notfound = async (req, res) => {

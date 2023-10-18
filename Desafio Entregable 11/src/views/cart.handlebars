@@ -1,10 +1,33 @@
 {{> header}}
 
-<div class="w-11/12 mx-auto p-1 bg-white">
+<div class="w-11/12 h-96 mx-auto p-1 bg-white">
   <h3 class="w-11/12 mx-auto my-2 px-4 py-2 rounded bg-yellow-100">Carrito de compras</h3>
-  <div class="flex justify-center items-center h-96">
-    <p>Seccion proximo a construir</p>
-  </div>
+    {{#if storage}}
+      <table class="w-11/12 mx-auto">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each storage}}
+            <tr class="w-full bg-gray-100 rounded">
+              <td>{{product.title}}</td>
+              <td>${{product.price}}</td>
+              <td>{{quantity}}u.</td>
+              <td>Total</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <div class="flex justify-center items-center h-96" id="ShoppingCartList">
+        <p>Carrito de compras vacio</p>
+      </div>
+    {{/if}}
 </div>
 
 {{> footer}}

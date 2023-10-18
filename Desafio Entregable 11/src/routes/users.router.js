@@ -5,12 +5,12 @@ const usersCtrlr = new UsersCtrlr
 
 export default class UsersRouter extends RouterBase {
   init() {
-    this.post('/', ['PUBLIC'], usersCtrlr.createUser);
+    this.post('/', ['PUBLIC'], usersCtrlr.createUser); // PUBLIC
 
-    this.get('/:uid([\\w]{24,24})', ["PUBLIC"], usersCtrlr.getUser);
+    this.get('/:uid([\\w]{24,24})', ["PUBLIC"], usersCtrlr.getUser); // AUTHENTICATED
 
-    this.put('/:uid([\\w]{24,24})', ['PUBLIC'], usersCtrlr.updateUser);
+    this.put('/:uid([\\w]{24,24})', ['PUBLIC'], usersCtrlr.updateUser); // OWNER, ADMIN
 
-    this.delete('/:uid([\\w]{24,24})', ['PUBLIC'], usersCtrlr.deleteUser);
+    this.delete('/:uid([\\w]{24,24})', ['PUBLIC'], usersCtrlr.deleteUser); // OWNER, ADMIN
   }
 }

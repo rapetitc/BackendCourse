@@ -17,14 +17,14 @@ const upload = multer({
 })
 export default class ProductsRouter extends RouterBase {
   init() {
-    this.post('/', ["USER"], upload.array('thumbnails', 10), productsCtrlr.createProduct); //AUTHENTICATED (USER, ADMIN)
+    this.post('/', ["USER"], upload.array('thumbnails', 10), productsCtrlr.createProduct); // USER, ADMIN
 
-    this.get('/', ["*"], productsCtrlr.getProducts); // ALL
+    this.get('/', ["*"], productsCtrlr.getProducts); // *
 
-    this.get('/:pid([\\w]{24,24})', ["*"], productsCtrlr.getProduct); // PUBLIC
+    this.get('/:pid([\\w]{24,24})', ["*"], productsCtrlr.getProduct); // *
 
-    this.put('/:pid([\\w]{24,24})', ["OWNER", "ADMIN"], productsCtrlr.getProduct); //AUTHENTICATED (OWNER, ADMIN)
+    this.put('/:pid([\\w]{24,24})', ["OWNER", "ADMIN"], productsCtrlr.getProduct); // OWNER, ADMIN
 
-    this.delete('/:pid([\\w]{24,24})', ["OWNER", "ADMIN"], productsCtrlr.removeProduct); //AUTHENTICATED (OWNER, ADMIN)
+    this.delete('/:pid([\\w]{24,24})', ["OWNER", "ADMIN"], productsCtrlr.removeProduct); // OWNER, ADMIN
   }
 }

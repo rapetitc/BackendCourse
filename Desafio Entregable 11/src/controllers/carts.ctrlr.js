@@ -20,7 +20,7 @@ export default class CartsCtrlr {
       res.sendServerError()
     }
   }
-  // updateCart = async (req, res) => {
+  // updateWholeCart = async (req, res) => {
   //   const { cid } = req.params
   //   const { products } = req.body
   //   try {
@@ -41,26 +41,15 @@ export default class CartsCtrlr {
       res.sendServerError()
     }
   }
-  // TODO Refactory
-  // updateItem = async (req, res) => {
-  //   const { cid, pid } = req.params
-  //   const { quantity } = req.body
-  //   try {
-  //     await cartsMng.updateItem(cid, pid, quantity)
-  //     res.status(200).send("El articulo fue agregado/actualizado dentro del carrito de compras exitosamente!.")
-  //   } catch (error) {
-  //     // console.log(error);
-  //     res.sendServerError()
-  //   }
-  // }
-  // removeItem = async (req, res) => {
-  //   const { cid, pid } = req.params
-  //   try {
-  //     await cartsMng.removeItem(cid, pid)
-  //     res.status(200).send("El articulo fue removido del carrito de compras exitosamente!.")
-  //   } catch (error) {
-  //     // console.log(error);
-  //     res.sendServerError()
-  //   }
-  // }
+  updateItemInCart = async (req, res) => {
+    const { cid, pid } = req.params
+    const { quantity } = req.body
+    try {
+      await cartsMng.updateItemInCart(cid, pid, quantity)
+      res.status(200).send("El articulo fue agregado/actualizado dentro del carrito de compras exitosamente!.")
+    } catch (error) {
+      console.log(error);
+      res.sendServerError()
+    }
+  }
 }

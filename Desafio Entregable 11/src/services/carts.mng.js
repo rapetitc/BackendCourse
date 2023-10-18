@@ -32,32 +32,25 @@ export default class CartsMng {
     await CartsModel.findByIdAndDelete(cid)
   }
   // TODO Refactory
-  // updateItem = async (cid, pid, quantity = 0) => {
-  //   if (quantity < 0) throw 'Quantity Is Lower Than Zero'
+  updateItemInCart = async (cid, pid, quantity = 0) => {
+    if (quantity < 0) throw 'Quantity Is Lower Than Zero'
    
-  //   const cart = await this.getCart(cid)
+    const cart = await this.getCart(cid)
 
-  //   const product = await ProductsModel.findById(pid, { _id })
-  //   if (product == null) throw "Product Not Found"
+    const product = await ProductsModel.findById(pid)
+    if (product == null) throw "Product Not Found"
+    if (quantity > product.stock) throw "Quantity Is Higher Than Product's Stock"
 
-  //   const prodInCart = cart.storage.find((prod) => prod.pid == product)
-  //   if (prodInCart) {
-  //     if (quantity < 1) return this.removeItem(cid, pid)
-  //     if (quantity > prod.stock) throw 'QuantityIsHigherThanZero'
-  //     prodInCart.quantity = quantity
-  //   } else {
-  //     cart.storage.push({
-  //       pid: pid,
-  //       quantity: quantity > prod.stock ? prod.stock : quantity
-  //     })
-  //   }
-  //   cart.save()
-  // }
-  // removeItem = async (cid, pid) => { // TODO Recheck
-  //   const cart = await CartsModel.findById(cid)
-  //   if (cart == null) throw 'CartNotFound'
-
-  //   cart.storage = cart.storage.filter((prod) => prod.pid != pid)
-  //   cart.save()
-  // }
+    let prodInCart = cart.storage.find((prod) => prod.pid == product._id)
+    if (prodInCart) {
+      if (quantity == 0) prodInCart = null
+      else prodInCart.quantity = quantity
+    } else {
+      cart.storage.push({
+        product: pid,
+        quantity: quantity
+      })
+    }
+    cart.save()
+  }
 }

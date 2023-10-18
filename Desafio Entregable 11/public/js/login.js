@@ -27,6 +27,8 @@ $LogInForm.addEventListener('submit', async (e) => {
       window.location.href = '/'
     }, 2000)
   } else {
+    const data = await res.text()
+    console.log(data);
     let msg = ''
     if (data.cause) {
       for (const i of rej.cause) {

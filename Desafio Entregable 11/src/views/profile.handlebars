@@ -1,23 +1,8 @@
 {{> header}}
 
 <div class="flex flex-wrap w-11/12 p-5 mx-auto bg-white">
-  <div class="w-full h-40 mb-3 p-3 bg-gray-200 rounded-lg">
-    <div class="flex items-end">
-      <div class="h-32 w-32 mx-3 rounded-full border bg-gray-300 overflow-hidden">
-        <img src="https://previews.123rf.com/images/yupiramos/yupiramos1709/yupiramos170930757/87002882-ilustraci%C3%B3n-de-vector-de-dibujos-animados-de-persona-de-personaje-joven-de-hombre-de-retrato.jpg" alt="#">
-      </div>
-      {{#with user}}
-        <h3 class="ms-4 mb-5 text-4xl">{{ first_name }} {{last_name}}</h3>
-      {{/with}}
-    </div>
-  </div>
-  <div class="flex flex-wrap w-4/12 p-1 bg-gray-200 rounded-lg">
-    <a href="/profile" class="w-full mx-1 my-2 ps-4 py-2 rounded-lg bg-yellow-200">Inicio</a>
-    <a href="/profile" class="w-full mx-1 my-2 ps-4 py-2 rounded-lg bg-yellow-200">Mis Compras</a>
-    <a href="/sell" class="w-full mx-1 my-2 ps-4 py-2 rounded-lg bg-yellow-200">Publicar Producto</a>
-    <a href="/profile" class="w-full mx-1 my-2 ps-4 py-2 rounded-lg bg-yellow-200">Mis Ventas</a>
-    <a href="/profile" class="w-full mx-1 my-2 ps-4 py-2 rounded-lg bg-yellow-200">Configuraciones</a>
-  </div>
+  {{> dashboard}}
+  {{> profilemenu}}
   <div class="w-8/12 p-1">
     <p class="my-1 p-1 text-center text-2xl">¡Te damos la bienvenida formal a eCommerce services!</p>
     <p class="my-1 p-1 text-center text-2xl">Aun estamos construyendo este sitio web, <br> gracias por ser uno de los primeros</p>

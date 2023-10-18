@@ -8,10 +8,10 @@ import CartsRouter from "./carts.router.js";
 
 const router = Router()
 
+router.use('/api/carts', new CartsRouter().getRouter())
+router.use('/api/products', new ProductsRouter().getRouter())
 router.use('/', new ViewsRouter().getRouter())
 router.use('/api/users', new UsersRouter().getRouter())
 router.use('/api/sessions', new SessionsRouter().getRouter())
-router.use('/api/products', new ProductsRouter().getRouter())
-router.use('/api/carts', new CartsRouter().getRouter())
 
 export default router

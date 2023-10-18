@@ -1,8 +1,5 @@
 import ProductsModel from "../services/models/products.model.js"
-import UsersMng from "../services/users.mng.js"
-// import { evalUserInfo } from "../utils/inputs.eval.js"
-
-const usersMng = new UsersMng
+import CartsModel from '../services/models/carts.model.js'
 
 export default class ViewsCtrlr {
   index = async (req, res) => {
@@ -46,13 +43,18 @@ export default class ViewsCtrlr {
     })
   }
   cart = async (req, res) => {
-    const { first_name } = req.user ?? false
+    const { cart, first_name } = req.user ?? false
+    const { storage } = cart ? await CartsModel.findById(cart).populate('storage.product').lean() : false
     res.render('cart', {
       title: "Carrito de compras",
       user: req.user ? { first_name } : false,
+      storage: storage ?? []
     })
   }
   notfound = async (req, res) => {
     res.render('notfound')
+  }
+  working = async (req, res) => {
+    res.render('working')
   }
 }

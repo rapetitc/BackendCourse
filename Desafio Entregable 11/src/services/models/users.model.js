@@ -1,6 +1,8 @@
 import { Schema, model } from "mongoose";
 import bcrypt from 'bcrypt';
 
+import CartsModel from "./carts.model.js";
+
 
 const UsersSchema = new Schema({
     first_name: {
@@ -32,6 +34,7 @@ const UsersSchema = new Schema({
     cart: {
         type: Schema.Types.ObjectId,
         ref: "carts",
+        require: true
     },
     role: {
         type: String,
@@ -50,6 +53,8 @@ const UsersSchema = new Schema({
 
 UsersSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, bcrypt.genSaltSync(10));
+    const { _id } = await CartsModel.create({ storage: [] })
+    this.cart = _id
     next()
 })
 

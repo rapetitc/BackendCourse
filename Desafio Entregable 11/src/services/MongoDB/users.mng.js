@@ -16,8 +16,12 @@ export default class UsersMng {
     return await this.model.findById(uid)
   }
   async updateUser(uid, newInfo) {
-    if (! await this.exists({ _id: uid })) throw 'User Not Found'
-    await this.model.findByIdAndUpdate(uid, newInfo)
+    const user = await this.getUser(uid)
+    const keys = Object.keys(newInfo)
+    for (const key of keys) {
+      user[key] = newInfo[key]
+    }
+    user.save()
   }
   async deleteUser(uid) {
     if (! await this.exists({ _id: uid })) throw 'User Not Found'

@@ -1,5 +1,5 @@
-import ProductsMng from "../services/products.mng.js"
-import UsersMng from "../services/users.mng.js"
+import ProductsMng from "../services/MongoDB/products.mng.js"
+import UsersMng from "../services/MongoDB/users.mng.js"
 
 const usersMng = new UsersMng
 const productsMng = new ProductsMng

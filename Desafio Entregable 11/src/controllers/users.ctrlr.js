@@ -1,4 +1,4 @@
-import UsersMng from "../services/users.mng.js"
+import UsersMng from "../services/MongoDB/users.mng.js"
 import { evalUserInfo } from "../utils/inputs.eval.js"
 
 const usersMng = new UsersMng

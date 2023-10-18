@@ -1,8 +1,8 @@
 import passport from "passport";
 import Local from 'passport-local'
-import UsersModel from "../services/models/users.model.js";
-import JWT from "jsonwebtoken";
-import { JWT_SECRET_KEY } from "./env.js";
+import UsersModel from "../services/MongoDB/models/users.model.js";
+// import JWT from "jsonwebtoken";
+// import { JWT_SECRET_KEY } from "./env.js";
 
 export default function usePassport() {
   passport.serializeUser(function (user, done) {

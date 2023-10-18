@@ -1,5 +1,8 @@
-import ProductsModel from "../services/models/products.model.js"
-import CartsModel from '../services/models/carts.model.js'
+import ProductsMng from '../services/MongoDB/products.mng.js'
+import CartsMng from '../services/MongoDB/carts.mng.js'
+
+const productsMng = new ProductsMng
+const cartsMng = new CartsMng
 
 export default class ViewsCtrlr {
   index = async (req, res) => {
@@ -34,7 +37,7 @@ export default class ViewsCtrlr {
   }
   product = async (req, res) => {
     const { pid } = req.params
-    const { title, description, price, stock, category, thumbnails } = await ProductsModel.findById(pid)
+    const { title, description, price, stock, category, thumbnails } = await productsMng.getProduct(pid)
     const { first_name } = req.user ?? false
     res.render('product', {
       title,
@@ -44,7 +47,7 @@ export default class ViewsCtrlr {
   }
   cart = async (req, res) => {
     const { cart, first_name } = req.user ?? false
-    const { storage } = cart ? await CartsModel.findById(cart).populate('storage.product').lean() : false
+    const { storage } = cart ? await cartsMng.getCompleteCart(cart).lean() : false
     res.render('cart', {
       title: "Carrito de compras",
       user: req.user ? { first_name } : false,

@@ -11,13 +11,13 @@ export default class ViewsRouter extends RouterBase {
 
     this.get('/login', ["PUBLIC"], viewsCtrlr.login); // PUBLIC
 
-    this.get('/profile', ["USER"], viewsCtrlr.profile); // AUTHENTICATED
+    this.get('/profile', ["AUTHENTICATED"], viewsCtrlr.profile); // AUTHENTICATED
 
-    this.get('/sell', ["USER"], viewsCtrlr.sell); // AUTHENTICATED
+    this.get('/sell', ["AUTHENTICATED"], viewsCtrlr.sell); // AUTHENTICATED
 
     this.get('/products/:pid', ["*"], viewsCtrlr.product); // *
 
-    this.get('/cart', ["*"], viewsCtrlr.cart); // USER
+    this.get('/cart', ["USER"], viewsCtrlr.cart); // USER
     
     this.get('/working', ["*"], viewsCtrlr.working); // *
 

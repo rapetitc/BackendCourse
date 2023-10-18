@@ -4,6 +4,7 @@ import RouterBase from "./router.base.js";
 import ProductsCtrlr from "../controllers/products.ctrlr.js";
 
 const productsCtrlr = new ProductsCtrlr
+
 const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
@@ -15,9 +16,10 @@ const upload = multer({
     }
   })
 })
+
 export default class ProductsRouter extends RouterBase {
   init() {
-    this.post('/', ["USER"], upload.array('thumbnails', 10), productsCtrlr.createProduct); // USER, ADMIN
+    this.post('/', ["AUTHENTICATED"], upload.array('thumbnails', 10), productsCtrlr.createProduct); // AUTHENTICATED
 
     this.get('/', ["*"], productsCtrlr.getProducts); // *
 

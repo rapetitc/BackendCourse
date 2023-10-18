@@ -1,4 +1,4 @@
-import ProductsMng from "../services/products.mng.js"
+import ProductsMng from "../services/MongoDB/products.mng.js"
 import { evalProdInfo } from '../utils/inputs.eval.js'
 
 const productsMng = new ProductsMng

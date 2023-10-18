@@ -1,5 +1,7 @@
 import CartsModel from "./models/carts.model.js";
-import ProductsModel from "./models/products.model.js";
+import ProductsMng from "./products.mng.js";
+
+const productsMng = new ProductsMng
 
 export default class CartsMng {
   constructor() {
@@ -22,7 +24,7 @@ export default class CartsMng {
     const cart = await this.getCart(cid)
     return cart.populate('storage.product')
   }
-  // updateWholeCart = async (cid, products) => {
+  // updateWholeCart = async (cid, products) => { // TODO Validar que cada producto exista, y que el valor de quantity no sea menor de 0 o mayor del stock del producto
   //   const cart = await this.getCart(cid)
   //   cart.storage = products
   //   cart.save()
@@ -31,14 +33,12 @@ export default class CartsMng {
     if (! await this.exists(cid)) throw 'Cart Not Found'
     await CartsModel.findByIdAndDelete(cid)
   }
-  // TODO Refactory
   updateItemInCart = async (cid, pid, quantity = 0) => {
     if (quantity < 0) throw 'Quantity Is Lower Than Zero'
-   
+
     const cart = await this.getCart(cid)
 
-    const product = await ProductsModel.findById(pid)
-    if (product == null) throw "Product Not Found"
+    const product = await productsMng.getProduct(pid)
     if (quantity > product.stock) throw "Quantity Is Higher Than Product's Stock"
 
     let prodInCart = cart.storage.find((prod) => prod.pid == product._id)

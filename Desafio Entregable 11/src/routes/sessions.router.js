@@ -9,6 +9,6 @@ export default class ProductsRouter extends RouterBase {
   init() {
     this.post('/login', ["*"], passport.authenticate('local'), sessionsCtrlr.login); // PUBLIC
 
-    this.post('/logout', ["USER", "ADMIN"], sessionsCtrlr.logout); // AUTHENTICATED
+    this.post('/logout', ["AUTHENTICATED"], sessionsCtrlr.logout); // AUTHENTICATED
   }
 }

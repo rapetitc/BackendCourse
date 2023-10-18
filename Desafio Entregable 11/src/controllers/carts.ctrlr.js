@@ -1,4 +1,4 @@
-import CartsMng from "../services/carts.mng.js"
+import CartsMng from "../services/MongoDB/carts.mng.js"
 
 const cartsMng = new CartsMng
 

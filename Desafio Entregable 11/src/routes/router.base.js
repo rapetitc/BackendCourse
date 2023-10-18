@@ -1,5 +1,4 @@
 import { Router } from "express";
-import passport from "passport";
 
 export default class RouterBase {
   constructor() {
@@ -57,6 +56,7 @@ export default class RouterBase {
     return async (req, res, next) => {
       const role = req.user?.role ?? "PUBLIC"
       if (policies.length === 1 && policies[0] == "*") return next()
+      if (policies.length === 1 && policies[0] == "AUTHENTICATED" && role != "PUBLIC") return next()
       if (!policies.includes(role)) return res.redirect('/')
       next()
     }

@@ -11,7 +11,6 @@ const upload = multer({
   storage: multer.diskStorage({
     destination: async function (req, file, cb) {
       await mkdir(`./storage/${req.pid}`, { recursive: true });
-      req.pid = pid
       cb(null, `./storage/${req.pid}`)
     },
     filename: function (req, file, cb) {
@@ -23,7 +22,7 @@ const upload = multer({
 
 export default class ProductsRouter extends RouterBase {
   init() {
-    this.post('/', ["AUTHENTICATED"], (req, res, next) => { return next(req.pid = new mongoose.Types.ObjectId) }, upload.array('thumbnails', 10), productsCtrlr.createProduct); // AUTHENTICATED
+    this.post('/', ["AUTHENTICATED"], (req, res, next) => { req.pid = new mongoose.Types.ObjectId; return next() }, upload.array('thumbnails', 10), productsCtrlr.createProduct); // AUTHENTICATED
 
     this.get('/', ["*"], productsCtrlr.getProducts); // *
 

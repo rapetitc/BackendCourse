@@ -1,14 +1,14 @@
 import { Router } from "express";
 
-import ProductGenerator from "../utils/ProductGenerator.js";
+import productGenerator from "../utils/productGenerator.js";
 import ErrorHandler from "../utils/ErrorsHandler.js";
 
 const router = Router()
 
-router.get('/mockingproducts', (req, res) => {
+router.get('/mockingproducts', async (req, res) => {
   res.status(200).send({
     status: "success",
-    payload: ProductGenerator()
+    payload: await productGenerator()
   })
 })
 

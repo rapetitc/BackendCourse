@@ -1,17 +1,16 @@
 import { faker } from '@faker-js/faker';
 
-export default (q = 10) => {
-  const products = []
-
-  const generateUrls = (n) => {
-    const urls = []
-    for (let i = 0; i < n; i++) {
-      urls.push(faker.image.url())
-    }
-    return urls
+const generateUrls = (imgQuantity) => {
+  const urls = []
+  for (let i = 0; i < imgQuantity; i++) {
+    urls.push(faker.image.url())
   }
+  return urls
+}
 
-  for (let i = 0; i < q; i++) {
+export default async (productsQuantity = 100) => {
+  const products = []
+  for (let i = 0; i < productsQuantity; i++) {
     products.push({
       _id: faker.database.mongodbObjectId(),
       title: faker.commerce.productName(),

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>eCommerce - Recovery Password</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body style="font-family: sans-serif; height: min-content">
+    <div style="display: flex; justify-content: center; width: 100%; height: 100vh; background-color: white">
+      <div style="width: 500px">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; height: 80px">
+          <div className="flex w-max h-min mx-2">
+            <a href="http://localhost:8080" style="text-decoration: none">
+              <div style="display: flex; align-items: end; height: min-content; color: black">
+                <img src="http://localhost:8080/a5805b64931ded25b7c9.png" alt="eCommerce" style="height: 25px; width: 25px; margin: 0px 3px 4px 0px" />
+                <h1 style="font-size: 38px">Commerce</h1>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div>
+          <p style="margin: 8px 0; font-size: 20px; font-weight: 600; text-align: center">Se ha iniciado una restablecimiento de contraseña</p>
+          <div style="margin: 18px 0; padding: 50px 10px; text-align: center; background-color: lightgray">
+            <a href="http://localhost:8080/api/users/recovery-password/<<token>>" style="font-size: 22px; color: yellow; text-shadow: 1px 1px 10px gray">Continuar con el restablecimiento de contraseña</a>
+          </div>
+          <p style="margin: 8px 0; color: gray; font-size: small">Si desconoce de dicha solicitud por favor cambie su contraseña desde su cuenta y luego dejanos saber. La seguridad es nuestra prioridad y mas cuando se trata la de nuestros clientes, hagamos el sistema seguro ♥.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

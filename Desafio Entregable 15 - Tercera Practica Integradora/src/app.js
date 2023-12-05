@@ -42,10 +42,10 @@ app.use(passport.session())
 
 app.use('/api', router)
 app.use('/storage', express.static('./storage'))
-// app.use('/', express.static('./public'))
-// app.use('*', (req, res) => {
-//   res.sendFile(path.resolve('./public/index.html'))
-// })
+app.use('/', express.static('./public'))
+app.use('*', (req, res) => {
+  res.sendFile(path.resolve('./public/index.html'))
+})
 
 app.listen(PORT, () => {
   console.log(`Server is now up, you can go and visit ${ORIGIN} and review this project, hope you enjoy it! :)`);

@@ -2,7 +2,7 @@ import 'dotenv/config'
 
 export const HOST = process.env.HOST
 export const PORT = process.env.PORT
-export const ORIGIN = 'http://localhost:9900'//`http://${HOST}:${PORT}`
+export const ORIGIN = `http://${HOST}:${PORT}`
 
 export const MONGODB_USERNAME = process.env.MONGODB_USERNAME
 export const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD

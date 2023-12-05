@@ -58,7 +58,7 @@ export default class UsersCtrlr {
       res.sendServerError()
     }
   }
-  updateUserPremium = async (req, res) => {
+  updateUserPremiumStatus = async (req, res) => {
     const { uid } = req.params
     try {
       const { role } = await usersMng.getUserById(uid)

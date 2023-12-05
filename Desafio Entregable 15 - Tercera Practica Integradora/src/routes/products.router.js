@@ -22,14 +22,14 @@ const upload = multer({
 
 export default class ProductsRouter extends RouterBase {
   init() {
-    this.post('/', ["PREMIUM"], (req, res, next) => { req.pid = new mongoose.Types.ObjectId; return next() }, upload.array('thumbnails', 10), productsCtrlr.createProduct); // PREMIUM, ADMIN
+    this.post('/', ["PREMIUM"], (req, res, next) => { req.pid = new mongoose.Types.ObjectId; return next() }, upload.array('thumbnails', 10), productsCtrlr.createProduct);
 
-    this.get('/', ["*"], productsCtrlr.getProducts); // *
+    this.get('/', ["*"], productsCtrlr.getProducts);
 
-    this.get('/:pid([\\w]{24,24})', ["*"], productsCtrlr.getProduct); // *
+    this.get('/:pid([\\w]{24,24})', ["*"], productsCtrlr.getProduct);
 
-    this.put('/:pid([\\w]{24,24})', ["PREMIUM", "ADMIN"], productsCtrlr.updateProduct); // PREMIUM, ADMIN
+    this.put('/:pid([\\w]{24,24})', ["PREMIUM", "ADMIN"], productsCtrlr.updateProduct);
 
-    this.delete('/:pid([\\w]{24,24})', ["PREMIUM", "ADMIN"], productsCtrlr.removeProduct); // PREMIUM, ADMIN
+    this.delete('/:pid([\\w]{24,24})', ["PREMIUM", "ADMIN"], productsCtrlr.removeProduct);
   }
 }

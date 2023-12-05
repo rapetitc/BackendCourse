@@ -59,7 +59,7 @@ UsersSchema.pre('save', async function (next) {
 })
 
 UsersSchema.pre("findOneAndUpdate", async function (next) {
-    this._update.password = await bcrypt.hash(this._update.password, bcrypt.genSaltSync(10));
+    if (this._update.password) this._update.password = await bcrypt.hash(this._update.password, bcrypt.genSaltSync(10))
     next()
 })
 

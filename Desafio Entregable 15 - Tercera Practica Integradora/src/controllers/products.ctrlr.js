@@ -82,6 +82,8 @@ export default class ProductsCtrlr {
       await productsMng.deleteProduct(pid)
       res.sendSuccess()
     } catch (error) {
+      if (error.message == 'Insuficient Permision') return res.sendUnauthorized()
+      
       console.log(error);
       res.sendServerError()
     }

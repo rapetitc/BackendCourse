@@ -15,6 +15,7 @@ export default class CartsCtrlr {
   }
   getCart = async (req, res) => {
     const { cid } = req.params
+    console.log(cid, 'here');
     try {
       res.sendSuccess({ payload: await cartsMng.getCompleteCart(cid) })
     } catch (error) {
@@ -43,7 +44,7 @@ export default class CartsCtrlr {
     } catch (error) {
       if (error == 'Quantity Is Lower Than Zero') return res.sendBadRequest({ error })
       if (error == "Quantity Is Higher Than Product's Stock") return res.sendBadRequest({ error })
-      if (error.message == `Product's Owner Cannot Add Its Own Product`) return res.sendBadRequest({ message: `Product's Owner Cannot Add Its Own Product` })
+      if (error.message == `Product's Owner Cannot Add Its Own Product`) return res.sendBadRequest({ message: `Product's owner cannot add its own product` })
 
       console.log(error);
       res.sendServerError()

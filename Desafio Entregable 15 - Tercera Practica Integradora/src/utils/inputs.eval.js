@@ -20,6 +20,10 @@ const userSchema = {
     if (!new RegExp('[\\w]+@[\\w]+\\.[a-zA-Z0-9]{2,}').test(value)) return 'Invalid Format'
     return true
   },
+  role: async value => {
+    if (!['USER', 'PREMIUM', 'ADMIN'].includes(value)) return 'Invalid Data Type'
+    return true
+  },
   password: async value => {
     if (typeof value !== 'string') return 'Invalid Data Type'
     if (value.length < 8) return 'Lower Than 8 Characters'

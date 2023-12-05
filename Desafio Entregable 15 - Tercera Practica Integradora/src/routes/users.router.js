@@ -5,20 +5,20 @@ const usersCtrlr = new UsersCtrlr
 
 export default class UsersRouter extends RouterBase {
   init() {
-    this.post('/', ['PUBLIC'], usersCtrlr.createUser); // PUBLIC
+    this.post('/', ['PUBLIC'], usersCtrlr.createUser);
 
-    this.get('/:uid([\\w]{24,24})', ["AUTHENTICATED"], usersCtrlr.getUser); // AUTHENTICATED (USERS, ADMINS, etc)
+    this.get('/:uid([\\w]{24,24})', ["AUTHENTICATED"], usersCtrlr.getUser);
 
-    this.put('/:uid([\\w]{24,24})', ['AUTHENTICATED'], usersCtrlr.updateUser); // USER (OWNER), ADMIN
-    
-    this.put('/premium/:uid([\\w]{24,24})', ["ADMIN"], usersCtrlr.updateUserPremium); // USER (OWNER), ADMIN
+    this.put('/:uid([\\w]{24,24})', ['AUTHENTICATED'], usersCtrlr.updateUser);
 
-    this.delete('/:uid([\\w]{24,24})', ['AUTHENTICATED'], usersCtrlr.deleteUser); // USER (OWNER), ADMIN
+    this.put('/premium/:uid([\\w]{24,24})', ["*"], usersCtrlr.updateUserPremiumStatus);
 
-    this.post('/recovery-password', ['PUBLIC'], usersCtrlr.recoveryPassword1stStep); // PUBLIC
-    
-    this.get('/recovery-password/:token', ['PUBLIC'], usersCtrlr.recoveryPassword2ndStep); // PUBLIC
+    this.delete('/:uid([\\w]{24,24})', ['AUTHENTICATED'], usersCtrlr.deleteUser);
 
-    this.put('/recovery-password/:token', ['PUBLIC'], usersCtrlr.recoveryPassword3rdStep); // PUBLIC
+    this.post('/recovery-password', ['PUBLIC'], usersCtrlr.recoveryPassword1stStep);
+
+    this.get('/recovery-password/:token', ['PUBLIC'], usersCtrlr.recoveryPassword2ndStep);
+
+    this.put('/recovery-password/:token', ['PUBLIC'], usersCtrlr.recoveryPassword3rdStep);
   }
 }

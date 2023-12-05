@@ -1,10 +1,11 @@
 import { createTransport } from 'nodemailer'
+import { EMAIL_KEY } from '../config/env.js'
 
 const transporter = createTransport({
   service: 'gmail',
   auth: {
     user: 'rapetitc@gmail.com',
-    pass: 'zvww bsfm zirh dhmk'
+    pass: EMAIL_KEY
   }
 })
 

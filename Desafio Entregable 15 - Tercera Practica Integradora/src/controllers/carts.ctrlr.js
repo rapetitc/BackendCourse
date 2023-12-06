@@ -15,7 +15,6 @@ export default class CartsCtrlr {
   }
   getCart = async (req, res) => {
     const { cid } = req.params
-    console.log(cid, 'here');
     try {
       res.sendSuccess({ payload: await cartsMng.getCompleteCart(cid) })
     } catch (error) {

@@ -25,7 +25,7 @@ export default function usePassport(passport) {
       if (! await isValidPassword(password, user.password)) { return done(null, false, "Incorrect Password"); }
       return done(null, user);
     } catch (error) {
-      if (error === 'User Not Found') { return done(null, false, 'User Not Found'); }
+      if (error.message === 'User Not Found') { return done(null, false, 'User Not Found'); }
       done(error)
     }
   }

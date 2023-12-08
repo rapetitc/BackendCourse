@@ -47,7 +47,7 @@ export default class UsersCtrlr {
     }
     try {
       if (Object.keys(newUserInfo).length == 0) throw "Not Info To Update"
-      await usersMng.updateUser(uid, newUserInfo) // Do not send undefined or null data type
+      await usersMng.updateUser(uid === "this" ? req.user._id : uid, newUserInfo) // Do not send undefined or null data type
       res.sendSuccess({ msg: "User was successfully updated" })
     } catch (error) {
       if (error == 'User Not Found') return res.sendNotFound({ msg: "User not found" })

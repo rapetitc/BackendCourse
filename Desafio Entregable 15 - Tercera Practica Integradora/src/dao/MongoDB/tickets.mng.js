@@ -7,15 +7,18 @@ export default class TicketsMng {
   exists = async (filter) => {
     return await this.model.exists(filter) ? true : false
   }
-  generateTicket = async (products, totalamount, purchaser) => {
+  generateTicket = async (products, totalamount, purcharser) => {
     const code = Math.floor(Math.random() * 1000000) + Date.now()
     const purchase_datetime = new Date
-    await this.model.create({ code, products, totalamount, purchase_datetime, purchaser })
+    await this.model.create({ code, products, totalamount, purchase_datetime, purcharser })
     return code
   }
   getTicketById = async (tid) => {
     if (! await this.exists({ _id: tid })) throw 'Ticket Not Found'
     return await this.model.findById(tid)
+  }
+  getTicketsByUser = async (uid) => {
+    return await this.model.find({ purcharser: uid })
   }
   getTicketByCode = async (code) => {
     if (! await this.exists({ code: code })) throw 'Ticket Not Found'

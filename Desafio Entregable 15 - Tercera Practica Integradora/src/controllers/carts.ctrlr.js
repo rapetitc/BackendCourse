@@ -52,7 +52,7 @@ export default class CartsCtrlr {
   purchase = async (req, res) => {
     const { cid } = req.params
     try {
-      const results = await cartsMng.purchase(cid, req.user.email)
+      const results = await cartsMng.purchase(cid, req.user._id)
       res.sendSuccess({ payload: results })
     } catch (error) {
       console.log(error);

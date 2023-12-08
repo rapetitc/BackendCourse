@@ -18,10 +18,14 @@ mongoose.connect(MONGODB_URL)
   })
 
 app.use(cors({
-  origin: ORIGIN,
+  origin: 'http://localhost:9900',//ORIGIN,
   credentials: true
 }))
 
+app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.url}`);
+  next()
+})
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(session({

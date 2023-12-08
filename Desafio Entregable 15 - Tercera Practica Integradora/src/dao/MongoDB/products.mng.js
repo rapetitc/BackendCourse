@@ -19,7 +19,7 @@ export default class ProductsMng {
   }
   getProduct = async (pid) => {
     if (! await this.exists({ _id: pid })) throw 'Product Not Found'
-    return await this.model.findById(pid)
+    return await this.model.findById(pid).populate('owner')
   }
   updateProduct = async (pid, newInfo) => {
     if (! await this.exists({ _id: pid })) throw 'Product Not Found'

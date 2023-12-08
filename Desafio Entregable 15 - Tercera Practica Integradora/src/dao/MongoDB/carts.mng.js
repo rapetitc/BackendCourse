@@ -66,6 +66,7 @@ export default class CartsMng {
       const item = storage[i];
       if (item.quantity <= item.product.stock) {
         products.push({
+          pid: item.product._id,
           product: item.product.title,
           price: item.product.price,
           seller: item.product.owner,

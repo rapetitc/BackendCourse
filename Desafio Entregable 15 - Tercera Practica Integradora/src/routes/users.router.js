@@ -9,7 +9,7 @@ export default class UsersRouter extends RouterBase {
 
     this.get('/:uid([\\w]{24,24})', ["AUTHENTICATED"], usersCtrlr.getUser);
 
-    this.put('/:uid([\\w]{24,24})', ['AUTHENTICATED'], usersCtrlr.updateUser);
+    this.put('/:uid((this|[\\w]{24,24}))', ['AUTHENTICATED'], usersCtrlr.updateUser);
 
     this.put('/premium/:uid([\\w]{24,24})', ["*"], usersCtrlr.updateUserPremiumStatus);
 

@@ -40,9 +40,11 @@ export default class ProductsCtrlr {
     const { pid } = req.params
     try {
       const product = await productsMng.getProduct(pid)
+      const customerIsOwner = req.user && product.owner._id.toString() === req.user._id.toString()
+      product.owner = undefined
       product.updatedAt = undefined
       product.__v = undefined
-      res.sendSuccess({ payload: product })
+      res.sendSuccess(req.user ? { payload: product, customerIsOwner } : { payload: product })
     } catch (error) {
       if (error == 'Product Not Found') return res.sendNotFound({ msg: "Producto no encontrado" })
 
@@ -83,7 +85,7 @@ export default class ProductsCtrlr {
       res.sendSuccess()
     } catch (error) {
       if (error.message == 'Insuficient Permision') return res.sendUnauthorized()
-      
+
       console.log(error);
       res.sendServerError()
     }

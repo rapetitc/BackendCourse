@@ -4,11 +4,19 @@ const TicketSchema = new Schema({
   code: {
     type: Number,
     unique: true,
-    require: true
+    required: true
   },
   products: {
     type: [
       {
+        pid: {
+          type: Schema.Types.ObjectId,
+          required: true
+        },
+        product: {
+          type: String,
+          required: true
+        },
         product: {
           type: String,
           required: true
@@ -18,7 +26,7 @@ const TicketSchema = new Schema({
           required: true
         },
         seller: {
-          type: String,
+          type: Schema.Types.ObjectId,
           required: true
         },
         quantity: {
@@ -27,19 +35,20 @@ const TicketSchema = new Schema({
         }
       }
     ],
-    require: true
+    required: true
   },
   totalamount: {
     type: Number,
     min: 0,
-    require: true
+    required: true
   },
   purchase_datetime: {
-    type: Date
+    type: Date,
+    required: true
   },
   purcharser: {
-    type: String,
-    require: true
+    type: Schema.Types.ObjectId,
+    required: true
   }
 }, {
   timestamps: true

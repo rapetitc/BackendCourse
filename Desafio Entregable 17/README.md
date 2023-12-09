@@ -2,12 +2,18 @@
 
 **_Curso de Programacion Backend - [CODERHOUSE](https://www.coderhouse.com/)_**
 
-## Desafio Entregable 17 - Desafio complementario
+## Desafio Entregable 17
 
-Para la revision de este desafio debes ejecutar:
+Para la revision de este desafio debes abrir dos consolas, en una ejecutar:
 
 ```
 npm start
+```
+
+y en la siguiente:
+
+```
+npm test
 ```
 
 ### Consigna

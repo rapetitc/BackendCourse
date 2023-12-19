@@ -1,0 +1,90 @@
+import UsersModel from "./models/users.model.js";
+import ErrorHandler from "../../utils/ErrorsHandler.js";
+
+export default class UsersMng {
+  constructor() {
+    this.model = UsersModel;
+  }
+
+  async exists(filter) {
+    return (await this.model.exists(filter)) ? true : false;
+  }
+
+  async createUser(userInfo) {
+    const user = new this.model(userInfo);
+    await user.validate().catch((error) => {
+      const keys = Object.keys(error.errors);
+      const cause = {};
+      keys.forEach((key) => {
+        cause[key] = error.errors[key].kind;
+      });
+      ErrorHandler.create({ code: 1, cause });
+    });
+    if (await this.exists({ email: user.email })) ErrorHandler.create({ code: 2 });
+    return await user.save();
+  }
+
+  async getUserById(uid) {
+    const user = await this.model.findById(uid);
+    if (!user) ErrorHandler.create({ code: 3 });
+    return user;
+  }
+
+  async updateUser(uid, newUserInfo) {
+    for (const key in newUserInfo) {
+      if (newUserInfo[key] === undefined) {
+        delete newUserInfo[key];
+      }
+    }
+    if (Object.keys(newUserInfo).length == 0) ErrorHandler.create({ code: 4 });
+
+    const res = await this.model.findOneAndUpdate({ _id: uid }, { $set: newUserInfo }, { new: true, runValidators: true }).catch((error) => {
+      const cause = {};
+      if (error.errors) {
+        const keys = Object.keys(error.errors);
+        keys.forEach((key) => {
+          cause[key] = error.errors[key].kind;
+        });
+      } else {
+        cause[error.path] = error.kind;
+      }
+      ErrorHandler.create({ code: 1, cause });
+    });
+    return res;
+  }
+
+  async deleteUser(uid) {
+    if (!(await this.exists({ _id: uid }))) ErrorHandler.create({ code: 3 });
+    const res = await this.model.findByIdAndDelete(uid);
+  }
+
+  async updateUserDocs(uid, files) {
+    await this.model.findOneAndUpdate({ _id: uid }, { $push: files }, { new: true, runValidators: true }).catch((error) => {
+      const cause = {};
+      if (error.errors) {
+        const keys = Object.keys(error.errors);
+        keys.forEach((key) => {
+          cause[key] = error.errors[key].kind;
+        });
+      } else {
+        cause[error.path] = error.kind;
+      }
+      ErrorHandler.create({ code: 1, cause });
+    });
+  }
+
+  async updateLastConnection(uid) {
+    await this.model.findOneAndUpdate({ _id: uid }, { $set: { last_connection: new Date.now() } }, { new: true, runValidators: true }).catch((error) => {
+      const cause = {};
+      if (error.errors) {
+        const keys = Object.keys(error.errors);
+        keys.forEach((key) => {
+          cause[key] = error.errors[key].kind;
+        });
+      } else {
+        cause[error.path] = error.kind;
+      }
+      ErrorHandler.create({ code: 1, cause });
+    });
+  }
+}

@@ -9,13 +9,12 @@ export default class ProductsRouter extends RouterBase {
   init() {
     this.post("/login", ["PUBLIC"], passport.authenticate("local"), sessionsCtrlr.login);
 
-    // this.post("/login/github", ["PUBLIC"], passport.authenticate("github"), sessionsCtrlr.loginGithub);
+    this.get("/github", ["PUBLIC"], passport.authenticate("github"));
+
+    this.get("/github/callback", ["PUBLIC"], passport.authenticate("github"), sessionsCtrlr.github);
 
     this.get("/current", ["*"], sessionsCtrlr.current);
 
     this.post("/logout", ["*"], sessionsCtrlr.logout);
-    /* TODO
-    - Además, agregar una propiedad al usuario llamada “last_connection”, la cual deberá modificarse cada vez que el usuario realice un proceso de login y logout
-    */
   }
 }

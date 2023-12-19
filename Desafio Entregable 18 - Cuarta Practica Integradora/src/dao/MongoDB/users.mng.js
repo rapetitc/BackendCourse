@@ -30,6 +30,12 @@ export default class UsersMng {
     return user;
   }
 
+  async getUserByEmail(email) {
+    const user = await this.model.findOne({ email });
+    if (!user) ErrorHandler.create({ code: 3 });
+    return user;
+  }
+
   async updateUser(uid, newUserInfo) {
     for (const key in newUserInfo) {
       if (newUserInfo[key] === undefined) {

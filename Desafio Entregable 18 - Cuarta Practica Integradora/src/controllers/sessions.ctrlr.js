@@ -17,10 +17,22 @@ export default class SessionsCtrlr {
       next(error);
     }
   };
+  github = async (req, res, next) => { // TODO Build
+    try {
+      if (req.isAuthenticated()) {
+        await usersMng.updateLastConnection();
+        res.sendSuccess({ msg: "Session was successfully initiated", payload: new UserDTO(req.user, "response") });
+      } else {
+        res.sendUnauthorized();
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
   current = async (req, res, next) => {
     try {
       if (!req.isAuthenticated()) ErrorHandler.create({ code: 7 });
-      
+
       await usersMng.updateLastConnection();
       res.sendSuccess({ msg: "Session still active", payload: new UserDTO(req.user, "response") });
     } catch (error) {

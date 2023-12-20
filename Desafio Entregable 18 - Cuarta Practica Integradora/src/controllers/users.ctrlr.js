@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 import UsersMng from "../dao/MongoDB/users.mng.js";
 import UserDTO from "../dto/user.dto.js";
-import ErrorHandler from "../utils/ErrorsHandler.js";
+import ErrorHandler from "../utils/errorsHandler.js";
 import transporter from "../utils/email.transporter.js";
 import { recoveryPassowrdTemplate } from "../utils/email.transporter.js";
 import { JWT_SECRET_KEY } from "../config/env.js";
@@ -31,11 +31,12 @@ export default class UsersCtrlr {
   };
 
   updateUser = async (req, res, next) => {
-    const { uid } = req.params;
-    const profile_picture = req.file.path;
+    const uid = req.params.uid === "this" ? req.user._id : req.params.uid;
+    const profile_picture = req.file?.path;
     const { first_name, last_name, age, email, cart, role, status } = req.body;
     try {
-      const userUpdated = await usersMng.updateUser(uid === "this" ? req.user._id : uid, {
+      if (!(req.user.role === "ADMIN" || uid === req.user._id)) ErrorHandler.create({ code: 1 });
+      const userUpdated = await usersMng.updateUser(uid, {
         first_name,
         last_name,
         age,
@@ -52,9 +53,10 @@ export default class UsersCtrlr {
   };
 
   deleteUser = async (req, res, next) => {
-    const { uid } = req.params;
+    const uid = req.params.uid === "this" ? req.user._id : req.params.uid;
     try {
-      await usersMng.deleteUser(uid === "this" ? req.user._id : uid);
+      if (!(req.user.role === "ADMIN" || uid === req.user._id)) ErrorHandler.create({ code: 1 });
+      await usersMng.deleteUser(uid);
       res.sendSuccess({ msg: "User was succesfully removed" });
     } catch (error) {
       next(error);

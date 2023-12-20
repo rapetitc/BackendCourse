@@ -1,5 +1,5 @@
 import UsersModel from "./models/users.model.js";
-import ErrorHandler from "../../utils/ErrorsHandler.js";
+import ErrorHandler from "../../utils/errorsHandler.js";
 
 export default class UsersMng {
   constructor() {
@@ -18,7 +18,7 @@ export default class UsersMng {
       keys.forEach((key) => {
         cause[key] = error.errors[key].kind;
       });
-      ErrorHandler.create({ code: 1, cause });
+      ErrorHandler.create({ code:4, cause });
     });
     if (await this.exists({ email: user.email })) ErrorHandler.create({ code: 2 });
     return await user.save();
@@ -26,13 +26,13 @@ export default class UsersMng {
 
   async getUserById(uid) {
     const user = await this.model.findById(uid);
-    if (!user) ErrorHandler.create({ code: 3 });
+    if (!user) ErrorHandler.create({ code: 2 });
     return user;
   }
 
   async getUserByEmail(email) {
     const user = await this.model.findOne({ email });
-    if (!user) ErrorHandler.create({ code: 3 });
+    if (!user) ErrorHandler.create({ code: 2 });
     return user;
   }
 
@@ -43,7 +43,7 @@ export default class UsersMng {
       }
     }
     if (Object.keys(newUserInfo).length == 0) ErrorHandler.create({ code: 4 });
-    const res = await this.model.findOneAndUpdate({ _id: uid }, { $set: newUserInfo }, { new: true, runValidators: true }).catch((error) => {
+    const user = await this.model.findOneAndUpdate({ _id: uid }, { $set: newUserInfo }, { new: true, runValidators: true }).catch((error) => {
       const cause = {};
       if (error.errors) {
         const keys = Object.keys(error.errors);
@@ -53,13 +53,14 @@ export default class UsersMng {
       } else {
         cause[error.path] = error.kind;
       }
-      ErrorHandler.create({ code: 1, cause });
+      ErrorHandler.create({ code: 4, cause });
     });
-    return res;
+    if (!user) ErrorHandler.create({ code: 2 });
+    return user;
   }
 
   async deleteUser(uid) {
-    if (!(await this.exists({ _id: uid }))) ErrorHandler.create({ code: 3 });
+    if (!(await this.exists({ _id: uid }))) ErrorHandler.create({ code: 2 });
     const res = await this.model.findByIdAndDelete(uid);
   }
 
@@ -94,7 +95,7 @@ export default class UsersMng {
   }
 
   async updateLastConnection(uid) {
-    await this.model.findOneAndUpdate({ _id: uid }, { $set: { last_connection: new Date.now() } }, { new: true, runValidators: true }).catch((error) => {
+    await this.model.findOneAndUpdate({ _id: uid }, { $set: { last_connection: Date.now() } }, { new: true, runValidators: true }).catch((error) => {
       const cause = {};
       if (error.errors) {
         const keys = Object.keys(error.errors);

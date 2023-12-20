@@ -32,11 +32,12 @@ app.use(passport.session());
 
 // Routes
 app.use("/api", router);
-app.use("/storage", express.static("./storage"));
-app.use("/", express.static("./public"));
-app.use("*", (req, res) => {
-  res.sendFile(path.resolve("./public/index.html"));
-});
+
+// app.use("/storage", express.static("./storage"));
+// app.use("/", express.static("./public"));
+// app.use("*", (req, res) => {
+//   res.sendFile(path.resolve("./public/index.html"));
+// });
 app.use(customError);
 
 app.listen(PORT, () => {

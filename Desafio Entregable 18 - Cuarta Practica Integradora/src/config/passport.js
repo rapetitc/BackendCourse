@@ -49,7 +49,7 @@ export default function usePassport(passport) {
         try {
           const { id, email } = profile._json;
           const user = await userMng.getUserByEmail(email);
-          if(user.connected_apps.github_account === id) return done(null, user)
+          if (user.connected_apps.github_account === id) return done(null, user);
           done(null, false);
         } catch (error) {
           if (error.code === 3) return done(null, false, "User Not Found");

@@ -1,8 +1,6 @@
 import { createLogger, format, transports } from "winston";
 
-import mode from "../config/CLI.js";
-
-const { combine, timestamp, printf, colorize } = format;
+const { combine, timestamp, printf, colorize, json } = format;
 
 const customLevels = {
   fatal: 0,
@@ -12,45 +10,45 @@ const customLevels = {
   http: 4,
   debug: 5,
 };
-const customColors = {
-  fatal: "bold yellow redBG",
-  error: "bold black redBG",
-  warning: "bold black yellowBG",
-  info: "underline italic blue",
-  http: "underline italic green",
-  debug: "underline italic yellow",
+
+const customFormat = {
+  console: combine(
+    timestamp(),
+    colorize({
+      colors: {
+        fatal: "bold yellow redBG",
+        error: "bold black redBG",
+        warning: "bold black yellowBG",
+        info: "underline italic blue",
+        http: "underline italic green",
+        debug: "underline italic yellow",
+      },
+    }),
+    printf(({ level, message, timestamp }) => {
+      return `[${timestamp}] - ${level}: ${message}`;
+    }),
+  ),
+  file: combine(
+    timestamp(),
+    printf(({ level, message, timestamp }) => {
+      return `[${timestamp}] - ${level}: ${message}`;
+    }),
+  ),
 };
 
-const customFormat = combine(
-  timestamp(),
-  colorize({ colors: customColors }),
-  printf(({ level, message, timestamp }) => {
-    return `[${timestamp}] - ${level}: ${message}`;
-  }),
-);
-
-const logger =
-  mode === "production"
-    ? createLogger({
-        levels: customLevels,
-        format: customFormat,
-        transports: [
-          new transports.Console({
-            level: "info",
-          }),
-          new transports.File({
-            filename: "errors.log",
-          }),
-        ],
-      })
-    : createLogger({
-        levels: customLevels,
-        format: customFormat,
-        transports: [
-          new transports.Console({
-            level: "debug",
-          }),
-        ],
-      });
+const logger = createLogger({
+  levels: customLevels,
+  transports: [
+    new transports.Console({
+      level: "info",
+      format: customFormat.console,
+    }),
+    new transports.File({
+      level: "warning",
+      format: customFormat.file,
+      filename: "errors/errors.log",
+    }),
+  ],
+});
 
 export default logger;

@@ -1,4 +1,4 @@
-import ErrorHandler from "../utils/ErrorsHandler.js";
+import ErrorHandler from "../utils/errorsHandler.js";
 
 export default class UserDTO {
   constructor(user, to) {

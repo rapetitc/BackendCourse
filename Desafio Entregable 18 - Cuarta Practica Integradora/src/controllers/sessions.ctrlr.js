@@ -17,7 +17,8 @@ export default class SessionsCtrlr {
       next(error);
     }
   };
-  github = async (req, res, next) => { // TODO Build
+  github = async (req, res, next) => {
+    // TODO Build
     try {
       if (req.isAuthenticated()) {
         await usersMng.updateLastConnection();
@@ -44,10 +45,8 @@ export default class SessionsCtrlr {
       if (!req.isAuthenticated()) ErrorHandler.create({ code: 7 });
 
       await usersMng.updateLastConnection();
-      req.logout(function (err) {
-        if (err) {
-          return next(err);
-        }
+      req.logout((error) => {
+        if (error) return next(error);
         res.sendSuccess({ msg: "Session was successfully closed" });
       });
     } catch (error) {

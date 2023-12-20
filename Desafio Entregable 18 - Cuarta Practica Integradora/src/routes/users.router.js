@@ -14,7 +14,7 @@ export default class UsersRouter extends RouterBase {
 
     this.delete("/:uid((this|[\\w]{24,24}))", ["AUTHENTICATED"], usersCtrlr.deleteUser);
 
-    this.put("/premium/:uid([\\w]{24,24})", ["AUTHENTICATED"], usersCtrlr.updateUserPremiumStatus);
+    this.put("/premium/:uid((this|[\\w]{24,24}))", ["AUTHENTICATED"], usersCtrlr.updateUserPremiumStatus);
 
     this.post("/recovery-password", ["PUBLIC"], usersCtrlr.recoveryPassword1stStep);
 

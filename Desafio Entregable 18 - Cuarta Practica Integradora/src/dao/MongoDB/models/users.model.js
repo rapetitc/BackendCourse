@@ -91,6 +91,13 @@ const UsersSchema = new Schema(
       ],
       maxLength: 3,
     },
+    connected_apps: {
+      types: {
+        github_account: {
+          type: String,
+        }
+      },
+    },
     last_connection: {
       type: Date,
       default: new Date(),

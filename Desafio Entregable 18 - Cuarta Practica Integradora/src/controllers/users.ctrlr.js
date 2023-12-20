@@ -63,21 +63,9 @@ export default class UsersCtrlr {
   };
 
   updateUserPremiumStatus = async (req, res) => {
-    const { uid } = req.params;
-    const requirements = { identification: "LEFT", address_certificate: "LEFT", bank_account_certificate: "LEFT" };
+    const uid = req.params.uid === "this" ? req.user._id : req.params.uid;
     try {
-      const { documents, role } = await usersMng.getUserById(uid);
-      if (documents.length === 0) ErrorHandler.create({ code: 6 });
-
-      if (role === "USER") {
-        const uncheckedDoc = {};
-        documents.forEach((doc) => {
-          if (doc.status !== "VALID") uncheckedDoc[doc.name] = doc.status;
-        });
-        if (uncheckedDoc.length > 0 || documents.length !== 3) ErrorHandler.create({ code: 6, cause: Object.assign(requirements, uncheckedDoc) });
-      }
-
-      await usersMng.updateUser(uid, { role: role === "USER" ? "PREMIUM" : "USER" });
+      await usersMng.updateUserPremiumStatus(uid);
       res.sendSuccess({ msg: "User was successfully updated" });
     } catch (error) {
       next(error);

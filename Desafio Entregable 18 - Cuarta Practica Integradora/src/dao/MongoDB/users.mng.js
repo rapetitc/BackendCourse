@@ -43,7 +43,6 @@ export default class UsersMng {
       }
     }
     if (Object.keys(newUserInfo).length == 0) ErrorHandler.create({ code: 4 });
-
     const res = await this.model.findOneAndUpdate({ _id: uid }, { $set: newUserInfo }, { new: true, runValidators: true }).catch((error) => {
       const cause = {};
       if (error.errors) {
@@ -62,6 +61,21 @@ export default class UsersMng {
   async deleteUser(uid) {
     if (!(await this.exists({ _id: uid }))) ErrorHandler.create({ code: 3 });
     const res = await this.model.findByIdAndDelete(uid);
+  }
+
+  async updateUserPremiumStatus(uid) {
+    const requirements = ["identification", "address_certificate", "bank_account_certificate"];
+    const { role, documents } = await this.getUserById(uid);
+    const uncheckedDoc = {};
+    if (role !== "PREMIUM") {
+      if (documents.length === 0)
+        requirements.forEach((req) => {
+          if (!documents[req]) uncheckedDoc[req] = "LEFT";
+          else if (documents[req].status !== "VALID") uncheckedDoc[req] = doc.status;
+        });
+    }
+    !(Object.entries(uncheckedDoc).length > 0) ?? ErrorHandler.create({ code: 6, cause: uncheckedDoc });
+    await this.updateUser(uid, { role: role === "USER" ? "PREMIUM" : "USER" });
   }
 
   async updateUserDocs(uid, files) {

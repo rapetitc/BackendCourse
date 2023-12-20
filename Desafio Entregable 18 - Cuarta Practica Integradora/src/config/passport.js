@@ -40,7 +40,7 @@ export default function usePassport(passport) {
   passport.use(
     "github",
     new GitHub.Strategy(
-      { //TODO This a secret, store it inside an .env file
+      {
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,
         callbackURL: "http://localhost:8080/api/sessions/github/callback",
@@ -49,7 +49,7 @@ export default function usePassport(passport) {
         try {
           const { id, email } = profile._json;
           const user = await userMng.getUserByEmail(email);
-          if(user.github_account === id) return done(null, user)
+          if(user.connected_apps.github_account === id) return done(null, user)
           done(null, false);
         } catch (error) {
           if (error.code === 3) return done(null, false, "User Not Found");

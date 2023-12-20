@@ -120,12 +120,9 @@ export default class UsersCtrlr {
     try {
       if (!req.files) ErrorHandler.create({ code: 5 });
 
-      let files = { documents: [] };
+      const files = { documents: [] };
       req.files.forEach((file) => {
-        let newFile = {};
-        newFile["name"] = file.filename;
-        newFile["reference"] = file.path;
-        files["documents"].push(newFile);
+        files.documents.push({ name: file.filename, reference: file.path });
       });
 
       await usersMng.updateUserDocs(req.uid, files);

@@ -4,9 +4,8 @@ import UsersMng from "../dao/MongoDB/users.mng.js";
 import UserDTO from "../dto/user.dto.js";
 import ErrorHandler from "../utils/ErrorsHandler.js";
 import transporter from "../utils/email.transporter.js";
-import { emailForRecoveryPassowrd } from "../utils/email.templates.js";
+import { recoveryPassowrdTemplate } from "../utils/email.transporter.js";
 import { JWT_SECRET_KEY } from "../config/env.js";
-// import isValidPassword from "../utils/isValidPassword.js";
 
 const usersMng = new UsersMng();
 
@@ -82,7 +81,7 @@ export default class UsersCtrlr {
         from: "eCommerce App <rapetitc@gmail.com>",
         to: email,
         subject: "Reestablecer contraseña",
-        html: await emailForRecoveryPassowrd(token.replaceAll(".", "<<dot>>")),
+        html: await recoveryPassowrdTemplate(token.replaceAll(".", "<<dot>>")),
       });
 
       res.sendSuccess();

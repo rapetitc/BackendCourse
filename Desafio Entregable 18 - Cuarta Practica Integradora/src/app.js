@@ -13,19 +13,24 @@ import customError from "./middlewares/customError.js";
 
 const app = express();
 
+// DB Connection
 mongoose.connect(MONGODB_URL).then(() => {
   console.log(`Data Base Server is now connected, ${MONGODB_URL.replace(new RegExp(":\\w*@"), ":***@")}`);
 });
 
+// Middelwares
 app.use(cors);
 app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Sessions
 app.use(session);
 usePassport(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Routes
 app.use("/api", router);
 app.use("/storage", express.static("./storage"));
 app.use("/", express.static("./public"));

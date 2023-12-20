@@ -1,5 +1,5 @@
 import UsersMng from "../dao/MongoDB/users.mng.js";
-import UserDTO from "../dao/dto/user.dto.js";
+import UserDTO from "../dto/user.dto.js";
 import ErrorHandler from "../utils/ErrorsHandler.js";
 
 const usersMng = new UsersMng();

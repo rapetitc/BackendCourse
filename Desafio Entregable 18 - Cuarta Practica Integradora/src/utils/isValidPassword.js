@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt'
+// import bcrypt from 'bcrypt'
 
-const isValidPassword = async (password, toCompare) => {
-  return await bcrypt.compare(password, toCompare)
-}
+// const isValidPassword = async (password, toCompare) => {
+//   return await bcrypt.compare(password, toCompare)
+// }
 
-export default isValidPassword
+// export default isValidPassword

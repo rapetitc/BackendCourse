@@ -1,7 +1,7 @@
 import Local from "passport-local";
 import GitHub from "passport-github2";
 import UsersMng from "../dao/MongoDB/users.mng.js";
-import isValidPassword from "../utils/isValidPassword.js";
+// import isValidPassword from "../utils/isValidPassword.js";
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from "./env.js";
 
 const userMng = new UsersMng();
@@ -24,7 +24,7 @@ export default function usePassport(passport) {
     new Local.Strategy(async function (username, password, done) {
       try {
         const user = await userMng.getUserByEmail(username);
-        if (!(await isValidPassword(password, user.password))) {
+        if (!(await user.isValidPassword(password, user.password))) {
           return done(null, false, "Incorrect Password");
         }
         return done(null, user);

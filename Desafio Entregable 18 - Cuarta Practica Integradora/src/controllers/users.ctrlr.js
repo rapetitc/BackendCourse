@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 
 import UsersMng from "../dao/MongoDB/users.mng.js";
-import UserDTO from "../dao/dto/user.dto.js";
+import UserDTO from "../dto/user.dto.js";
 import ErrorHandler from "../utils/ErrorsHandler.js";
 import transporter from "../utils/email.transporter.js";
 import { emailForRecoveryPassowrd } from "../utils/email.templates.js";
 import { JWT_SECRET_KEY } from "../config/env.js";
-import isValidPassword from "../utils/isValidPassword.js";
+// import isValidPassword from "../utils/isValidPassword.js";
 
 const usersMng = new UsersMng();
 
@@ -104,12 +104,12 @@ export default class UsersCtrlr {
 
   recoveryPassword3rdStep = async (req, res, next) => {
     const { token } = req.params;
-    const { newPassword } = req.body;
+    const { password } = req.body;
     try {
       const { uid } = jwt.verify(token.replaceAll("<<dot>>", "."), JWT_SECRET_KEY);
-      const { password } = await usersMng.getUserById(uid);
-      if (await isValidPassword(newPassword, password)) throw new Error("Same current password");
-      await usersMng.updateUser(uid, { password: newPassword });
+      const user = await usersMng.getUserById(uid);
+      if (await isValidPassword(newPassword, user.password)) throw new Error("Same current password");
+      await usersMng.updateUser(uid, { password: password });
       res.sendSuccess();
     } catch (error) {
       next(error);

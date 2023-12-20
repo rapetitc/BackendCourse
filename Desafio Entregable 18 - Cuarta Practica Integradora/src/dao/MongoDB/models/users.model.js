@@ -95,7 +95,7 @@ const UsersSchema = new Schema(
       types: {
         github_account: {
           type: String,
-        }
+        },
       },
     },
     last_connection: {
@@ -120,6 +120,10 @@ UsersSchema.pre("findOneAndUpdate", async function (next) {
   if (this._update.password) this._update.password = await bcrypt.hash(this._update.password, bcrypt.genSaltSync(10));
   next();
 });
+
+UsersSchema.methods.isValidPassword = async (password, toCompare) => {
+  return await bcrypt.compare(password, toCompare);
+};
 
 const UsersModel = model("users", UsersSchema);
 

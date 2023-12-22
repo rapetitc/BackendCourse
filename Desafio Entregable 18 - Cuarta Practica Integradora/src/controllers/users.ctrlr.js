@@ -14,7 +14,7 @@ export default class UsersCtrlr {
     const { first_name, last_name, age, email, password } = req.body;
     try {
       const user = await usersMng.createUser(new UserDTO({ first_name, last_name, age, email, password }, "newToStore"));
-      res.sendCreated({ msg: "User was successfully created", payload: new UserDTO(user, "response") });
+      res.sendCreated({ message: "User successfully created", payload: new UserDTO(user, "response") });
     } catch (error) {
       next(error);
     }
@@ -24,7 +24,7 @@ export default class UsersCtrlr {
     const { uid } = req.params;
     try {
       const user = await usersMng.getUserById(uid);
-      res.sendSuccess({ payload: new UserDTO(user, "response") });
+      res.sendSuccess({ message: "User found", payload: new UserDTO(user, "response") });
     } catch (error) {
       next(error);
     }
@@ -46,7 +46,7 @@ export default class UsersCtrlr {
         status,
         profile_picture,
       });
-      res.sendSuccess({ msg: "User was successfully updated", payload: new UserDTO(userUpdated, "response") });
+      res.sendSuccess({ message: "User was successfully updated", payload: new UserDTO(userUpdated, "response") });
     } catch (error) {
       next(error);
     }
@@ -57,7 +57,7 @@ export default class UsersCtrlr {
     try {
       if (!(req.user.role === "ADMIN" || uid === req.user._id)) ErrorHandler.create({ code: 1 });
       await usersMng.deleteUser(uid);
-      res.sendSuccess({ msg: "User was succesfully removed" });
+      res.sendSuccess({ message: "User was succesfully removed" });
     } catch (error) {
       next(error);
     }
@@ -67,7 +67,7 @@ export default class UsersCtrlr {
     const uid = req.params.uid === "this" ? req.user._id : req.params.uid;
     try {
       await usersMng.updateUserPremiumStatus(uid);
-      res.sendSuccess({ msg: "User was successfully updated" });
+      res.sendSuccess({ message: "User was successfully updated" });
     } catch (error) {
       next(error);
     }
@@ -86,7 +86,7 @@ export default class UsersCtrlr {
         html: await recoveryPassowrdTemplate(token.replaceAll(".", "<<dot>>")),
       });
 
-      res.sendSuccess();
+      res.sendSuccess({ message: "Recovery request successfully initiated" });
     } catch (error) {
       next(error);
     }
@@ -99,6 +99,7 @@ export default class UsersCtrlr {
       const renewedToken = jwt.sign({ uid }, JWT_SECRET_KEY, { expiresIn: "180s" });
       res.redirect(`/recovery-password/${renewedToken.replaceAll(".", "<<dot>>")}`);
     } catch (error) {
+      // TODO Redirect to recovery password page if token verification comes with an error
       next(error);
     }
   };
@@ -109,9 +110,9 @@ export default class UsersCtrlr {
     try {
       const { uid } = jwt.verify(token.replaceAll("<<dot>>", "."), JWT_SECRET_KEY);
       const user = await usersMng.getUserById(uid);
-      if (await isValidPassword(newPassword, user.password)) throw new Error("Same current password");
+      if (await isValidPassword(newPassword, user.password)) ErrorHandler.create({ code: 9 });
       await usersMng.updateUser(uid, { password: password });
-      res.sendSuccess();
+      res.sendSuccess({ message: "User's password successfully updated" });
     } catch (error) {
       next(error);
     }
@@ -119,7 +120,7 @@ export default class UsersCtrlr {
 
   updateUserDocs = async (req, res, next) => {
     try {
-      if (!req.files) ErrorHandler.create({ code: 5 });
+      if (!req.files) ErrorHandler.create({ code: 6 });
 
       const files = { documents: [] };
       req.files.forEach((file) => {

@@ -26,6 +26,9 @@ const ErrorDict = [
   (res) => {
     res.sendForbiden({ error: "SESSION_IS_CLOSED" });
   },
+  (res) => {
+    res.sendBadRequest({ error: "SAME_CURRENT_PASSWORD" });
+  },
 ];
 
 export default (error, req, res, next) => {

@@ -45,7 +45,7 @@ export default class RouterBase {
     res.sendCreated = (obj) => res.status(201).send({ status: "success", ...obj });
     //400
     res.sendBadRequest = (cause) => res.status(400).send({ status: "error", ...cause });
-    res.sendUnauthorized = () => res.status(401).send({ status: "unauthorized", msg: "Insufficient privileges." });
+    res.sendUnauthorized = () => res.status(401).send({ status: "error", error: "INSUFFICIENT_PRIVILEGES" });
     res.sendForbiden = () => res.status(403).send({ status: "error" });
     res.sendNotFound = (cause) => res.status(404).send({ status: "error", ...cause });
     //500

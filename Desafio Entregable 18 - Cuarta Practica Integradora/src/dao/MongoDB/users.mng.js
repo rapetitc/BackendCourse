@@ -18,9 +18,9 @@ export default class UsersMng {
       keys.forEach((key) => {
         cause[key] = error.errors[key].kind;
       });
-      ErrorHandler.create({ code:4, cause });
+      ErrorHandler.create({ code: 4, cause });
     });
-    if (await this.exists({ email: user.email })) ErrorHandler.create({ code: 2 });
+    if (await this.exists({ email: user.email })) ErrorHandler.create({ code: 3 });
     return await user.save();
   }
 
@@ -80,7 +80,7 @@ export default class UsersMng {
   }
 
   async updateUserDocs(uid, files) {
-    await this.model.findOneAndUpdate({ _id: uid }, { $push: files }, { new: true, runValidators: true }).catch((error) => {
+    const user = await this.model.findOneAndUpdate({ _id: uid }, { $push: files }, { new: true, runValidators: true }).catch((error) => {
       const cause = {};
       if (error.errors) {
         const keys = Object.keys(error.errors);
@@ -90,8 +90,9 @@ export default class UsersMng {
       } else {
         cause[error.path] = error.kind;
       }
-      ErrorHandler.create({ code: 1, cause });
+      ErrorHandler.create({ code: 0, cause });
     });
+    if (!user) ErrorHandler.create({ code: 2 });
   }
 
   async updateLastConnection(uid) {

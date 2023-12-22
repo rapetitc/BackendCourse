@@ -1,0 +1,484 @@
+paths:
+  /api/users:
+    post:
+      tags:
+        - Users
+      summary: Create User
+      description: Creates an user account from the system based on the info sent
+      operationId: createUser
+      requestBody:
+        $ref: "#/components/requestBodies/NewUser"
+      responses:
+        "200":
+          description: Succes message and payload with the most important user's information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User successfully created
+                  payload:
+                    $ref: "#/components/schemas/UserServerResponse"
+        "400":
+          description: Error message with the type and causes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: INVALID_TYPES | USER_ALREADY_EXISTS
+                  causes:
+                    type: array
+  /api/users/{uid}:
+    get:
+      tags:
+        - Users
+      summary: Get an user
+      description: Get the most important information of an user found by its ID
+      operationId: getUserByID
+      parameters:
+        - name: uid
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
+            example: s4d57w89e7q8w79w8e7rw56e
+      responses:
+        "200":
+          description: Succes message and payload with the most important user's information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User found
+                  payload:
+                    $ref: "#/components/schemas/UserServerResponse"
+        "401":
+          description: Unauthorized error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: INSUFFICIENT_PRIVILEGES
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: USER_NOT_FOUND
+    put:
+      tags:
+        - Users
+      summary: Update an user
+      description: Updates the most important information of an user found by its ID
+      operationId: updateUser
+      parameters:
+        - name: uid
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
+            example: s4d57w89e7q8w79w8e7rw56e
+      responses:
+        "200":
+          description: Success message and payload with the most important user's information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User successfully updated
+                  payload:
+                    $ref: "#/components/schemas/UserServerResponse"
+        "400":
+          description: Error message with the type and causes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: INVALID_TYPES
+                  causes:
+                    type: array
+        "401":
+          description: Unauthorized error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: INSUFFICIENT_PRIVILEGES
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: USER_NOT_FOUND
+    delete:
+      tags:
+        - Users
+      summary: Delete an user
+      description: Delete an user found by its ID
+      parameters:
+        - name: uid
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
+            example: s4d57w89e7q8w79w8e7rw56e
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User successfully removed
+        "401":
+          description: Unauthorized error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: INSUFFICIENT_PRIVILEGES
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: USER_NOT_FOUND
+  /api/users/premium/{uid}:
+    put:
+      tags:
+        - Users
+      summary: Updates user's role and viceversa
+      description: It can update the user's role from USER to PREMIUM (if verified) and viceversa (no required to be verified)
+      parameters:
+        - name: uid
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
+            example: s4d57w89e7q8w79w8e7rw56e
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User's role successfully updated
+        "401":
+          description: Unauthorized error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: INSUFFICIENT_PRIVILEGES
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: USER_NOT_FOUND
+  /api/users/recovery-password/:
+    post:
+      tags:
+        - Users
+      summary: Request to recovery user's account access
+      description: A request that help users to recovery the access of the account by confirming their identity and sending an email to continue
+      requestBody:
+        description: User's email that will be updated
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@user.com
+        required: true
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Recovery request successfully initiated
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: USER_NOT_FOUND
+  /api/users/recovery-password/{token}:
+    get:
+      tags:
+        - Users
+      summary: Confirm user's request by token
+      description: A callback url that confirms user's request by token and page redirect user to recreate new password o reinitiate the recovery process based on the confirmation
+      parameters:
+        - name: token
+          in: path
+          description: Token of the request
+          required: true
+          schema:
+            type: string
+      responses:
+        "308":
+          description: If confirmed a new token will be created to identify the process and user would be redirected to recreate a password, otherwise will be redirected to reinitiate the recovery process
+    put:
+      tags:
+        - Users
+      summary: Concrete user's recovery password request
+      description: Finally, once confirmed the previous step, user would be sent a new regenerated token and from the UI Client this will be able to update the password
+      parameters:
+        - name: token
+          in: path
+          description: Token of the request
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User's password successfully updated
+        "400":
+          description: Error message with the type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: SAME_CURRENT_PASSWORD
+  /api/users/{uid}/documents:
+    put:
+      tags:
+        - Users
+      summary: Upload user documents to be verified
+      description: This will help customer to update their documents and qualify to be verified
+      parameters:
+        - name: uid
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
+            example: s4d57w89e7q8w79w8e7rw56e
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Document successfully uploaded
+        "400":
+          description: Error message with the type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: NO_FILES_TO_UPLOAD
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: USER_NOT_FOUND
+components:
+  schemas:
+    NewUser:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: Frank
+        last_name:
+          type: string
+          example: Smith
+        age:
+          type: integer
+          example: 32
+        email:
+          type: string
+          example: user@user.com
+        password:
+          type: string
+          example: user@user.com
+    UserServerResponse:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: Frank
+        last_name:
+          type: string
+          example: Smith
+        email:
+          type: string
+          example: user@user.com
+        age:
+          type: integer
+          example: 32
+        role:
+          type: string
+          example: USER
+        cart:
+          type: string
+          example: 9w87r93748937re8e99r87143
+        profile_picture:
+          type: string
+          example: http://localhost:8080/storage/s7w8r93748937re8e99r8714s/profile_picture.jpg
+        last_connection:
+          type: string
+          example: 2023-12-22T04:02:26.627Z
+  requestBodies:
+    NewUser:
+      description: New user information format
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/NewUser"
+      required: true

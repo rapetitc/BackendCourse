@@ -9,7 +9,7 @@ export default class SessionsCtrlr {
     try {
       if (req.isAuthenticated()) {
         await usersMng.updateLastConnection();
-        res.sendSuccess({ msg: "Session was successfully initiated", payload: new UserDTO(req.user, "response") });
+        res.sendSuccess({ message: "Session was successfully initiated", payload: new UserDTO(req.user, "response") });
       } else {
         res.sendUnauthorized();
       }
@@ -22,7 +22,7 @@ export default class SessionsCtrlr {
     try {
       if (req.isAuthenticated()) {
         await usersMng.updateLastConnection();
-        res.sendSuccess({ msg: "Session was successfully initiated", payload: new UserDTO(req.user, "response") });
+        res.sendSuccess({ message: "Session was successfully initiated", payload: new UserDTO(req.user, "response") });
       } else {
         res.sendUnauthorized();
       }
@@ -32,22 +32,22 @@ export default class SessionsCtrlr {
   };
   current = async (req, res, next) => {
     try {
-      if (!req.isAuthenticated()) ErrorHandler.create({ code: 7 });
+      if (!req.isAuthenticated()) ErrorHandler.create({ code: 2 });
 
       await usersMng.updateLastConnection();
-      res.sendSuccess({ msg: "Session still active", payload: new UserDTO(req.user, "response") });
+      res.sendSuccess({ message: "Session still active", payload: new UserDTO(req.user, "response") });
     } catch (error) {
       next(error);
     }
   };
   logout = async (req, res, next) => {
     try {
-      if (!req.isAuthenticated()) ErrorHandler.create({ code: 7 });
+      if (!req.isAuthenticated()) ErrorHandler.create({ code: 8 });
 
       await usersMng.updateLastConnection();
       req.logout((error) => {
         if (error) return next(error);
-        res.sendSuccess({ msg: "Session was successfully closed" });
+        res.sendSuccess({ message: "Session was successfully closed" });
       });
     } catch (error) {
       next(error);

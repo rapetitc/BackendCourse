@@ -26,6 +26,7 @@ export default class UsersCtrlr {
       const user = await usersMng.getUserById(uid);
       res.sendSuccess({ message: "User found", payload: new UserDTO(user, "response") });
     } catch (error) {
+      // console.log(error);
       next(error);
     }
   };
@@ -63,7 +64,7 @@ export default class UsersCtrlr {
     }
   };
 
-  updateUserPremiumStatus = async (req, res) => {
+  updateUserPremiumStatus = async (req, res, next) => {
     const uid = req.params.uid === "this" ? req.user._id : req.params.uid;
     try {
       await usersMng.updateUserPremiumStatus(uid);

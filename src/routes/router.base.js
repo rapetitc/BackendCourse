@@ -33,7 +33,6 @@ export default class RouterBase {
       try {
         await callback.apply(this, params);
       } catch (error) {
-        console.log(error);
         params[1].status(500).send(error);
       }
     });
@@ -45,8 +44,8 @@ export default class RouterBase {
     res.sendCreated = (obj) => res.status(201).send({ status: "success", ...obj });
     //400
     res.sendBadRequest = (cause) => res.status(400).send({ status: "error", ...cause });
-    res.sendUnauthorized = () => res.status(401).send({ status: "error", error: "INSUFFICIENT_PRIVILEGES" });
-    res.sendForbiden = () => res.status(403).send({ status: "error" });
+    res.sendUnauthorized = () => res.status(401).send({ status: "error", error: "UNAUTHORIZED" });
+    res.sendForbiden = (cause) => res.status(403).send({ status: "error", ...cause });
     res.sendNotFound = (cause) => res.status(404).send({ status: "error", ...cause });
     //500
     res.sendServerError = () => res.status(500).send({ status: "error", error: "UNEXPECTED_SERVER_ERROR" });

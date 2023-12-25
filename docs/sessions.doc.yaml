@@ -1,0 +1,189 @@
+paths:
+  /api/sessions/login:
+    post:
+      tags:
+        - Sessions
+      summary: Open a session
+      description: This route would be used to open a session and authenticated the user, User Client should receive a session cookie or 'sid'
+      operationId: OpenSession
+      requestBody:
+        description:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: user@user.com
+                password:
+                  type: string
+                  example: user@user.com
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Session successfully open
+                  payload:
+                    $ref: "#/components/schemas/UserServerResponse"
+        "400":
+          description: Error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: CREDENTIALS_NOT_FOUND
+        "401":
+          description: Unauthorized message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: INSUFFICIENT_PRIVILEGES
+  /api/sessions/github:
+    get:
+      tags:
+        - Sessions
+      summary: Open a session through a Github app
+      description: Open a session through GitHub app, this would redirect the User Client to Github login page, and then will be back through the available callback link
+      operationId: GithubSession
+  /api/sessions/github/callback:
+    get:
+      tags:
+        - Sessions
+      summary: Github callback link
+      description: Callback link where the system would receive the login status
+      operationId: GithubSessionCallback
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Session successfully open
+                  payload:
+                    $ref: "#/components/schemas/UserServerResponse"
+        "400":
+          description: Error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: CREDENTIALS_NOT_FOUND
+        "401":
+          description: Unauthorized message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: INSUFFICIENT_PRIVILEGES
+  /api/sessions/current:
+    get:
+      tags:
+        - Sessions
+      summary: Get and update the current session
+      description: Helps the system to identify the current user's session and keep the its information updated to handle new requests
+      operationId: CurrentSession
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Session still active
+                  payload:
+                    $ref: "#/components/schemas/UserServerResponse"
+        "401":
+          description: Unauthorized message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: INSUFFICIENT_PRIVILEGES
+  /api/sessions/logout:
+    post:
+      tags:
+        - Sessions
+      summary: Close a Session
+      description: Close the current session
+      operationId: closeSession
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Session is successfully closed
+        "400":
+          description: Forbbiden error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: NO_ACTIVE_SESSION

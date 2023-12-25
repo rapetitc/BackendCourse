@@ -39,6 +39,19 @@ paths:
                     example: INVALID_TYPES | USER_ALREADY_EXISTS
                   causes:
                     type: array
+        "401":
+          description: Unauthorized error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: UNAUTHORIZED
   /api/users/{uid}:
     get:
       tags:
@@ -53,7 +66,7 @@ paths:
           required: true
           schema:
             type: string
-            example: s4d57w89e7q8w79w8e7rw56e
+            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
           description: Succes message and payload with the most important user's information.
@@ -82,7 +95,7 @@ paths:
                     example: error
                   error:
                     type: string
-                    example: INSUFFICIENT_PRIVILEGES
+                    example: UNAUTHORIZED
         "404":
           description: Not found error message
           content:
@@ -102,6 +115,8 @@ paths:
       summary: Update an user
       description: Updates the most important information of an user found by its ID
       operationId: updateUser
+      requestBody:
+        $ref: "#/components/requestBodies/NewUser"
       parameters:
         - name: uid
           in: path
@@ -109,7 +124,7 @@ paths:
           required: true
           schema:
             type: string
-            example: s4d57w89e7q8w79w8e7rw56e
+            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
           description: Success message and payload with the most important user's information.
@@ -153,7 +168,7 @@ paths:
                     example: error
                   error:
                     type: string
-                    example: INSUFFICIENT_PRIVILEGES
+                    example: UNAUTHORIZED
         "404":
           description: Not found error message
           content:
@@ -179,7 +194,7 @@ paths:
           required: true
           schema:
             type: string
-            example: s4d57w89e7q8w79w8e7rw56e
+            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
           description: Success message
@@ -206,7 +221,7 @@ paths:
                     example: error
                   error:
                     type: string
-                    example: INSUFFICIENT_PRIVILEGES
+                    example: UNAUTHORIZED
         "404":
           description: Not found error message
           content:
@@ -233,7 +248,7 @@ paths:
           required: true
           schema:
             type: string
-            example: s4d57w89e7q8w79w8e7rw56e
+            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
           description: Success message
@@ -248,6 +263,22 @@ paths:
                   message:
                     type: string
                     example: User's role successfully updated
+        "400":
+          description: Bad request error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: USER_NOT_VERIFIED
+                  cause:
+                    type: string
+                    example: {}
         "401":
           description: Unauthorized error message
           content:
@@ -260,7 +291,7 @@ paths:
                     example: error
                   error:
                     type: string
-                    example: INSUFFICIENT_PRIVILEGES
+                    example: UNAUTHORIZED
         "404":
           description: Not found error message
           content:
@@ -281,7 +312,7 @@ paths:
       summary: Request to recovery user's account access
       description: A request that help users to recovery the access of the account by confirming their identity and sending an email to continue
       requestBody:
-        description: User's email that will be updated
+        description: User's email that will be requesting the password reset
         content:
           application/json:
             schema:
@@ -386,7 +417,7 @@ paths:
           required: true
           schema:
             type: string
-            example: s4d57w89e7q8w79w8e7rw56e
+            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
           description: Success message
@@ -456,12 +487,12 @@ components:
         last_name:
           type: string
           example: Smith
-        email:
-          type: string
-          example: user@user.com
         age:
           type: integer
           example: 32
+        email:
+          type: string
+          example: user@user.com
         role:
           type: string
           example: USER

@@ -75,7 +75,7 @@ export default class UsersMng {
           else if (documents[req].status !== "VALID") uncheckedDoc[req] = doc.status;
         });
     }
-    !(Object.entries(uncheckedDoc).length > 0) ?? ErrorHandler.create({ code: 6, cause: uncheckedDoc });
+    Object.entries(uncheckedDoc).length > 0 && ErrorHandler.create({ code: 7, cause: uncheckedDoc });
     await this.updateUser(uid, { role: role === "USER" ? "PREMIUM" : "USER" });
   }
 

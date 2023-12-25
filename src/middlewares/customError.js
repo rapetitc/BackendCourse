@@ -24,7 +24,7 @@ const ErrorDict = [
     res.sendForbiden({ error: "USER_NOT_VERIFIED", ...cause });
   },
   (res) => {
-    res.sendForbiden({ error: "SESSION_IS_CLOSED" });
+    res.sendBadRequest({ error: "NO_ACTIVE_SESSION" });
   },
   (res) => {
     res.sendBadRequest({ error: "SAME_CURRENT_PASSWORD" });

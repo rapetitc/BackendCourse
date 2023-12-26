@@ -13,6 +13,7 @@ import router from "./routes/router.js";
 import logger from "./middlewares/logger.js";
 import customError from "./middlewares/customError.js";
 import docs from "./config/docs.js";
+import customResponses from "./middlewares/customResponses.js";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(compression({ brotli: { enabled: true, zlib: {} } }));
+app.use(customResponses);
 
 // Sessions
 app.use(session);

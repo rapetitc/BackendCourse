@@ -59,7 +59,7 @@ export default class UsersMng {
 
   async deleteUser(uid) {
     if (!(await this.exists({ _id: uid }))) ErrorHandler.create({ code: 2 });
-    const res = await this.model.findByIdAndDelete(uid);
+    await this.model.findByIdAndDelete(uid);
   }
 
   async updateUserPremiumStatus(uid) {

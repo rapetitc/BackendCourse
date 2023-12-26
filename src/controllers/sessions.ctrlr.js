@@ -32,7 +32,7 @@ export default class SessionsCtrlr {
   };
   current = async (req, res, next) => {
     try {
-      if (!req.isAuthenticated()) ErrorHandler.create({ code: 2 });
+      if (!req.isAuthenticated()) ErrorHandler.create({ code: 8 });
 
       await usersMng.updateLastConnection();
       res.sendSuccess({ message: "Session still active", payload: new UserDTO(req.user, "response") });

@@ -1,0 +1,333 @@
+paths:
+  /api/products/:
+    post:
+      tags:
+        - Products
+      summary: Create a product
+      description: This will store a product information into the database
+      operationId: CreateProduct
+      requestBody:
+        description:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Samsung A71
+                description:
+                  type: string
+                  example: Telefono de gama media
+                code:
+                  type: string
+                  example: s4d5w789qrhj
+                price:
+                  type: integer
+                  example: 600
+                stock:
+                  type: integer
+                  example: 150
+                category:
+                  type: string
+                  example: Telefono de gama media
+                thumbnails:
+                  type: string
+                  format: binary
+      responses:
+        "201":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Product successfully created
+                  payload:
+                    type: object
+        "400":
+          description: Error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: INVALID_TYPES || PRODUCT_ALREADY_EXISTS
+                  causes:
+                    type: object
+        "401":
+          description: Unauthorized error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: UNAUTHORIZED
+    get:
+      tags:
+        - Products
+      summary: Get products
+      description: This will retrive a list of products stored in the database
+      operationId: GetProducts
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Products found
+                  payload:
+                    type: array
+                  currentPage:
+                    type: number
+                    example: 1
+                  totalPages:
+                    type: number
+                    example: 1
+                  prevPage:
+                    type: number
+                    example: null
+                  nextPage:
+                    type: number
+                    example: null
+                  hasPrevPage:
+                    type: boolean
+                    example: false
+                  hasNextPage:
+                    type: boolean
+                    example: false
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: PRODUCTS_NOT_FOUND
+  /api/products/{pid}:
+    get:
+      tags:
+        - Products
+      summary: Get product
+      description: This will find a products based on its product id and retreive if found
+      operationId: GetProduct
+      parameters:
+        - name: pid
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+            example: 658877c220ce6d0e74a1e898
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Product found
+                  payload:
+                    type: object
+                  isOwner:
+                    type: boolean
+                    example: false
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: PRODUCT_NOT_FOUND
+    put:
+      tags:
+        - Products
+      summary: Update product
+      description: This will find a products based on its product id and update it if found
+      operationId: UpdateProduct
+      parameters:
+        - name: pid
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+            example: 658877c220ce6d0e74a1e898
+      requestBody:
+        description:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Samsung A71
+                description:
+                  type: string
+                  example: Telefono de gama media
+                code:
+                  type: string
+                  example: s4d5w789qrhj
+                price:
+                  type: integer
+                  example: 600
+                stock:
+                  type: integer
+                  example: 150
+                category:
+                  type: string
+                  example: Telefono de gama media
+                thumbnails:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Product was successfully updated
+                  payload:
+                    type: object
+        "400":
+          description: Error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: INVALID_TYPES
+                  causes:
+                    type: object
+        "401":
+          description: Unauthorized error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: UNAUTHORIZED
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: PRODUCT_NOT_FOUND
+    delete:
+      tags:
+        - Products
+      summary: Delete product
+      description: This will find a products based on its product id and delete it if found
+      operationId: DeleteProduct
+      parameters:
+        - name: pid
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+            example: 658877c220ce6d0e74a1e898
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Product was successfully removed
+        "401":
+          description: Unauthorized error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: UNAUTHORIZED
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: PRODUCT_NOT_FOUND

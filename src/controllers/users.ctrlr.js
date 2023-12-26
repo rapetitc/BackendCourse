@@ -13,7 +13,7 @@ export default class UsersCtrlr {
   createUser = async (req, res, next) => {
     const { first_name, last_name, age, email, password } = req.body;
     try {
-      const user = await usersMng.createUser(new UserDTO({ first_name, last_name, age, email, password }, "newToStore"));
+      const user = await usersMng.createUser({ first_name, last_name, age, email, password });
       res.sendCreated({ message: "User successfully created", payload: new UserDTO(user, "response") });
     } catch (error) {
       next(error);
@@ -26,7 +26,6 @@ export default class UsersCtrlr {
       const user = await usersMng.getUserById(uid);
       res.sendSuccess({ message: "User found", payload: new UserDTO(user, "response") });
     } catch (error) {
-      // console.log(error);
       next(error);
     }
   };
@@ -35,18 +34,10 @@ export default class UsersCtrlr {
     const uid = req.params.uid === "this" ? req.user._id : req.params.uid;
     const profile_picture = req.file?.path;
     const { first_name, last_name, age, email, cart, role, status } = req.body;
+    const data = { first_name, last_name, age, email, cart, role, status, profile_picture };
     try {
       if (!(req.user.role === "ADMIN" || uid === req.user._id)) ErrorHandler.create({ code: 1 });
-      const userUpdated = await usersMng.updateUser(uid, {
-        first_name,
-        last_name,
-        age,
-        email,
-        cart,
-        role,
-        status,
-        profile_picture,
-      });
+      const userUpdated = await usersMng.updateUser(uid, data);
       res.sendSuccess({ message: "User was successfully updated", payload: new UserDTO(userUpdated, "response") });
     } catch (error) {
       next(error);

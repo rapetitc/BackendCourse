@@ -38,9 +38,7 @@ export default class UsersMng {
 
   async updateUser(uid, newUserInfo) {
     for (const key in newUserInfo) {
-      if (newUserInfo[key] === undefined) {
-        delete newUserInfo[key];
-      }
+      if (newUserInfo[key] === undefined) delete newUserInfo[key];
     }
     if (Object.keys(newUserInfo).length == 0) ErrorHandler.create({ code: 4 });
     const user = await this.model.findOneAndUpdate({ _id: uid }, { $set: newUserInfo }, { new: true, runValidators: true }).catch((error) => {

@@ -1,6 +1,8 @@
 import multer from "multer";
 import { mkdir } from "fs";
 import { resolve } from "path";
+import mongoose from "mongoose";
+
 import ErrorHandler from "./errorsHandler.js";
 
 const acceptedImgs = {
@@ -55,4 +57,21 @@ export const uploadUserDocs = multer({
       cb(null, false);
     }
   },
+});
+
+export const uploadProductThumbnails = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      if (req.params.pid) req.pid = req.params.pid;
+      else req.pid = new mongoose.Types.ObjectId();
+      mkdir(`./storage/${req.pid}`, { recursive: true }, (error) => {
+        if (error) ErrorHandler.create(error);
+        cb(null, `./storage/${req.pid}`);
+      });
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      cb(null, file.fieldname + "-" + uniqueSuffix + `${file.mimetype == "image/png" ? ".png" : ".jpg"}`);
+    },
+  }),
 });

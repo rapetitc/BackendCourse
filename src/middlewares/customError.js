@@ -29,6 +29,15 @@ const ErrorDict = [
   (res) => {
     res.sendBadRequest({ error: "SAME_CURRENT_PASSWORD" });
   },
+  (res) => {
+    res.sendBadRequest({ error: "PRODUCT_ALREADY_EXISTS" });
+  },
+  (res) => {
+    res.sendNotFound({ error: "PRODUCTS_NOT_FOUND" });
+  },
+  (res) => {
+    res.sendNotFound({ error: "PRODUCT_NOT_FOUND" });
+  }
 ];
 
 export default (error, req, res, next) => {

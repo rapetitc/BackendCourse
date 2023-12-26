@@ -16,7 +16,6 @@ export default class UsersCtrlr {
       const user = await usersMng.createUser({ first_name, last_name, age, email, password });
       res.sendCreated({ message: "User successfully created", payload: new UserDTO(user, "response") });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   };

@@ -91,6 +91,10 @@ const UsersSchema = new Schema(
       ],
       maxLength: 3,
     },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
     connected_apps: {
       types: {
         github_account: {

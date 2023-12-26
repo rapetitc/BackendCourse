@@ -12,6 +12,7 @@ export default class UsersMng {
 
   async createUser(userInfo) {
     const user = new this.model(userInfo);
+    console.log(user);
     await user.validate().catch((error) => {
       const keys = Object.keys(error.errors);
       const cause = {};

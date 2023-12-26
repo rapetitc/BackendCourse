@@ -1,7 +1,6 @@
 import Local from "passport-local";
 import GitHub from "passport-github2";
 import UsersMng from "../dao/MongoDB/users.mng.js";
-// import isValidPassword from "../utils/isValidPassword.js";
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from "./env.js";
 
 const userMng = new UsersMng();
@@ -15,6 +14,7 @@ export default function usePassport(passport) {
     try {
       done(null, await userMng.getUserById(uid));
     } catch (error) {
+      if (error.code === 2) return done(null, false)
       done(error);
     }
   });

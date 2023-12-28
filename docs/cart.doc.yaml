@@ -1,0 +1,300 @@
+paths:
+  /api/carts:
+    post:
+      tags:
+        - Carts
+      summary: Create a cart
+      description: Creation of a new cart
+      operationId: CreatecCart
+      responses:
+        "201":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Cart successfully created
+                  payload:
+                    type: object
+                    example: {}
+        "401":
+          description: Unauthorized message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: UNAUTHORIZED
+  /api/carts/{cid}:
+    get:
+      tags:
+        - Carts
+      summary: Get a cart
+      description: Get a cart to be found by its id
+      operationId: GetCart
+      parameters:
+        - name: cid
+          in: path
+          description: Cart ID
+          required: true
+          schema:
+            type: string
+            example: 658877c220ce6d0e74a1e898
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Cart found
+                  payload:
+                    type: object
+                    example: {}
+        "401":
+          description: Unauthorized message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: UNAUTHORIZED
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: CART_NOT_FOUND
+    delete:
+      tags:
+        - Carts
+      summary: Delete a cart
+      description: Delete a cart to be found by its id
+      operationId: DeleteCart
+      parameters:
+        - name: cid
+          in: path
+          description: Cart ID
+          required: true
+          schema:
+            type: string
+            example: 658877c220ce6d0e74a1e898
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Cart successfully deleted
+        "401":
+          description: Unauthorized message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: UNAUTHORIZED
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: CART_NOT_FOUND
+  /api/carts/{cid}/products/{pid}:
+    put:
+      tags:
+        - Carts
+      summary: Update item in cart
+      description: Update item in a cart found by its id
+      operationId: UpdateItemInCart
+      parameters:
+        - name: cid
+          in: path
+          description: Cart ID
+          required: true
+          schema:
+            type: string
+            example: 658877c220ce6d0e74a1e898
+        - name: pid
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+            example: 658877c220ce6d0e74a1e568
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Product was updated in cart
+                  payload:
+                    type: object
+                    example: {}
+        "400":
+          description: Bad request error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: PRODUCT_NOT_FOUND | CART_NOT_FOUND | CANNOT_ADD_ITS_OWN_PRODUCT | QUANTITY_IS_LOWER_THAN_ZERO | QUANTITY_IS_HIGHER_THAN_STOCK_AVAILABLE
+        "401":
+          description: Unauthorized message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: UNAUTHORIZED
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: CART_NOT_FOUND | PRODUCT_NOT_FOUND
+
+  /api/carts/{cid}/purchase:
+    get:
+      tags:
+        - Carts
+      summary: Pruchase items in cart
+      description: Purchase item in a cart found by its id
+      operationId: PurchaseItemsInCart
+      parameters:
+        - name: cid
+          in: path
+          description: Cart ID
+          required: true
+          schema:
+            type: string
+            example: 658877c220ce6d0e74a1e898
+      responses:
+        "200":
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Products in cart were successfully purchased
+                  payload:
+                    type: object
+                    example: {}
+        "400":
+          description: Bad request error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: PRODUCT_NOT_FOUND | CART_NOT_FOUND | CANNOT_ADD_ITS_OWN_PRODUCT | QUANTITY_IS_LOWER_THAN_ZERO | QUANTITY_IS_HIGHER_THAN_STOCK_AVAILABLE
+        "401":
+          description: Unauthorized message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: UNAUTHORIZED
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: CART_NOT_FOUND

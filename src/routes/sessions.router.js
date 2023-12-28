@@ -7,7 +7,7 @@ const sessionsCtrlr = new SessionsCtrlr();
 
 export default class ProductsRouter extends RouterBase {
   init() {
-    this.post("/login", ["PUBLIC"], passport.authenticate("local"), sessionsCtrlr.login);
+    this.post("/login", ["PUBLIC"], sessionsCtrlr.login);
 
     this.get("/github", ["PUBLIC"], passport.authenticate("github", { scope: ["email"] }));
 

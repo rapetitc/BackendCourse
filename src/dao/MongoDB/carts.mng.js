@@ -1,89 +1,87 @@
+import ErrorHandler from "../../utils/errorsHandler.js";
 import CartsModel from "./models/carts.model.js";
 import ProductsMng from "./products.mng.js";
-import TicketsMng from "./tickets.mng.js"
+import TicketsMng from "./tickets.mng.js";
 
-const productsMng = new ProductsMng
-const ticketsMng = new TicketsMng
+const productsMng = new ProductsMng();
+const ticketsMng = new TicketsMng();
 
 export default class CartsMng {
   constructor() {
-    this.model = CartsModel
+    this.model = CartsModel;
   }
   exists = async (id) => {
-    return await this.model.exists({ _id: id }) ? true : false
-  }
+    return (await this.model.exists({ _id: id })) ? true : false;
+  };
   createCart = async () => {
-    const { _id } = await this.model.create({
+    return await this.model.create({
       storage: [],
-      status: "WORKING"
-    })
-    return _id
-  }
+      status: "WORKING",
+    });
+  };
   getCart = async (cid) => {
-    if (! await this.exists(cid)) throw 'Cart Not Found'
-    return await this.model.findById(cid)
-  }
-  getCompleteCart = async (cid) => {
-    const cart = await this.getCart(cid)
-    return cart.populate('storage.product')
-  }
-  resetCart = async (cid, rejected) => {
-    const cart = await this.getCart(cid)
-    cart.storage = rejected
-    cart.save()
-  }
+    if (!(await this.exists(cid))) ErrorHandler.create({ code: 13 });
+    return await this.model.findById(cid);
+  };
+  // getCompleteCart = async (cid) => {
+  //   const cart = await this.getCart(cid);
+  //   return cart.populate("storage.product");
+  // };
+  resetCart = async (cid, rejected = []) => {
+    const cart = await this.getCart(cid);
+    cart.storage = rejected;
+    cart.save();
+  };
   deleteCart = async (cid) => {
-    if (! await this.exists(cid)) throw 'Cart Not Found'
-    await CartsModel.findByIdAndDelete(cid)
-  }
-  updateItemInCart = async (cid, pid, quantity = 0) => {
-    if (quantity < 0) throw 'Quantity Is Lower Than Zero'
+    if (!(await this.exists(cid))) ErrorHandler.create({ code: 13 });
+    await CartsModel.findByIdAndDelete(cid);
+  };
+  updateItemInCart = async (cid, pid, quantity = 0, uid) => {
+    const cart = await this.getCart(cid);
+    const product = await productsMng.getProduct(pid);
 
-    const cart = await this.getCart(cid)
+    if (product.owner === uid) ErrorHandler.create({ code: 14 });
+    if (quantity < 0) ErrorHandler.create({ code: 15 });
+    if (quantity > product.stock) ErrorHandler.create({ code: 16 });
 
-    const product = await productsMng.getProduct(pid)
-    if (quantity > product.stock) throw "Quantity Is Higher Than Product's Stock"
-
-    let prodInCart = cart.storage.find((prod) => prod.product.toString() == product._id.toString())
-    if (prodInCart) {
-      if (quantity == 0) cart.storage = cart.storage.filter((prod) => prod.product != pid)
-      else prodInCart.quantity = quantity
+    let prodFound = cart.storage.find((prod) => prod.product.toString() == product._id.toString());
+    if (prodFound) {
+      if (quantity == 0) cart.storage = cart.storage.filter((prod) => prod.product != pid);
+      else prodFound.quantity = quantity;
     } else {
       cart.storage.push({
         product: pid,
-        quantity: quantity
-      })
+        quantity: quantity,
+      });
     }
-    cart.save()
-  }
+    return await cart.save();
+  };
   purchase = async (cid, purchaser) => {
-    const { storage } = await this.getCompleteCart(cid)
-    const products = []
-    const rejected = []
-    let totalamount = 0
+    const cart = await this.getCart(cid);
+    const products = [];
+    const rejected = [];
+    let totalamount = 0;
 
-    for (let i = 0; i < storage.length; i++) {
-      const item = storage[i];
-      if (item.quantity <= item.product.stock) {
+    for (let i = 0; i < cart.storage.length; i++) {
+      const item = cart.storage[i];
+      const product = await productsMng.getProduct(item.product);
+      if (item.quantity >= 0 || item.quantity <= product.stock) {
         products.push({
-          pid: item.product._id,
-          product: item.product.title,
-          price: item.product.price,
-          seller: item.product.owner,
+          pid: product._id,
+          product: product.title,
+          price: product.price,
           quantity: item.quantity,
-        })
-        totalamount += item.product.price * item.quantity
-        await productsMng.updateProduct(item.product._id, { stock: item.product.stock - item.quantity })
-      } else {
-        rejected.push({
-          product: item.product._id,
-          quantity: item.quantity
-        })
+          seller: product.owner,
+        });
+        totalamount += product.price * item.quantity;
+        await productsMng.updateProduct(product._id, { stock: product.stock - item.quantity });
+        cart.storage.splice(i, 1);
       }
     }
 
-    const code = await ticketsMng.generateTicket(products, totalamount, purchaser)
-    await this.resetCart(cid, rejected)
-    return { code, rejected }
-  }
+    const newCart = await cart.save();
+    const ticket = await ticketsMng.generateTicket(products, totalamount, purchaser);
+    await this.resetCart(cid, rejected);
+    return { ticket, cart: newCart };
+  };
 }

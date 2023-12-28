@@ -5,7 +5,7 @@ const ticketsCtrlr = new TicketsCtrlr
 
 export default class TicketsRouter extends RouterBase {
   init() {
-    this.get("/of", ["AUTHENTICATED"], ticketsCtrlr.getTicketUser)
+    this.get("/", ["AUTHENTICATED"], ticketsCtrlr.getTicketsByUser)
     
     this.get("/:code", ["AUTHENTICATED"], ticketsCtrlr.getTicket)
   }

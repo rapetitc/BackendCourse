@@ -37,7 +37,19 @@ const ErrorDict = [
   },
   (res) => {
     res.sendNotFound({ error: "PRODUCT_NOT_FOUND" });
-  }
+  },
+  (res) => {
+    res.sendNotFound({ error: "CART_NOT_FOUND" });
+  },
+  (res) => {
+    res.sendBadRequest({ error: "OWNER_ CANNOT_ADD_ITS_OWN_PRODUCT" });
+  },
+  (res) => {
+    res.sendBadRequest({ error: "QUANTITY_IS_LOWER_THAN_ZERO" });
+  },
+  (res) => {
+    res.sendBadRequest({ error: "QUANTITY_IS_HIGHER_THAN_STOCK_AVAILABLE" });
+  },
 ];
 
 export default (error, req, res, next) => {

@@ -14,7 +14,7 @@ export default function usePassport(passport) {
     try {
       done(null, await userMng.getUserById(uid));
     } catch (error) {
-      if (error.code === 2) return done(null, false)
+      if (error.code === 2) return done(null, false);
       done(error);
     }
   });
@@ -24,11 +24,10 @@ export default function usePassport(passport) {
     new Local.Strategy(async function (username, password, done) {
       try {
         const user = await userMng.getUserByEmail(username);
-        console.log(username, password);
-        if (!(await user.isValidPassword(password, user.password))) return done(null, false, "Incorrect Password");
+        if (!(await user.isValidPassword(password, user.password))) return done(null, false);
         return done(null, user);
       } catch (error) {
-        if (error.code === 2) return done(null, false, "User Not Found");
+        if (error.code === 2) return done(null, false);
         done(error);
       }
     }),

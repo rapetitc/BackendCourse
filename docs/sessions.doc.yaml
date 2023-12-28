@@ -36,7 +36,7 @@ paths:
                   payload:
                     $ref: "#/components/schemas/UserServerResponse"
         "400":
-          description: Error message
+          description: Bad request error message
           content:
             application/json:
               schema:
@@ -47,7 +47,7 @@ paths:
                     example: error
                   error:
                     type: string
-                    example: CREDENTIALS_NOT_FOUND
+                    example: INCORRECT_CRENDENTIALS
         "401":
           description: Unauthorized message
           content:
@@ -60,7 +60,7 @@ paths:
                     example: error
                   error:
                     type: string
-                    example: INSUFFICIENT_PRIVILEGES
+                    example: UNAUTHORIZED
   /api/sessions/github:
     get:
       tags:
@@ -116,7 +116,7 @@ paths:
                     example: error
                   error:
                     type: string
-                    example: INSUFFICIENT_PRIVILEGES
+                    example: UNAUTHORIZED
   /api/sessions/current:
     get:
       tags:
@@ -152,7 +152,7 @@ paths:
                     example: error
                   error:
                     type: string
-                    example: INSUFFICIENT_PRIVILEGES
+                    example: UNAUTHORIZED
   /api/sessions/logout:
     post:
       tags:

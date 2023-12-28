@@ -4,7 +4,8 @@ export default (req, res, next) => {
   res.sendCreated = (obj) => res.status(201).send({ status: "success", ...obj });
   //400
   res.sendBadRequest = (cause) => res.status(400).send({ status: "error", ...cause });
-  res.sendUnauthorized = () => res.status(401).send({ status: "error", error: "UNAUTHORIZED" });
+  res.sendUnauthorized = () => res.status(400).send({ status: "error", error: "UNAUTHORIZED" });
+  res.sendIncorrectCredentials = () => res.status(401).send({ status: "error", error: "INCORRECT_CRENDENTIALS" });
   res.sendForbiden = (cause) => res.status(403).send({ status: "error", ...cause });
   res.sendNotFound = (cause) => res.status(404).send({ status: "error", ...cause });
   //500

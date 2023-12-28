@@ -7,6 +7,6 @@ export default class TicketsRouter extends RouterBase {
   init() {
     this.get("/", ["AUTHENTICATED"], ticketsCtrlr.getTicketsByUser)
     
-    this.get("/:code", ["AUTHENTICATED"], ticketsCtrlr.getTicket)
+    this.get("/:code", ["AUTHENTICATED"], ticketsCtrlr.getTicketCode)
   }
 }

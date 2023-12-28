@@ -50,6 +50,12 @@ const ErrorDict = [
   (res) => {
     res.sendBadRequest({ error: "QUANTITY_IS_HIGHER_THAN_STOCK_AVAILABLE" });
   },
+  (res) => {
+    res.sendNotFound({ error: "TICKETS_NOT_FOUND" });
+  },
+  (res) => {
+    res.sendNotFound({ error: "TICKET_NOT_FOUND" });
+  },
 ];
 
 export default (error, req, res, next) => {

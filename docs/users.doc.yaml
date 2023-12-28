@@ -10,7 +10,7 @@ paths:
         $ref: "#/components/requestBodies/NewUser"
       responses:
         "200":
-          description: Succes message and payload with the most important user's information.
+          description: Success message
           content:
             application/json:
               schema:

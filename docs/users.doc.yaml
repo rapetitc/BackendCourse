@@ -3,14 +3,14 @@ paths:
     post:
       tags:
         - Users
-      summary: Create User
-      description: Creates an user account from the system based on the info sent
+      summary: Creates an user
+      description: Creates an user account based on the information required, follow the << NewUser Schema >>
       operationId: createUser
       requestBody:
         $ref: "#/components/requestBodies/NewUser"
       responses:
-        "200":
-          description: Success message
+        "201":
+          description: Created message and payload with the most important user's information.
           content:
             application/json:
               schema:
@@ -25,7 +25,7 @@ paths:
                   payload:
                     $ref: "#/components/schemas/UserServerResponse"
         "400":
-          description: Error message with the type and causes
+          description: Bad request error message with the type and causes (this last is only valid for "INVALID_TYPES" case)
           content:
             application/json:
               schema:
@@ -56,8 +56,8 @@ paths:
     get:
       tags:
         - Users
-      summary: Get an user
-      description: Get the most important information of an user found by its ID
+      summary: Gets an user
+      description: Gets the most important information of an user, firstly this should be found by its ID
       operationId: getUserByID
       parameters:
         - name: uid
@@ -66,7 +66,6 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
           description: Succes message and payload with the most important user's information.
@@ -112,11 +111,11 @@ paths:
     put:
       tags:
         - Users
-      summary: Update an user
-      description: Updates the most important information of an user found by its ID
+      summary: Updates an user
+      description: Updates the most important information of an user, firstly this should be found by its ID
       operationId: updateUser
       requestBody:
-        $ref: "#/components/requestBodies/NewUser"
+        $ref: "#/components/requestBodies/UserToUpdate"
       parameters:
         - name: uid
           in: path
@@ -124,7 +123,6 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
           description: Success message and payload with the most important user's information.
@@ -142,7 +140,7 @@ paths:
                   payload:
                     $ref: "#/components/schemas/UserServerResponse"
         "400":
-          description: Error message with the type and causes
+          description: Bad request error message with the type and causes
           content:
             application/json:
               schema:
@@ -185,8 +183,8 @@ paths:
     delete:
       tags:
         - Users
-      summary: Delete an user
-      description: Delete an user found by its ID
+      summary: Deletes an user
+      description: Deletes an user, firstly this should be found by its ID
       parameters:
         - name: uid
           in: path
@@ -194,7 +192,6 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
           description: Success message
@@ -239,7 +236,7 @@ paths:
     put:
       tags:
         - Users
-      summary: Updates user's role and viceversa
+      summary: Updates user's role
       description: It can update the user's role from USER to PREMIUM (if verified) and viceversa (no required to be verified)
       parameters:
         - name: uid
@@ -248,7 +245,6 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
           description: Success message
@@ -364,12 +360,12 @@ paths:
             type: string
       responses:
         "308":
-          description: If confirmed a new token will be created to identify the process and user would be redirected to recreate a password, otherwise will be redirected to reinitiate the recovery process
+          description: If confirmed a new token will be created to identify the process and user would be redirected to recreate a password, otherwise, user will be redirected to reinitiate the recovery password process once again
     put:
       tags:
         - Users
       summary: Concrete user's recovery password request
-      description: Finally, once confirmed the previous step, user would be sent a new regenerated token and from the UI Client this will be able to update the password
+      description: Finally, once confirmed the previous the 2nd step, user would be sent a new regenerated token to identify this last step and from the UI Client user should be able to update the password
       parameters:
         - name: token
           in: path
@@ -392,7 +388,7 @@ paths:
                     type: string
                     example: User's password successfully updated
         "400":
-          description: Error message with the type
+          description: Bad request error message
           content:
             application/json:
               schema:
@@ -408,7 +404,7 @@ paths:
     put:
       tags:
         - Users
-      summary: Upload user documents to be verified
+      summary: Upload and update user's documents to apply for verification
       description: This will help customer to update their documents and qualify to be verified
       parameters:
         - name: uid
@@ -417,7 +413,8 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
+      requestBody:
+        $ref: "#/components/requestBodies/UserDocsUpdate"
       responses:
         "200":
           description: Success message
@@ -433,7 +430,7 @@ paths:
                     type: string
                     example: Document successfully uploaded
         "400":
-          description: Error message with the type
+          description: Bad request error message
           content:
             application/json:
               schema:
@@ -478,6 +475,24 @@ components:
         password:
           type: string
           example: user@user.com
+    UserToUpdate:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        age:
+          type: string
+        email:
+          type: string
+        cart:
+          type: string
+        status:
+          type: string
+        profile_picture:
+          type: string
+          format: binary
     UserServerResponse:
       type: object
       properties:
@@ -505,11 +520,37 @@ components:
         last_connection:
           type: string
           example: 2023-12-22T04:02:26.627Z
+    UserDocsUpdate:
+      type: object
+      properties:
+        identification:
+          type: string
+          format: binary
+        address_certificate:
+          type: string
+          format: binary
+        bank_account_certificate:
+          type: string
+          format: binary
   requestBodies:
     NewUser:
-      description: New user information format
+      description: Information that will be used to create a new user account
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/NewUser"
+      required: true
+    UserToUpdate:
+      description: Information to be updated in an user account
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/UserToUpdate"
+      required: true
+    UserDocsUpdate:
+      description: Information to required to be verified
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/UserDocsUpdate"
       required: true

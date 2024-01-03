@@ -7,7 +7,7 @@ const options = {
     info: {
       title: "eCommerce API Docummentation",
       summary: "API for eCommerce app",
-      description: "A guideline to learn about how this API works, and the Schemas you would be in touch based on the route you are testing. Hope you enyou it!",
+      description: "A guideline to learn about how this API works, and the Schemas you would be in touch and routes available for you to test. Hope you enyou it!",
       contact: {
         name: "@rapetitc",
         url: "https://www.rapetitc.tech",

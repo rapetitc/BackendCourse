@@ -3,12 +3,12 @@ paths:
     post:
       tags:
         - Carts
-      summary: Create a cart
+      summary: Creates a cart
       description: Creation of a new cart
-      operationId: CreatecCart
+      operationId: createCart
       responses:
         "201":
-          description: Success message
+          description: Created message
           content:
             application/json:
               schema:
@@ -22,9 +22,9 @@ paths:
                     example: Cart successfully created
                   payload:
                     type: object
-                    example: {}
+                    $ref: "#/components/schemas/CartServerResponse"
         "401":
-          description: Unauthorized message
+          description: Unauthorized error message
           content:
             application/json:
               schema:
@@ -40,9 +40,9 @@ paths:
     get:
       tags:
         - Carts
-      summary: Get a cart
-      description: Get a cart to be found by its id
-      operationId: GetCart
+      summary: Gets a cart
+      description: Get a cart by its ID
+      operationId: getCart
       parameters:
         - name: cid
           in: path
@@ -50,10 +50,9 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
-          description: Success message
+          description: Success message and payload with the most important cart's information
           content:
             application/json:
               schema:
@@ -67,9 +66,9 @@ paths:
                     example: Cart found
                   payload:
                     type: object
-                    example: {}
+                    $ref: "#/components/schemas/CartServerResponse"
         "401":
-          description: Unauthorized message
+          description: Unauthorized error message
           content:
             application/json:
               schema:
@@ -97,9 +96,9 @@ paths:
     delete:
       tags:
         - Carts
-      summary: Delete a cart
-      description: Delete a cart to be found by its id
-      operationId: DeleteCart
+      summary: Deletes a cart
+      description: Delete a cart found by its ID
+      operationId: deleteCart
       parameters:
         - name: cid
           in: path
@@ -107,7 +106,6 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
           description: Success message
@@ -123,7 +121,7 @@ paths:
                     type: string
                     example: Cart successfully deleted
         "401":
-          description: Unauthorized message
+          description: Unauthorized error message
           content:
             application/json:
               schema:
@@ -152,9 +150,9 @@ paths:
     put:
       tags:
         - Carts
-      summary: Update item in cart
-      description: Update item in a cart found by its id
-      operationId: UpdateItemInCart
+      summary: Updates item in cart
+      description: Update an item in a cart found by its id
+      operationId: updateItemInCart
       parameters:
         - name: cid
           in: path
@@ -162,17 +160,25 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
         - name: pid
           in: path
           description: Product ID
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e568
+      requestBody:
+        description:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
       responses:
         "200":
-          description: Success message
+          description: Success message and payload with the most important cart's information
           content:
             application/json:
               schema:
@@ -186,7 +192,7 @@ paths:
                     example: Product was updated in cart
                   payload:
                     type: object
-                    example: {}
+                    $ref: "#/components/schemas/CartServerResponse"
         "400":
           description: Bad request error message
           content:
@@ -201,7 +207,7 @@ paths:
                     type: string
                     example: PRODUCT_NOT_FOUND | CART_NOT_FOUND | CANNOT_ADD_ITS_OWN_PRODUCT | QUANTITY_IS_LOWER_THAN_ZERO | QUANTITY_IS_HIGHER_THAN_STOCK_AVAILABLE
         "401":
-          description: Unauthorized message
+          description: Unauthorized error message
           content:
             application/json:
               schema:
@@ -232,8 +238,8 @@ paths:
       tags:
         - Carts
       summary: Pruchase items in cart
-      description: Purchase item in a cart found by its id
-      operationId: PurchaseItemsInCart
+      description: Purchase items in a cart, this should be found by its ID
+      operationId: purchaseItemsInCart
       parameters:
         - name: cid
           in: path
@@ -241,10 +247,9 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
-          description: Success message
+          description: Success message and payload with the new cart information (it could return back some items that couldn't be successfully purchased)
           content:
             application/json:
               schema:
@@ -273,7 +278,7 @@ paths:
                     type: string
                     example: PRODUCT_NOT_FOUND | CART_NOT_FOUND | CANNOT_ADD_ITS_OWN_PRODUCT | QUANTITY_IS_LOWER_THAN_ZERO | QUANTITY_IS_HIGHER_THAN_STOCK_AVAILABLE
         "401":
-          description: Unauthorized message
+          description: Unauthorized error message
           content:
             application/json:
               schema:
@@ -298,3 +303,12 @@ paths:
                   error:
                     type: string
                     example: CART_NOT_FOUND
+components:
+  schemas:
+    CartServerResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        storage:
+          type: array

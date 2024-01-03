@@ -44,7 +44,7 @@ export default class ProductsCtrlr {
       res.sendSuccess({
         status: "success",
         message: "Products found",
-        payload: docs,
+        payload: docs.map((product) => new ProductDTO(product, "response")),
         currentPage: page ? parseInt(page) : 1,
         totalPages,
         prevPage,
@@ -52,7 +52,7 @@ export default class ProductsCtrlr {
         hasPrevPage,
         hasNextPage,
       });
-    } catch (error) {
+    } catch (erqror) {
       next(error);
     }
   };

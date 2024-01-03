@@ -21,6 +21,13 @@ const UsersSchema = new Schema(
       required: true,
       match: new RegExp("[\\w]+"),
     },
+    age: {
+      type: Number,
+      min: 16,
+      max: 150,
+      required: true,
+      match: new RegExp("[0-9]+"),
+    },
     email: {
       type: String,
       trim: true,
@@ -28,13 +35,6 @@ const UsersSchema = new Schema(
       unique: true,
       required: true,
       match: new RegExp("[\\w]+@[\\w]+\\.[a-zA-Z0-9]{2,10}"),
-    },
-    age: {
-      type: Number,
-      min: 16,
-      max: 150,
-      required: true,
-      match: new RegExp("[0-9]+"),
     },
     password: {
       type: String,
@@ -46,7 +46,6 @@ const UsersSchema = new Schema(
     cart: {
       type: Schema.Types.ObjectId,
       ref: "carts",
-      match: new RegExp("[\\w]{24,24}"),
     },
     role: {
       type: String,

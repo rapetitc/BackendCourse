@@ -3,12 +3,12 @@ paths:
     get:
       tags:
         - Tickets
-      summary: Get user's tickets
+      summary: Gets user's tickets
       description: This will return the tickets associated to user's account currently on session
-      operationId: GetTickets
+      operationId: getTickets
       responses:
         "200":
-          description: Success message
+          description: Success message and payload with details of each ticket
           content:
             application/json:
               schema:
@@ -21,21 +21,9 @@ paths:
                     type: string
                     example: Tickets found
                   payload:
-                    type: object
-                    example: {}
-        "400":
-          description: Bad request error message
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  error:
-                    type: string
-                    example: TICKETS_NOT_FOUND
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Ticket"
         "401":
           description: Unauthorized error message
           content:
@@ -49,13 +37,26 @@ paths:
                   error:
                     type: string
                     example: UNAUTHORIZED
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: TICKETS_NOT_FOUND
   /api/tickets/{tid}:
     get:
       tags:
         - Tickets
-      summary: Get ticket by its id
-      description: This will return the tickets and its details
-      operationId: GetTicket
+      summary: Get ticket by its ID
+      description: This will return the details of the tickets and should be found by its id (code)
+      operationId: getTicket
       parameters:
         - name: tid
           in: path
@@ -63,10 +64,9 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
-          description: Success message
+          description: Success message and payload with the most important ticket's information
           content:
             application/json:
               schema:
@@ -79,21 +79,7 @@ paths:
                     type: string
                     example: Ticket found
                   payload:
-                    type: object
-                    example: {}
-        "400":
-          description: Bad request error message
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  error:
-                    type: string
-                    example: TICKET_NOT_FOUND
+                    $ref: "#/components/schemas/Ticket"
         "401":
           description: Unauthorized error message
           content:
@@ -107,3 +93,53 @@ paths:
                   error:
                     type: string
                     example: UNAUTHORIZED
+        "404":
+          description: Not found error message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: TICKET_NOT_FOUND
+components:
+  schemas:
+    Ticket:
+      type: object
+      properties:
+        code:
+          type: string
+          example: 1703731111833
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              pid:
+                type: string
+                example: 658c77d3ac8de93456b6e037
+              product:
+                type: string
+                example: iPhone 14
+              price:
+                type: number
+                example: 1100
+              quantity:
+                type: number
+                example: 2
+              seller:
+                type: string
+                example: 658bfc901ea7b5fd79a9c0c4
+        totalamount:
+          type: number
+          example: 2200
+        purchase_datetime:
+          type: date
+          example: 2023-12-28T02:31:12.117+00:00
+        purcharser:
+          type: string
+          example: 658cb6f2f223f47d581332d5

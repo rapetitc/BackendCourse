@@ -33,8 +33,8 @@ export default class UsersCtrlr {
   updateUser = async (req, res, next) => {
     const uid = req.params.uid === "this" ? req.user._id : req.params.uid;
     const profile_picture = req.file?.path;
-    const { first_name, last_name, age, email, cart, role, status } = req.body;
-    const data = { first_name, last_name, age, email, cart, role, status, profile_picture };
+    const { first_name, last_name, age, email, cart, status } = req.body;
+    const data = { first_name, last_name, age, email, cart, status, profile_picture };
     try {
       if (!(req.user.role === "ADMIN" || uid === req.user._id)) ErrorHandler.create({ code: 1 });
       const userUpdated = await usersMng.updateUser(uid, data);
@@ -91,7 +91,7 @@ export default class UsersCtrlr {
       const renewedToken = jwt.sign({ uid }, JWT_SECRET_KEY, { expiresIn: "180s" });
       res.redirect(`/recovery-password/${renewedToken.replaceAll(".", "<<dot>>")}`);
     } catch (error) {
-      // TODO Redirect to recovery password page if token verification comes with an error
+      if (error.message === "jwt malformed") return res.redirect("/recovery-password/");
       next(error);
     }
   };

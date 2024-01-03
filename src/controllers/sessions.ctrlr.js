@@ -11,15 +11,12 @@ export default class SessionsCtrlr {
       if (err) return next(err);
       if (!user) return res.sendIncorrectCredentials();
 
-      req.login(user, (error) => {
-        console.log(error);
-      });
+      req.login(user, (error) => {});
       await usersMng.updateLastConnection(req._id);
       res.sendSuccess({ message: "Session was successfully initiated", payload: new UserDTO(user, "response") });
     })(req, res, next);
   };
   github = async (req, res, next) => {
-    // TODO Build
     try {
       if (req.isAuthenticated()) {
         await usersMng.updateLastConnection(req._id);

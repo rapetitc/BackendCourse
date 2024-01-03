@@ -4,21 +4,10 @@ paths:
       tags:
         - Sessions
       summary: Open a session
-      description: This route would be used to open a session and authenticated the user, User Client should receive a session cookie or 'sid'
+      description: This route would be used to open a session and authenticate the user, User Client should receive a session cookie or 'sid' to keep this session open
       operationId: OpenSession
       requestBody:
-        description:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                  example: user@user.com
-                password:
-                  type: string
-                  example: user@user.com
+        $ref: "#/components/requestBodies/Credentials"
       responses:
         "200":
           description: Success message
@@ -49,7 +38,7 @@ paths:
                     type: string
                     example: INCORRECT_CRENDENTIALS
         "401":
-          description: Unauthorized message
+          description: Unauthorized error message
           content:
             application/json:
               schema:
@@ -105,7 +94,7 @@ paths:
                     type: string
                     example: CREDENTIALS_NOT_FOUND
         "401":
-          description: Unauthorized message
+          description: Unauthorized error message
           content:
             application/json:
               schema:
@@ -140,8 +129,8 @@ paths:
                     example: Session still active
                   payload:
                     $ref: "#/components/schemas/UserServerResponse"
-        "401":
-          description: Unauthorized message
+        "400":
+          description: Bad request error message
           content:
             application/json:
               schema:
@@ -152,13 +141,13 @@ paths:
                     example: error
                   error:
                     type: string
-                    example: UNAUTHORIZED
+                    example: NO_ACTIVE_SESSION
   /api/sessions/logout:
     post:
       tags:
         - Sessions
       summary: Close a Session
-      description: Close the current session
+      description: Close the current user's session
       operationId: closeSession
       responses:
         "200":
@@ -175,7 +164,7 @@ paths:
                     type: string
                     example: Session is successfully closed
         "400":
-          description: Forbbiden error message
+          description: Bad request error message
           content:
             application/json:
               schema:
@@ -187,3 +176,22 @@ paths:
                   error:
                     type: string
                     example: NO_ACTIVE_SESSION
+components:
+  schemas:
+    Credentials:
+      type: object
+      properties:
+        username:
+          type: string
+          example: user@user.com
+        password:
+          type: string
+          example: user@user.com
+  requestBodies:
+    Credentials:
+      description: User's credentials
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Credentials"
+      required: true

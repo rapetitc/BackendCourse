@@ -3,40 +3,14 @@ paths:
     post:
       tags:
         - Products
-      summary: Create a product
-      description: This will store a product information into the database
-      operationId: CreateProduct
+      summary: Creates a product
+      description: This will store the product's information into the database
+      operationId: createProduct
       requestBody:
-        description:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                  example: Samsung A71
-                description:
-                  type: string
-                  example: Telefono de gama media
-                code:
-                  type: string
-                  example: s4d5w789qrhj
-                price:
-                  type: integer
-                  example: 600
-                stock:
-                  type: integer
-                  example: 150
-                category:
-                  type: string
-                  example: Telefono de gama media
-                thumbnails:
-                  type: string
-                  format: binary
+        $ref: "#/components/requestBodies/NewProduct"
       responses:
         "201":
-          description: Success message
+          description: Created message and payload with the most important product's information
           content:
             application/json:
               schema:
@@ -50,8 +24,9 @@ paths:
                     example: Product successfully created
                   payload:
                     type: object
+                    $ref: "#/components/schemas/ProductServerResponse"
         "400":
-          description: Error message
+          description: Bad request error message
           content:
             application/json:
               schema:
@@ -62,7 +37,7 @@ paths:
                     example: error
                   error:
                     type: string
-                    example: INVALID_TYPES || PRODUCT_ALREADY_EXISTS
+                    example: INVALID_TYPES | PRODUCT_ALREADY_EXISTS
                   causes:
                     type: object
         "401":
@@ -81,12 +56,12 @@ paths:
     get:
       tags:
         - Products
-      summary: Get products
+      summary: Gets a list of products
       description: This will retrive a list of products stored in the database
-      operationId: GetProducts
+      operationId: getProducts
       responses:
         "200":
-          description: Success message
+          description: Success message, payload with the most important product's information and some other information for pagination
           content:
             application/json:
               schema:
@@ -100,6 +75,8 @@ paths:
                     example: Products found
                   payload:
                     type: array
+                    items:
+                      $ref: "#/components/schemas/ProductServerResponse"
                   currentPage:
                     type: number
                     example: 1
@@ -135,9 +112,9 @@ paths:
     get:
       tags:
         - Products
-      summary: Get product
-      description: This will find a products based on its product id and retreive if found
-      operationId: GetProduct
+      summary: Gets a product
+      description: This will find a product based on its ID and retreive it if found
+      operationId: getProduct
       parameters:
         - name: pid
           in: path
@@ -145,10 +122,9 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
-          description: Success message
+          description: Success message and payload with the most important product's information
           content:
             application/json:
               schema:
@@ -162,6 +138,7 @@ paths:
                     example: Product found
                   payload:
                     type: object
+                    $ref: "#/components/schemas/ProductServerResponse"
                   isOwner:
                     type: boolean
                     example: false
@@ -181,9 +158,9 @@ paths:
     put:
       tags:
         - Products
-      summary: Update product
-      description: This will find a products based on its product id and update it if found
-      operationId: UpdateProduct
+      summary: Updates a product
+      description: This will find a products based on its ID and update it if found
+      operationId: updateProduct
       parameters:
         - name: pid
           in: path
@@ -191,38 +168,11 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
       requestBody:
-        description:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                  example: Samsung A71
-                description:
-                  type: string
-                  example: Telefono de gama media
-                code:
-                  type: string
-                  example: s4d5w789qrhj
-                price:
-                  type: integer
-                  example: 600
-                stock:
-                  type: integer
-                  example: 150
-                category:
-                  type: string
-                  example: Telefono de gama media
-                thumbnails:
-                  type: string
-                  format: binary
+        $ref: "#/components/requestBodies/ProductToUpdate"
       responses:
         "200":
-          description: Success message
+          description: Success message and payload with the most important product's information
           content:
             application/json:
               schema:
@@ -236,8 +186,9 @@ paths:
                     example: Product was successfully updated
                   payload:
                     type: object
+                    $ref: "#/components/schemas/ProductServerResponse"
         "400":
-          description: Error message
+          description: Bad request error message
           content:
             application/json:
               schema:
@@ -280,9 +231,9 @@ paths:
     delete:
       tags:
         - Products
-      summary: Delete product
-      description: This will find a products based on its product id and delete it if found
-      operationId: DeleteProduct
+      summary: Deletes a product
+      description: This will find a product based on its ID and delete it if found
+      operationId: deleteProduct
       parameters:
         - name: pid
           in: path
@@ -290,7 +241,6 @@ paths:
           required: true
           schema:
             type: string
-            example: 658877c220ce6d0e74a1e898
       responses:
         "200":
           description: Success message
@@ -331,3 +281,97 @@ paths:
                   error:
                     type: string
                     example: PRODUCT_NOT_FOUND
+components:
+  schemas:
+    NewProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Samsung A71
+        description:
+          type: string
+          example: Telefono de gama media
+        code:
+          type: string
+          example: s4d5w789qrhj
+        price:
+          type: integer
+          example: 600
+        stock:
+          type: integer
+          example: 150
+        category:
+          type: string
+          example: Telefono de gama media
+        thumbnails:
+          type: string
+          format: binary
+    ProductServerResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 658bfc901ea7b5fd79a9c0c4
+        title:
+          type: string
+          example: Samsung A71
+        description:
+          type: string
+          example: Telefono de gama media
+        code:
+          type: string
+          example: s4d5w789qrhj
+        price:
+          type: number
+          example: 600
+        status:
+          type: boolean
+        stock:
+          type: number
+          example: 150
+        category:
+          type: string
+          example: Telefono de gama media
+        thumbnails:
+          type: array
+        owner:
+          type: string
+          example: 658cb6f2f223f47d581332d5
+  requestBodies:
+    NewProduct:
+      description: Information required to create a new product into the database
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/NewProduct"
+      required: true
+    ProductToUpdate:
+      description: Relevant information to be updated in the product
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: Samsung A71
+              description:
+                type: string
+                example: Telefono de gama media
+              code:
+                type: string
+                example: s4d5w789qrhj
+              price:
+                type: integer
+                example: 600
+              stock:
+                type: integer
+                example: 150
+              category:
+                type: string
+                example: Telefono de gama media
+              thumbnails:
+                type: string
+                format: binary

@@ -5,7 +5,7 @@ import passport from "passport";
 import compression from "express-compression";
 import swaggerUi from "swagger-ui-express";
 
-import { PORT, MONGODB_URL, ORIGIN } from "./config/env.js";
+import { PORT, MONGODB_URL } from "./config/env.js";
 import cors from "./middlewares/cors.js";
 import session from "./middlewares/session.js";
 import usePassport from "./config/passport.js";
@@ -50,5 +50,5 @@ app.use(customError);
 
 app.listen(PORT, () => {
   console.clear();
-  console.log(`Server is now up, you can go and visit ${ORIGIN} and review this project, hope you enjoy it! :)`);
+  console.log(`Server is set up, hope you enjoy it! :)`);
 });

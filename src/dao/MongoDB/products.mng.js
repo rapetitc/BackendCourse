@@ -22,8 +22,8 @@ export default class ProductsMng {
     await product.save();
     return product;
   };
-  getProducts = async (limit = 10, page = 1, sort = {}, query = "") => {
-    return await this.model.paginate({ title: new RegExp(query, "i") }, { page, sort, limit, lean: true });
+  getProducts = async (limit = 10, page = 1, sort = {}, query) => {
+    return await this.model.paginate(query, { page, sort, limit, lean: true });
   };
   getProduct = async (pid) => {
     if (!(await this.exists({ _id: pid }))) ErrorHandler.create({ code: 12 });

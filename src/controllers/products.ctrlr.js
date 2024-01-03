@@ -13,6 +13,24 @@ const removeFiles = (files) => {
   });
 };
 
+const queryEncode = (query) => {
+  if (query !== undefined) {
+    const { title, owner } = Object.fromEntries(
+      query.split(",").map((e) => {
+        return e.split(":");
+      }),
+    );
+    const obj = { title, owner };
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] === undefined) {
+        delete obj[key];
+      }
+    });
+    return obj;
+  }
+  return undefined;
+};
+
 export default class ProductsCtrlr {
   createProduct = async (req, res, next) => {
     const { title, description, code, price, stock, category } = req.body;
@@ -39,7 +57,11 @@ export default class ProductsCtrlr {
   getProducts = async (req, res, next) => {
     const { limit, page, sort, query } = req.query;
     try {
-      const { docs, totalPages, prevPage, nextPage, hasPrevPage, hasNextPage } = await productsMng.getProducts(limit, page, sort, query);
+      const newquery = queryEncode(query);
+      if (newquery?.owner && newquery.owner === "this") {
+        newquery.owner = req.user._id;
+      }
+      const { docs, totalPages, prevPage, nextPage, hasPrevPage, hasNextPage } = await productsMng.getProducts(limit, page, sort, newquery);
       docs.length === 0 && ErrorHandler.create({ code: 11 });
       res.sendSuccess({
         status: "success",
@@ -52,7 +74,8 @@ export default class ProductsCtrlr {
         hasPrevPage,
         hasNextPage,
       });
-    } catch (erqror) {
+    } catch (error) {
+      console.log(error);
       next(error);
     }
   };

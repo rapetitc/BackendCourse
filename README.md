@@ -4,13 +4,11 @@
 
 ## Desafio Entregable 19 - Proyecto Final
 
-Para la revision de este desafio solo debes ejecutar:
+Para la revision de este desafio puedes visitar la [pagina web](https://backendcourse-production.up.railway.app/) donde se aloja este proyecto y/o descargar este repositorio y ejecutar:
 
 ```
 npm start
 ```
-
-y para la revision online debes ir a [eCommerce Proyecto Online](http://url.com)
 
 ### Consigna
 
@@ -19,7 +17,7 @@ y para la revision online debes ir a [eCommerce Proyecto Online](http://url.com)
 ### Aspectos a incluir
 
 - Desde el router de /api/users, crear tres rutas:
-  - GET  /  deberá obtener todos los usuarios, éste sólo debe devolver los datos principales como nombre, correo, tipo de cuenta (rol)
+  - GET / deberá obtener todos los usuarios, éste sólo debe devolver los datos principales como nombre, correo, tipo de cuenta (rol)
   - DELETE / deberá limpiar a todos los usuarios que no hayan tenido conexión en los últimos 2 días. (puedes hacer pruebas con los últimos 30 minutos, por ejemplo). Deberá enviarse un correo indicando al usuario que su cuenta ha sido eliminada por inactividad
 - Crear una vista para poder visualizar, modificar el rol y eliminar un usuario. Esta vista únicamente será accesible para el administrador del ecommerce
 - Modificar el endpoint que elimina productos, para que, en caso de que el producto pertenezca a un usuario premium, le envíe un correo indicándole que el producto fue eliminado.
@@ -29,7 +27,7 @@ y para la revision online debes ir a [eCommerce Proyecto Online](http://url.com)
 
 ### Objetivos generales
 
-- Completar el proyecto final 
+- Completar el proyecto final
 
 ### Objetivos específicos
 

@@ -1,12 +1,13 @@
-import { config } from "dotenv";
-import mode from "./CLI.js";
+import "dotenv/config"
+// import { config } from "dotenv";
+// import mode from "./CLI.js";
 
-const options = {
-  prod: "./prod.env",
-  dev: "./dev.env",
-};
+// const options = {
+//   prod: "./prod.env",
+//   dev: "./dev.env",
+// };
 
-config({ path: options[mode] ?? options["prod"] });
+// config({ path: options[mode] ?? options["prod"] });
 
 export const PORT = process.env.PORT;
 

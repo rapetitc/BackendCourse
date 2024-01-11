@@ -1,12 +1,8 @@
 import cors from "cors";
 import mode from "../config/CLI.js";
-
-const origins = {
-  prod: "https://backendcourse-production.up.railway.app",
-  dev: "https://localhost:9900",
-};
+import { pageOrigin } from "../config/modeOptions.js";
 
 export default cors({
-  origin: origins[mode],
+  origin: pageOrigin[mode],
   credentials: true,
 });

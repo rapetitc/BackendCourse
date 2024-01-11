@@ -23,10 +23,6 @@ export default class CartsMng {
     if (!(await this.exists(cid))) ErrorHandler.create({ code: 13 });
     return await this.model.findById(cid);
   };
-  // getCompleteCart = async (cid) => {
-  //   const cart = await this.getCart(cid);
-  //   return cart.populate("storage.product");
-  // };
   resetCart = async (cid, rejected = []) => {
     const cart = await this.getCart(cid);
     cart.storage = rejected;

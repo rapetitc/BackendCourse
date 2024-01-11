@@ -2,7 +2,7 @@ import cors from "cors";
 import mode from "../config/CLI.js";
 
 const origins = {
-  prod: "https://localhost:8080",
+  prod: "https://backendcourse-production.up.railway.app",
   dev: "https://localhost:9900",
 };
 

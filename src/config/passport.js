@@ -39,7 +39,7 @@ export default function usePassport(passport) {
       {
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,
-        callbackURL: "http://localhost:8080/api/sessions/github/callback",
+        callbackURL: "https://backendcourse-production.up.railway.app/api/sessions/github/callback",
       },
       async function (accessToken, refreshToken, profile, done) {
         try {

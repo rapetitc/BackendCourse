@@ -1,6 +1,6 @@
 import { createLogger, format, transports } from "winston";
 
-const { combine, timestamp, printf, colorize, json } = format;
+const { combine, timestamp, printf, colorize } = format;
 
 const customLevels = {
   fatal: 0,

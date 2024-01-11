@@ -1,7 +1,7 @@
 import swaggerJsdoc from "swagger-jsdoc";
 import path from "path";
 import { serverOrigin } from "./modeOptions.js";
-import mode from "./CLI.js"
+import mode from "./CLI.js";
 
 const options = {
   definition: {

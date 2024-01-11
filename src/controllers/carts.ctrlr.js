@@ -18,7 +18,6 @@ export default class CartsCtrlr {
       const cart = await cartsMng.getCart(cid);
       res.sendSuccess({ message: "Cart found", payload: new CartDTO(cart, "response") });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   };

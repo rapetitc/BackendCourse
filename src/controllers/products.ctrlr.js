@@ -75,7 +75,6 @@ export default class ProductsCtrlr {
         hasNextPage,
       });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   };

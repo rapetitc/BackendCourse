@@ -22,8 +22,10 @@ export default class UsersRouter extends RouterBase {
 
     this.put("/recovery-password/:token", ["PUBLIC"], usersCtrlr.recoveryPassword3rdStep);
 
+    this.get("/:uid((this|[\\w]{24,24}))/documents", ["*"], usersCtrlr.getUserDocs);
+
     this.put(
-      "/:uid((this|[\\w]{24,24}))/documents",
+      "/:uid((this|[\\w]{24,24}))/documents", 
       ["AUTHENTICATED"],
       uploadUserDocs.fields([
         { name: "identification", maxCount: 1 },

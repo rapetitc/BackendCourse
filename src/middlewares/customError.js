@@ -56,12 +56,16 @@ const ErrorDict = [
   (res) => {
     res.sendNotFound({ error: "TICKET_NOT_FOUND" });
   },
+  (res) => {
+    res.sendBadRequest({ error: "NOT_DOCUMENTS_TO_BE_FOUND" });
+  },
 ];
 
 export default (error, req, res, next) => {
   if (ErrorDict[error.code]) {
     ErrorDict[error.code](res, { cause: error.cause });
   } else {
+    console.log(error);
     req.logger.fatal(error);
     ErrorDict[0](res);
   }

@@ -78,19 +78,21 @@ export default class UsersMng {
   }
 
   async updateUserDocs(uid, files) {
-    const user = await this.model.findOneAndUpdate({ _id: uid }, { $push: files }, { new: true, runValidators: true }).catch((error) => {
-      const cause = {};
-      if (error.errors) {
-        const keys = Object.keys(error.errors);
-        keys.forEach((key) => {
-          cause[key] = error.errors[key].kind;
-        });
+    const user = await this.getUserById(uid);
+
+    files.forEach((file) => {
+      const foundDoc = user.documents.find((doc) => {
+        return file.name === doc.name;
+      });
+
+      if (foundDoc) {
+        foundDoc.status = "QUEUE";
       } else {
-        cause[error.path] = error.kind;
+        user.documents.push({ ...file, status: "VALID" });
       }
-      ErrorHandler.create({ code: 0, cause });
     });
-    if (!user) ErrorHandler.create({ code: 2 });
+    
+    return await user.save();
   }
 
   async updateLastConnection(uid) {

@@ -110,19 +110,67 @@ export default class UsersCtrlr {
     }
   };
 
-  updateUserDocs = async (req, res, next) => {
+  getUserDocs = async (req, res, next) => {
+    let { uid } = req.params;
+    if (uid === "this") uid = req.user._id;
+    const { docs } = req.query;
+    const docsRequested = docs.split(",");
     try {
-      if (!req.files) ErrorHandler.create({ code: 6 });
+      if (!Array.isArray(docsRequested) || docsRequested.length === 0) ErrorHandler.create({ code: 19 });
 
-      const files = { documents: [] };
-      req.files.forEach((file) => {
-        files.documents.push({ name: file.filename, reference: file.path });
+      const docsFound = {};
+      const { documents } = await usersMng.getUserById(uid);
+      docsRequested.forEach((docReq) => {
+        const docFound = documents.find((doc) => {
+          return docReq === doc.name;
+        });
+
+        docsFound[docReq] = docFound ? docFound.reference : "";
       });
-
-      await usersMng.updateUserDocs(req.uid, files);
-      res.sendSuccess({ msg: "Documents were uploaded successfully" });
+      res.sendSuccess({ message: "Documents found", payload: docsFound });
     } catch (error) {
       next(error);
     }
+  };
+
+  updateUserDocs = async (req, res, next) => {
+    let { uid } = req.params;
+    if (uid === "this") uid = req.user._id;
+    try {
+      if (typeof req.files === "undefined" || Object.keys(req.files).length === 0) ErrorHandler.create({ code: 6 });
+
+      const files = [];
+      Object.keys(req.files).forEach((key) => {
+        const file = req.files[key][0];
+        files.push({ name: file.fieldname, reference: `storage/users/${uid}/documents/${file.filename}` });
+      });
+
+      const userUpdated = await usersMng.updateUserDocs(uid, files);
+      userUpdated.verified = await this.isUserVerified(userUpdated);
+      res.sendSuccess({ message: "Documents successfully uploaded", payload: new UserDTO(userUpdated, "response") });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  isUserVerified = async (user) => {
+    const { documents } = user;
+    const requirements = ["identification", "address_certificate", "bank_account_certificate"];
+    const requirementsComplete = [];
+
+    requirements.forEach((req, i) => {
+      const reqFound = documents.find((doc) => {
+        return doc.name === req;
+      });
+
+      if (reqFound) {
+        requirementsComplete.push(reqFound);
+      }
+    });
+
+    const isValid = requirementsComplete.length === 3;
+    if (isValid) await usersMng.updateUser(user._id, { verified: true });
+
+    return isValid;
   };
 }

@@ -46,10 +46,10 @@ export const uploadUserDocs = multer({
       });
     },
     filename: function (req, file, cb) {
-      cb(null, file.fieldname + `.${mimetypes[file.mimetype]}`);
+      cb(null, file.fieldname + `.${acceptedImgs[file.mimetype]}`);
     },
   }),
-  limits: { fieldSize: 10 },
+  limits: { fieldSize: 25 * 1024 * 1024 },
   fileFilter: function (req, file, cb) {
     if (acceptedImgs[file.mimetype]) {
       cb(null, true);

@@ -27,8 +27,8 @@ app.use(cors);
 app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(compression({ brotli: { enabled: true, zlib: {} } }));
 app.use(customResponses);
+app.use(compression({ brotli: { enabled: true, zlib: {} } }));
 
 // Sessions
 app.use(session);

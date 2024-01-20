@@ -71,13 +71,13 @@ const UsersSchema = new Schema(
             type: String,
             required: true,
             minlength: 3,
-            match: new RegExp("[\\w]+\\.[\\w]{1,4}"),
+            match: new RegExp("[\\w]+"),
           },
           reference: {
             type: String,
             required: true,
             minlength: 11,
-            match: new RegExp("storage/users/[\\w]{24,24}/documents/[\\w]+\\.[\\w]{2,5}"),
+            match: new RegExp("storage/users/[\\w]{24,24}/documents/[\\w]+\\.(jpg|jpge|png)"),
           },
           status: {
             type: String,
@@ -88,7 +88,6 @@ const UsersSchema = new Schema(
           },
         },
       ],
-      maxLength: 3,
     },
     verified: {
       type: Boolean,
@@ -114,8 +113,10 @@ const UsersSchema = new Schema(
 );
 
 UsersSchema.pre("save", async function (next) {
-  this.password = await bcrypt.hash(this.password, bcrypt.genSaltSync(10));
-  this.cart = await cartsMng.createCart();
+  if (this.isNew) {
+    this.password = await bcrypt.hash(this.password, bcrypt.genSaltSync(10));
+    this.cart = await cartsMng.createCart();
+  }
   next();
 });
 
